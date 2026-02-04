@@ -29,7 +29,7 @@ const BranchSchema = z.object({
  */
 const BaseStepSchema = z.object({
   id: z.string(),
-  texts: z.record(z.string(), LocalizedStringSchema),
+  texts: z.record(z.string(), LocalizedStringSchema.optional()),
 });
 
 const QuestionSchema = BaseStepSchema.extend({
@@ -74,6 +74,7 @@ type TBranch = z.infer<typeof BranchSchema>;
 type TOperator = z.infer<typeof OperatorSchema>;
 type TCondition = z.infer<typeof ConditionSchema>;
 type TQuizQuestion = z.infer<typeof QuestionSchema>;
+type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
 
 export type {
@@ -84,4 +85,5 @@ export type {
   TBranch,
   TQuizQuestion,
   TQuiz,
+  TQuizStaticStep,
 };

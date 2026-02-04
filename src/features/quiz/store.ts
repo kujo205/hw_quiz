@@ -6,7 +6,7 @@ import type {
   TQuiz,
 } from "@/features/quiz/types-and-schemas";
 
-type TQuizAnswer = string | string[];
+export type TQuizAnswer = string | string[];
 
 interface QuizResult {
   answers: Record<string, TQuizAnswer>;
@@ -15,46 +15,62 @@ interface QuizResult {
 }
 
 interface QuizStore {
-  results: Record<string, QuizResult>;
-  setAnswer: (quizId: string, questionId: string, val: TQuizAnswer) => void;
-  setEmail: (quizId: string, email: string) => void;
-  setLanguage: (quizId: string, lang: TLanguage) => void;
-  resetQuiz: (quizId: string) => void;
+  // state of active quiz
+  activeQuizId: string | null;
+  setActiveQuizId: (id: string) => void;
 
+  // data for results and configs
+  results: Record<string, QuizResult>;
   configs: Record<string, TQuiz>;
+
+  // methods used in quiz flow
+  setAnswer: (questionId: string, val: TQuizAnswer) => void;
+  setEmail: (email: string) => void;
+  setLanguage: (lang: TLanguage) => void;
   setConfig: (quizId: string, config: TQuiz) => void;
+  resetQuiz: () => void;
+
+  // translation method
+  t: (localizedString?: TLocalizedString) => string;
 }
 
 const DEFAULT_QUIZ_RESULT: QuizResult = {
   answers: {},
   email: "",
-  lang: "en", // English as default
+  lang: "en",
 };
 
 export const useQuizStore = create<QuizStore>()(
   persist(
-    (set) => ({
+    (set, get) => ({
+      activeQuizId: null,
       results: {},
       configs: {},
+
+      setActiveQuizId: (id) => set({ activeQuizId: id }),
 
       setConfig: (quizId, config) =>
         set((state) => ({
           configs: { ...state.configs, [quizId]: config },
         })),
 
-      setLanguage: (quizId, lang) =>
+      setLanguage: (lang) => {
+        const quizId = get().activeQuizId;
+        if (!quizId) return;
         set((state) => ({
           results: {
             ...state.results,
             [quizId]: {
-              // if no existing result, initialize with defaults
               ...(state.results[quizId] || DEFAULT_QUIZ_RESULT),
               lang,
             },
           },
-        })),
+        }));
+      },
 
-      setAnswer: (quizId, questionId, val) =>
+      setAnswer: (questionId, val) => {
+        const quizId = get().activeQuizId;
+        if (!quizId) return;
         set((state) => {
           const currentQuiz = state.results[quizId] || DEFAULT_QUIZ_RESULT;
           return {
@@ -66,9 +82,12 @@ export const useQuizStore = create<QuizStore>()(
               },
             },
           };
-        }),
+        });
+      },
 
-      setEmail: (quizId, email) =>
+      setEmail: (email) => {
+        const quizId = get().activeQuizId;
+        if (!quizId) return;
         set((state) => ({
           results: {
             ...state.results,
@@ -77,37 +96,35 @@ export const useQuizStore = create<QuizStore>()(
               email,
             },
           },
-        })),
+        }));
+      },
 
-      resetQuiz: (quizId) =>
+      resetQuiz: () => {
+        const quizId = get().activeQuizId;
+        if (!quizId) return;
         set((state) => {
           const newResults = { ...state.results };
           delete newResults[quizId];
           return { results: newResults };
-        }),
+        });
+      },
+
+      t: (localizedString) => {
+        const quizId = get().activeQuizId;
+        if (!quizId || !localizedString) return "";
+
+        const lang = get().results[quizId]?.lang || "en";
+        return localizedString[lang] || localizedString["en"] || "";
+      },
     }),
     {
       name: "quiz-storage",
+
+      // this makes sure we persist only results and configs across sessions
+      partialize: (state) => ({
+        results: state.results,
+        configs: state.configs,
+      }),
     },
   ),
 );
-
-export const useQuizTranslation = (quizId: string) => {
-  const lang = useQuizStore((state) => state.results[quizId]?.lang || "en");
-
-  /**
-   * Func 't' (translate)
-   * takes in object of type TLocalizedString (напр. { en: "Hello", fr: "Salut" }) and returns
-   * the string in the current language, or falls back to English if the current language is not available.
-   */
-  const t = (localizedString?: TLocalizedString): string => {
-    if (!localizedString) {
-      console.error("Missing localized string for quiz:", quizId);
-      return "";
-    }
-
-    return localizedString[lang] || localizedString["en"] || "";
-  };
-
-  return { t, lang };
-};
