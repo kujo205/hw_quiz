@@ -1,15 +1,22 @@
 "use client";
 
+import { constructRequest } from "next/dist/experimental/testing/server/utils";
+import { useEffect } from "react";
+import { useQuizStore } from "@/features/quiz/store";
 import type { TQuizQuestion, TQuizStaticStep } from "../types-and-schemas";
 
 interface Props {
   stepData: TQuizStaticStep | TQuizQuestion;
-  quizId?: string;
-  stepId?: string;
+  quizId: string;
+  stepId: string;
 }
 
-export function QuestionRenderer({ stepData }: Props) {
-  console.log("Rendering step data:", stepData);
+export function QuestionRenderer({ stepData, stepId, quizId }: Props) {
+  const setQuizData = useQuizStore((state) => state.setQuizData);
+
+  useEffect(() => {
+    setQuizData(quizId, stepId);
+  }, [quizId, stepId, setQuizData]);
 
   switch (stepData.type) {
     case "single-select":
@@ -19,6 +26,7 @@ export function QuestionRenderer({ stepData }: Props) {
     case "email":
     case "thank-you":
     default:
-      return <p>{JSON.stringify(stepData)}</p>;
+      return null;
+    // return <p>{JSON.stringify(stepData)}</p>;
   }
 }

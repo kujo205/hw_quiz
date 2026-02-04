@@ -1,5 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { QuestionRenderer } from "@/features/quiz/components/question-renderer";
+import { QuizProgress } from "@/features/quiz/components/quiz-progress";
 import { getQuizConfig } from "@/features/quiz/services/get-quiz";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 
@@ -25,5 +26,10 @@ export default async function ({
     return redirect(`/quiz/${quizId}/${firstQuestion.id}`);
   }
 
-  return <QuestionRenderer quizId={quizId} stepId={step} stepData={stepData} />;
+  return (
+    <main className="max-w-xl mx-auto py-8 px-4">
+      <QuizProgress totalSteps={config.questions.length} />
+      <QuestionRenderer quizId={quizId} stepId={step} stepData={stepData} />
+    </main>
+  );
 }

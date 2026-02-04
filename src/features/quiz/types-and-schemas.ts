@@ -85,6 +85,13 @@ type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
 
+export type TQuizAnswer = {
+  order: number;
+  title: string;
+  type: string;
+  answer: string;
+};
+
 export type {
   TLanguage,
   TLocalizedString,

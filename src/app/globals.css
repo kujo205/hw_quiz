@@ -5,18 +5,23 @@
   --background: #1f002b;
   --foreground: #ffffff;
   --grey-200: #c4c8cc;
+  --pink-main: #e4229c;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-grey-200: var(--grey-200);
+  --color-pink-main: var(--pink-main);
 
   --font-sans: "Nunito Sans", sans-serif;
 }
 
-body {
-  font-family: var(--font-sans);
-  background: var(--background);
-  color: var(--foreground);
+/* 3. Global Styles */
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background: var(--background);
+    color: var(--foreground);
+  }
 }
