@@ -3,11 +3,15 @@
 import type { TQuizQuestion, TQuizStaticStep } from "../types-and-schemas";
 
 interface Props {
-  step: TQuizStaticStep | TQuizQuestion;
+  stepData: TQuizStaticStep | TQuizQuestion;
+  quizId?: string;
+  stepId?: string;
 }
 
-export function QuestionRenderer({ step }: Props) {
-  switch (step.type) {
+export function QuestionRenderer({ stepData }: Props) {
+  console.log("Rendering step data:", stepData);
+
+  switch (stepData.type) {
     case "single-select":
     case "bubble-select":
     case "multiple-select":
@@ -15,6 +19,6 @@ export function QuestionRenderer({ step }: Props) {
     case "email":
     case "thank-you":
     default:
-      return <p>{JSON.stringify(step)}</p>;
+      return <p>{JSON.stringify(stepData)}</p>;
   }
 }

@@ -10,6 +10,5 @@ export function checkQuizStepPresent(config: TQuiz, stepId: string) {
   return {
     exists: !!(question || staticStep),
     stepData: question || staticStep,
-    isStatic: !!staticStep,
   };
 }

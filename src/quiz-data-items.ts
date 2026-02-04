@@ -240,6 +240,7 @@ export const quizStaticSteps = {
         es: "Buscando colecciones para ti...",
       },
     },
+    defaultNextQuestionId: "email",
   },
   email: {
     id: "email",
@@ -265,6 +266,7 @@ export const quizStaticSteps = {
       },
       buttonText: { en: "Next", fr: "Suivant", de: "Weiter", es: "Siguiente" },
     },
+    defaultNextQuestionId: "thank-you",
   },
   "thank-you": {
     id: "thank-you",
@@ -289,5 +291,6 @@ export const quizStaticSteps = {
         es: "Repetir el quiz",
       },
     },
+    defaultNextQuestionId: null,
   },
 } satisfies TQuiz["staticSteps"];

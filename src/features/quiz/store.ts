@@ -15,19 +15,20 @@ interface QuizResult {
 }
 
 interface QuizStore {
-  // state of active quiz
+  // active quiz id
   activeQuizId: string | null;
-  setActiveQuizId: (id: string) => void;
+
+  // active quiz step
+  activeQuizStep: string | null;
 
   // data for results and configs
   results: Record<string, QuizResult>;
-  configs: Record<string, TQuiz>;
 
   // methods used in quiz flow
   setAnswer: (questionId: string, val: TQuizAnswer) => void;
   setEmail: (email: string) => void;
   setLanguage: (lang: TLanguage) => void;
-  setConfig: (quizId: string, config: TQuiz) => void;
+
   resetQuiz: () => void;
 
   // translation method
@@ -44,15 +45,35 @@ export const useQuizStore = create<QuizStore>()(
   persist(
     (set, get) => ({
       activeQuizId: null,
+      activeQuizStep: null,
       results: {},
       configs: {},
 
-      setActiveQuizId: (id) => set({ activeQuizId: id }),
-
-      setConfig: (quizId, config) =>
-        set((state) => ({
-          configs: { ...state.configs, [quizId]: config },
-        })),
+      // setQuizParamsOnPageLoad: ({ quizId, stepId }) => {
+      //   const config = configs[quizId];
+      //
+      //   assert(config, `Quiz config for '${quizId}' not found.`);
+      //
+      //   const stepExists = config.questions.some((q) => q.id === stepId);
+      //
+      //   if (stepExists) {
+      //     return set({ activeQuizId: quizId, activeQuizStep: stepId });
+      //   }
+      //
+      //   // const lastAccessedUserStep = get().results[quizId]
+      //   // here step doesnt exist in the quiz config,
+      //   console.log(
+      //     "Quiz params on page load - quizId:",
+      //     quizId,
+      //     "stepId:",
+      //     stepId,
+      //   );
+      // },
+      //
+      // setConfig: (quizId, config) =>
+      //   set((state) => ({
+      //     configs: { ...state.configs, [quizId]: config },
+      //   })),
 
       setLanguage: (lang) => {
         const quizId = get().activeQuizId;

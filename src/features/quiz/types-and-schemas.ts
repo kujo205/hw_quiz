@@ -32,14 +32,16 @@ const BaseStepSchema = z.object({
   texts: z.record(z.string(), LocalizedStringSchema.optional()),
 });
 
+const dynamicQuestionTypes = [
+  "single-select",
+  "multiple-select",
+  "bubble-select",
+  "single-select-image",
+] as const;
+
 const QuestionSchema = BaseStepSchema.extend({
   order: z.number(),
-  type: z.enum([
-    "single-select",
-    "multiple-select",
-    "bubble-select",
-    "single-select-image",
-  ]),
+  type: z.enum(dynamicQuestionTypes),
   options: z.array(
     z.object({
       label: LocalizedStringSchema,
@@ -50,11 +52,15 @@ const QuestionSchema = BaseStepSchema.extend({
   defaultNextQuestionId: z.string(),
 });
 
+const staticStepTypes = ["loader", "email", "thank-you"] as const;
+
 const StaticStepSchema = BaseStepSchema.extend({
-  type: z.enum(["loader", "email", "thank-you"]),
+  type: z.enum(staticStepTypes),
+  defaultNextQuestionId: z.string().nullable(),
 });
 
 const QuizSchema = z.object({
+  schemaVersion: z.string(),
   questions: z.array(QuestionSchema),
   staticSteps: z.record(z.string(), StaticStepSchema), // Екрани за ID
 });
@@ -66,6 +72,8 @@ export {
   ConditionSchema,
   BranchSchema,
   QuizSchema,
+  dynamicQuestionTypes,
+  staticStepTypes,
 };
 
 type TLanguage = z.infer<typeof LanguageSchema>;

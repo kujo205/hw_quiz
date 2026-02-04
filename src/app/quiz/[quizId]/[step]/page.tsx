@@ -3,21 +3,27 @@ import { QuestionRenderer } from "@/features/quiz/components/question-renderer";
 import { getQuizConfig } from "@/features/quiz/services/get-quiz";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 
-export default async function StepPage({
+export const revalidate = 600; // revalidates the page every 10 minutes
+
+export default async function ({
   params,
 }: {
   params: Promise<{ quizId: string; step: string }>;
 }) {
   const { quizId, step } = await params;
+
   const config = await getQuizConfig(quizId);
 
-  if (!config) return notFound();
-
-  const { exists, stepData } = checkQuizStepPresent(config, step);
-
-  if (!exists) {
-    redirect(`/quiz/${quizId}/${config.questions[0].id}`);
+  if (!config) {
+    return notFound();
   }
 
-  return <QuestionRenderer step={stepData} />;
+  const { stepData, exists } = checkQuizStepPresent(config, step);
+
+  if (!exists) {
+    const firstQuestion = config.questions[0];
+    return redirect(`/quiz/${quizId}/${firstQuestion.id}`);
+  }
+
+  return <QuestionRenderer quizId={quizId} stepId={step} stepData={stepData} />;
 }
