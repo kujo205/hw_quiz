@@ -25,18 +25,21 @@ const BranchSchema = z.object({
 });
 
 /**
- * Dynamic Quiz Question Schema
+ * Schemas for Quiz Steps
  */
-const QuizQuestionSchema = z.object({
+const BaseStepSchema = z.object({
   id: z.string(),
-  order: z.number(), // Відображається як $X/5$
+  texts: z.record(z.string(), LocalizedStringSchema),
+});
+
+const QuestionSchema = BaseStepSchema.extend({
+  order: z.number(),
   type: z.enum([
     "single-select",
     "multiple-select",
     "bubble-select",
     "single-select-image",
   ]),
-  title: LocalizedStringSchema,
   options: z.array(
     z.object({
       label: LocalizedStringSchema,
@@ -44,34 +47,16 @@ const QuizQuestionSchema = z.object({
     }),
   ),
   branches: z.array(BranchSchema),
-  defaultNextId: z.string(),
+  defaultNextQuestionId: z.string(),
 });
 
-/**
- * Static Screens Schema
- */
-const StaticScreensSchema = z.object({
-  loader: z.object({
-    title: LocalizedStringSchema, // "Finding collections for you..."
-  }),
-  email: z.object({
-    title: LocalizedStringSchema,
-    description: LocalizedStringSchema,
-    placeholder: LocalizedStringSchema,
-    buttonText: LocalizedStringSchema,
-    errorText: LocalizedStringSchema,
-  }),
-  thankYou: z.object({
-    title: LocalizedStringSchema,
-    subtitle: LocalizedStringSchema,
-    downloadButton: LocalizedStringSchema,
-    retakeButton: LocalizedStringSchema,
-  }),
+const StaticStepSchema = BaseStepSchema.extend({
+  type: z.enum(["loader", "email", "thank-you"]),
 });
 
 const QuizSchema = z.object({
-  questions: z.array(QuizQuestionSchema),
-  staticScreens: StaticScreensSchema,
+  questions: z.array(QuestionSchema),
+  staticSteps: z.record(z.string(), StaticStepSchema), // Екрани за ID
 });
 
 export {
@@ -80,20 +65,16 @@ export {
   OperatorSchema,
   ConditionSchema,
   BranchSchema,
-  QuizQuestionSchema,
-  StaticScreensSchema,
   QuizSchema,
 };
 
 type TLanguage = z.infer<typeof LanguageSchema>;
 type TLocalizedString = z.infer<typeof LocalizedStringSchema>;
-
 type TBranch = z.infer<typeof BranchSchema>;
 type TOperator = z.infer<typeof OperatorSchema>;
 type TCondition = z.infer<typeof ConditionSchema>;
-
-type TQuizQuestion = z.infer<typeof QuizQuestionSchema>;
-type TStaticScreens = z.infer<typeof StaticScreensSchema>;
+type TQuizQuestion = z.infer<typeof QuestionSchema>;
+type TQuiz = z.infer<typeof QuizSchema>;
 
 export type {
   TLanguage,
@@ -102,5 +83,5 @@ export type {
   TCondition,
   TBranch,
   TQuizQuestion,
-  TStaticScreens,
+  TQuiz,
 };
