@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { BubbleSelect } from "@/features/quiz/components/quiz-steps/bubble-select";
 import { EmojiSelectQuestion } from "@/features/quiz/components/quiz-steps/emoji-select-question";
 import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select";
 import { SingleSelectQuestion } from "@/features/quiz/components/quiz-steps/single-select-question";
@@ -19,10 +20,8 @@ export function QuestionRenderer() {
   const router = useRouter();
 
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
-    // Отримуємо наступний крок через стор (враховуючи розгалуження)
     const nextStepId = setAnswerGetNextStepId(questionId, val);
 
-    // Зміна мови, якщо це перше запитання
     if (
       questionId === "preferred-language" &&
       languageCodes.includes(val.answer as any)
@@ -30,10 +29,10 @@ export function QuestionRenderer() {
       setLanguage(val.answer as any);
     }
 
-    // Затримка для анімації перед переходом
+    // Затримка для візуального фідбеку анімації перед зміною роута
     setTimeout(() => {
       router.push(`/quiz/${quizId}/${nextStepId}`);
-    }, 300);
+    }, 200);
   };
 
   if (!stepData) return null;
@@ -41,7 +40,6 @@ export function QuestionRenderer() {
   switch (stepData.type) {
     case "single-select": {
       const questionData = stepData as TQuizQuestion;
-
       return (
         <SingleSelectQuestion
           handleSelect={selectAnswerHandler}
@@ -57,7 +55,6 @@ export function QuestionRenderer() {
 
     case "single-select-emoji": {
       const questionData = stepData as TQuizQuestion;
-
       return (
         <EmojiSelectQuestion
           handleSelect={selectAnswerHandler}
@@ -74,7 +71,6 @@ export function QuestionRenderer() {
 
     case "multiple-select": {
       const questionData = stepData as TQuizQuestion;
-
       return (
         <MultipleSelectQuestion
           handleSelect={selectAnswerHandler}
@@ -88,8 +84,22 @@ export function QuestionRenderer() {
       );
     }
 
-    // Loader, Email та Thank-you будуть додані за таким же принципом
-    case "bubble-select":
+    case "bubble-select": {
+      const questionData = stepData as TQuizQuestion;
+      return (
+        <BubbleSelect
+          handleSelect={selectAnswerHandler}
+          questionId={questionData.id}
+          order={questionData.order}
+          // @ts-expect-error-next-line
+          title={questionData.texts.title}
+          description={questionData.texts.description}
+          options={questionData.options}
+        />
+      );
+    }
+
+    // Статичні кроки обробляються окремо або через аналогічні компоненти
     case "loader":
     case "email":
     case "thank-you":

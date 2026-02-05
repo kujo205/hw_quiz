@@ -228,6 +228,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
     branches: [],
     defaultNextQuestionId: "favorite-topics",
   },
+
   {
     id: "favorite-topics",
     order: 6,
@@ -244,10 +245,12 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
       {
         label: { en: "Action", fr: "Action", de: "Action", es: "Acción" },
         value: "action",
+        emoji: "🏹", // Додаємо емодзі для бабла
       },
       {
         label: { en: "Romance", fr: "Romance", de: "Romantik", es: "Romance" },
         value: "romance",
+        emoji: "❤️",
       },
       {
         label: {
@@ -257,6 +260,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
           es: "Chico malo",
         },
         value: "bad-boy",
+        emoji: "😈",
       },
       {
         label: {
@@ -266,9 +270,39 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
           es: "Fantasía",
         },
         value: "fantasy",
+        emoji: "🪄",
+      },
+      {
+        label: {
+          en: "Sci-Fi",
+          fr: "Science-fiction",
+          de: "Sci-Fi",
+          es: "Ciencia ficción",
+        },
+        value: "sci-fi",
+        emoji: "🚀",
+      },
+      {
+        label: {
+          en: "Mystery",
+          fr: "Mystère",
+          de: "Mystery",
+          es: "Misterio",
+        },
+        value: "mystery",
+        emoji: "🔍",
+      },
+      {
+        label: {
+          en: "Thriller",
+          fr: "Thriller",
+          de: "Thriller",
+          es: "Thriller",
+        },
+        value: "thriller",
+        emoji: "🔪",
       },
     ],
-    // РОЗГАЛУЖЕННЯ: Якщо обрано Romance АБО Bad Boy — йдемо на специфічне питання про піджанри
     branches: [
       {
         conditions: [
@@ -289,6 +323,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
     ],
     defaultNextQuestionId: "loader",
   },
+
   {
     id: "romance-subgenre",
     order: 7,

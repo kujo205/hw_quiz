@@ -1,7 +1,7 @@
 import type * as React from "react";
 
 interface ButtonProps extends React.ComponentProps<"button"> {
-  variant?: "default" | "icon" | "quiz-item" | "quiz-emoji";
+  variant?: "default" | "icon" | "quiz-item" | "quiz-emoji" | "bubble";
   isSelected?: boolean;
 }
 
@@ -31,6 +31,12 @@ export function Button({
       isSelected
         ? "bg-pink-main/20 border-pink-main scale-105 shadow-[0_0_15px_rgba(233,73,152,0.3)]"
         : "bg-pink-dimmed border-transparent hover:bg-white/15 active:scale-95"
+    }`,
+
+    bubble: `size-24 rounded-full flex flex-col items-center justify-center p-2 transition-all duration-300 border-2 ${
+      isSelected
+        ? "bg-pink-main/20 border-pink-main scale-110 shadow-[0_0_15px_rgba(233,73,152,0.4)]"
+        : "bg-white/10 border-transparent hover:bg-white/15"
     }`,
   };
 
