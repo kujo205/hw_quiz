@@ -2,6 +2,7 @@
 
 import { Check } from "lucide-react";
 import { useState } from "react";
+import { commonTranslations } from "@/features/quiz/common-translations";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import type {
@@ -106,8 +107,7 @@ export function MultipleSelectQuestion({
         {/* Кнопка "Next" зафіксована внизу контейнера [cite: 61, 83] */}
         <div className="pt-8 pb-4">
           <Button onClick={onNextClick} disabled={selectedValues.length === 0}>
-            {/* Можна додати локалізацію через t(nextButtonText) якщо потрібно */}
-            Next
+            {t(commonTranslations.nextButton)}
           </Button>
         </div>
       </div>

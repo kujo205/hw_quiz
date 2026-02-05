@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { commonTranslations } from "@/features/quiz/common-translations";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import type {
@@ -106,7 +107,7 @@ export function BubbleSelect({
           disabled={selectedValues.length === 0}
           className={selectedValues.length === 0 ? "opacity-50" : "opacity-100"}
         >
-          Next
+          {t(commonTranslations.nextButton)}
         </Button>
       </div>
     </div>

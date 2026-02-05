@@ -172,10 +172,14 @@ export const useQuizStore = create<QuizStore>()(
         const quizId = get().activeQuizId;
         const currentStepData = get().getCurrentStepData();
 
-        const nextStepId = evaluateNextQuizStep(
-          currentStepData,
-          get().getCurrentQuizAnswers(),
-        );
+        const oldAnswers = get().getCurrentQuizAnswers();
+
+        const newAnswers = {
+          ...oldAnswers,
+          [questionId]: val,
+        };
+
+        const nextStepId = evaluateNextQuizStep(currentStepData, newAnswers);
 
         set((state) => {
           if (!state.results[quizId]) {
