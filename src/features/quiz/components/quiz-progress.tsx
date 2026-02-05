@@ -17,7 +17,7 @@ export function QuizProgress() {
 
   const router = useRouter();
 
-  const progress = (currentStepOrder / totalSteps) * 100;
+  const progress = (currentStepOrder / (totalSteps + 1)) * 100;
 
   const handleGoBack = () => {
     // Find the question with order = currentStepOrder - 1

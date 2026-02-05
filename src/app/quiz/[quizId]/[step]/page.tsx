@@ -14,6 +14,7 @@ export default function Page() {
 
   const hydrated = useQuizStore((state) => state.hydrated);
   const setQuizConfig = useQuizStore((state) => state.setQuizData);
+  const currentStepData = useQuizStore((state) => state.getCurrentStepData());
   const getRedirectStepIfWrongStep = useQuizStore(
     (state) => state.getRedirectStepIfWrongStep,
   );
@@ -34,5 +35,6 @@ export default function Page() {
     return <QuizSpinner />;
   }
 
-  return <QuizEngine />;
+  // this check is needed to avoid crashing when redirection from invalid step happens
+  return currentStepData && <QuizEngine />;
 }
