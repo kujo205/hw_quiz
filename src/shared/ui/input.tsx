@@ -11,9 +11,9 @@ export function Input({ error, className = "", ...props }: InputProps) {
     <div className="w-full space-y-2">
       <input
         {...props}
-        className={`w-full h-16 px-6 rounded-2xl bg-white/10 text-white text-lg outline-none transition-all border-2 ${
+        className={`w-full h-16 invalid:border-red-500 px-6 rounded-2xl bg-white/10 text-white text-lg outline-none transition-all border-2 ${
           error
-            ? "border-red-500 focus:border-red-500"
+            ? "focus:border-red-500 border-red-500"
             : "border-transparent focus:border-pink-main"
         } ${className}`}
       />

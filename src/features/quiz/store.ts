@@ -52,6 +52,8 @@ interface QuizStore {
   //
   setEmail: (email: string) => void;
 
+  getEmail: () => string;
+
   // for i10n
   setLanguage: (lang: TLanguage) => void;
 
@@ -93,6 +95,13 @@ export const useQuizStore = create<QuizStore>()(
         set((state) => {
           state.quizConfig = quizConfig;
         });
+      },
+
+      getEmail: () => {
+        const state = get();
+        const quizId = state.activeQuizId;
+
+        return state.results[quizId]?.email;
       },
 
       getCurrentStepOrderIndex: () => {

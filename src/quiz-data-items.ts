@@ -384,6 +384,12 @@ export const quizStaticSteps = {
         de: "E-Mail",
         es: "Correo electrónico",
       },
+      description: {
+        en: "Enter your email to get full access.",
+        fr: "Entrez votre e-mail pour obtenir un accès complet.",
+        de: "Geben Sie Ihre E-Mail-Adresse ein, um vollen Zugriff zu erhalten.",
+        es: "Ingrese su correo electrónico para obtener acceso completo.",
+      },
       placeholder: {
         en: "your@email.com",
         fr: "votre@email.com",
