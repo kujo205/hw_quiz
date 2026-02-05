@@ -21,12 +21,7 @@ export const testQuizDynamicQuestions = [
     },
     options: [
       {
-        label: {
-          en: "English",
-          fr: "Anglais",
-          de: "Englisch",
-          es: "Inglés",
-        },
+        label: { en: "English", fr: "Anglais", de: "Englisch", es: "Inglés" },
         value: "en",
       },
       {
@@ -39,21 +34,11 @@ export const testQuizDynamicQuestions = [
         value: "fr",
       },
       {
-        label: {
-          en: "German",
-          fr: "Allemand",
-          de: "Deutsch",
-          es: "Alemán",
-        },
+        label: { en: "German", fr: "Allemand", de: "Deutsch", es: "Alemán" },
         value: "de",
       },
       {
-        label: {
-          en: "Spanish",
-          fr: "Espagnol",
-          de: "Spanisch",
-          es: "Español",
-        },
+        label: { en: "Spanish", fr: "Espagnol", de: "Spanisch", es: "Español" },
         value: "es",
       },
     ],
@@ -63,7 +48,7 @@ export const testQuizDynamicQuestions = [
   {
     id: "gender-identity",
     order: 2,
-    type: "single-select-image",
+    type: "single-select-emoji",
     texts: {
       title: {
         en: "What gender do you identify with?",
@@ -72,28 +57,26 @@ export const testQuizDynamicQuestions = [
         es: "¿Con qué género te identificas?",
       },
       description: {
-        en: "Please share how you identify.",
-        fr: "Veuillez partager comment vous vous identifiez.",
-        de: "Bitte teile uns mit, wie du dich identifizierst.",
-        es: "Por favor, comparte cómo te identificas.",
+        en: "Please share how you identify yourself",
+        fr: "Veuillez partager comment vous vous identifiez",
+        de: "Bitte teile uns mit, wie du dich identifizierst",
+        es: "Por favor, comparte cómo te identificas",
       },
     },
     options: [
       {
-        label: {
-          en: "Female",
-          fr: "Femme",
-          de: "Weiblich",
-          es: "Femenino",
-        },
+        label: { en: "Female", fr: "Femme", de: "Weiblich", es: "Femenino" },
+        emoji: "👩",
         value: "female",
       },
       {
         label: { en: "Male", fr: "Homme", de: "Männlich", es: "Masculino" },
+        emoji: "👨",
         value: "male",
       },
       {
         label: { en: "Other", fr: "Autre", de: "Andere", es: "Otro" },
+        emoji: "😉",
         value: "other",
       },
     ],
@@ -130,6 +113,19 @@ export const testQuizDynamicQuestions = [
           es: "30-39 años",
         },
         value: "adult",
+      },
+      {
+        label: {
+          en: "40-49 years",
+          fr: "40-49 ans",
+          de: "40-49 Jahre",
+          es: "40-49 años",
+        },
+        value: "middle-aged",
+      },
+      {
+        label: { en: "50+", fr: "50+", de: "50+", es: "50+" },
+        value: "senior",
       },
     ],
     branches: [
@@ -205,12 +201,7 @@ export const testQuizDynamicQuestions = [
         value: "action",
       },
       {
-        label: {
-          en: "Romance",
-          fr: "Romance",
-          de: "Romantik",
-          es: "Romance",
-        },
+        label: { en: "Romance", fr: "Romance", de: "Romantik", es: "Romance" },
         value: "romance",
       },
       {
@@ -275,7 +266,7 @@ export const quizStaticSteps = {
       title: {
         en: "Thank you for supporting us!",
         fr: "Merci de nous soutenir !",
-        de: "Vielen Dank für deine Unterstützung!",
+        de: "Vielen Dank для вашої підтримки!",
         es: "¡Gracias por apoyarnos!",
       },
       downloadButton: {

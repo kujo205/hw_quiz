@@ -1,22 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { EmojiSelectQuestion } from "@/features/quiz/components/emoji-select-question";
 import { SingleSelectQuestion } from "@/features/quiz/components/single-select-question";
 import { useQuizStore } from "@/features/quiz/store";
 import { languageCodes } from "@/features/quiz/types-and-schemas";
-import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
-import type {
-  SelectHandler,
-  TQuizQuestion,
-  TQuizStaticStep,
-} from "../types-and-schemas";
+import type { SelectHandler, TQuizQuestion } from "../types-and-schemas";
 
 export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);
   const stepData = useQuizStore((state) => state.getCurrentStepData());
 
-  const setQuizData = useQuizStore((state) => state.setQuizData);
   const setAnswerGetNextStepId = useQuizStore(
     (state) => state.setAnswerGetNextStepId,
   );
@@ -24,18 +18,23 @@ export function QuestionRenderer() {
   const router = useRouter();
 
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
+    // Отримуємо наступний крок через стор (враховуючи розгалуження)
     const nextStepId = setAnswerGetNextStepId(questionId, val);
 
-    router.push(`/quiz/${quizId}/${nextStepId}`);
-
+    // Зміна мови, якщо це перше запитання
     if (
       questionId === "preferred-language" &&
-      languageCodes.includes(val.answer)
+      languageCodes.includes(val.answer as any)
     ) {
-      // @ts-expect-error-next-line: types too wide for ts
-      setLanguage(val.answer);
+      setLanguage(val.answer as any);
     }
+
+    setTimeout(() => {
+      router.push(`/quiz/${quizId}/${nextStepId}`);
+    }, 300);
   };
+
+  if (!stepData) return null;
 
   switch (stepData.type) {
     case "single-select": {
@@ -52,6 +51,23 @@ export function QuestionRenderer() {
         />
       );
     }
+
+    case "single-select-emoji": {
+      const questionData = stepData as TQuizQuestion;
+
+      return (
+        <EmojiSelectQuestion
+          handleSelect={selectAnswerHandler}
+          questionId={questionData.id}
+          order={questionData.order}
+          title={questionData.texts.title}
+          description={questionData.texts.description}
+          options={questionData.options}
+        />
+      );
+    }
+
+    // Інші кейси (loader, email, thank-you) додаються аналогічно
     case "bubble-select":
     case "multiple-select":
     case "loader":

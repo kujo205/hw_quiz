@@ -6,6 +6,7 @@ import type {
   TLocalizedString,
   TQuiz,
   TQuizAnswer,
+  TQuizAnswerRaw,
   TQuizStep,
 } from "@/features/quiz/types-and-schemas";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
@@ -59,6 +60,8 @@ interface QuizStore {
 
   getCurrentQuizAnswers: () => Record<string, TQuizAnswer>;
 
+  getQuestionAnswer: (qId: string) => TQuizAnswerRaw;
+
   // translation method
   t: (localizedString?: TLocalizedString) => string;
 }
@@ -104,6 +107,12 @@ export const useQuizStore = create<QuizStore>()(
         const answer = state.results[quizId]?.answers[stepId];
 
         return answer?.order ?? 0;
+      },
+
+      getQuestionAnswer: (questionId: string) => {
+        const activeQuizId = get().activeQuizId;
+
+        return get().results[activeQuizId]?.answers[questionId]?.answer;
       },
 
       getCurrentStepData: () => {

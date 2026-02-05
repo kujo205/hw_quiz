@@ -8,6 +8,7 @@
   --grey-40: #f2f3f5;
 
   --pink-main: #e4229c;
+  --pink-dimmed: #36173d;
 }
 
 @theme {
@@ -16,6 +17,7 @@
   --color-grey-200: var(--grey-200);
   --color-grey-40: var(--grey-40);
   --color-pink-main: var(--pink-main);
+  --color-pink-dimmed: var(--pink-dimmed);
 
   --font-sans: "Nunito Sans", sans-serif;
 }

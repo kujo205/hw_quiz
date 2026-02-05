@@ -38,17 +38,19 @@ const dynamicQuestionTypes = [
   "single-select",
   "multiple-select",
   "bubble-select",
-  "single-select-image",
+  "single-select-emoji",
 ] as const;
 
 const QuestionSchema = BaseStepSchema.extend({
   order: z.number(),
   type: z.enum(dynamicQuestionTypes),
   options: z.array(
-    z.object({
-      label: LocalizedStringSchema,
-      value: z.string(),
-    }),
+    z
+      .object({
+        label: LocalizedStringSchema,
+        value: z.string(),
+      })
+      .loose(),
   ),
   branches: z.array(BranchSchema),
   defaultNextQuestionId: z.string(),
@@ -91,6 +93,8 @@ type TQuiz = z.infer<typeof QuizSchema>;
 type TQuizStep = TQuizQuestion | TQuizStaticStep;
 
 export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
+
+export type TQuizAnswerRaw = string | string[];
 
 export type TQuizAnswer = {
   order: number;

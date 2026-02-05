@@ -8,28 +8,29 @@ import type {
 } from "@/features/quiz/types-and-schemas";
 import { Button } from "@/shared/ui/button";
 
-interface SingleSelectOption {
+interface EmojiSelectOption {
   label: TLocalizedString;
   value: string;
+  emoji: string;
 }
 
-interface SingleSelectQuestionProps {
+interface EmojiSelectQuestionProps {
   questionId: string;
   title: TLocalizedString;
   description?: TLocalizedString;
-  options: SingleSelectOption[];
+  options: EmojiSelectOption[];
   order: number;
   handleSelect: SelectHandler;
 }
 
-export function SingleSelectQuestion({
+export function EmojiSelectQuestion({
   questionId,
   title,
   description,
   options,
   order,
   handleSelect,
-}: SingleSelectQuestionProps) {
+}: EmojiSelectQuestionProps) {
   const t = useQuizStore((state) => state.t);
 
   const currentAnswer = useQuizStore((state) =>
@@ -37,30 +38,32 @@ export function SingleSelectQuestion({
   );
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-10 animate-in fade-in duration-500">
       <QuizTitleDescription title={t(title)} description={t(description)} />
 
-      <div className="space-y-3">
+      <div className="grid grid-cols-3 gap-3 w-full">
         {options.map((option) => {
-          const optionLabel = t(option.label);
-
           const isSelected = currentAnswer === option.value;
+          const optionLabel = t(option.label);
 
           return (
             <Button
               key={option.value}
-              variant="quiz-item"
+              variant="quiz-emoji"
               isSelected={isSelected}
               onClick={() =>
                 handleSelect(questionId, {
                   answer: option.value,
                   order,
-                  title: t(title), // Для CSV зазвичай краще текст самого питання
-                  type: "single-select",
+                  title: t(title),
+                  type: "single-select-emoji",
                 })
               }
             >
-              {optionLabel}
+              <span className="text-5xl mb-3 block">{option.emoji}</span>
+              <span className="text-white text-sm font-bold text-center leading-tight">
+                {optionLabel}
+              </span>
             </Button>
           );
         })}
