@@ -21,7 +21,7 @@ export function Button({
 
     icon: "size-10 rounded-lg bg-pink-main/10 text-pink-main hover:bg-pink-main/20 active:scale-95",
 
-    "quiz-item": `w-full rounded-2xl px-6 py-4 text-left border-2 transition-all duration-300 ${
+    "quiz-item": `w-full rounded-2xl px-6 py-4 items-start border-2 transition-all duration-300 ${
       isSelected
         ? "bg-pink-main text-white border-pink-main"
         : "bg-pink-dimmed text-white border-transparent hover:bg-white/15"

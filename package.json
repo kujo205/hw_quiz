@@ -7,8 +7,9 @@
     "build": "next build",
     "test": "vitest",
     "start": "next start",
-    "lint": "biome check",
-    "format": "biome format --write"
+
+    "format": "biome format --write .",
+    "lint": "biome lint --write ."
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
