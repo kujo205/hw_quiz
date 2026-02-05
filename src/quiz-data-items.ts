@@ -1,6 +1,6 @@
-import type { TQuiz } from "@/features/quiz/types-and-schemas";
+import type { TQuiz, TQuizQuestion } from "@/features/quiz/types-and-schemas";
 
-export const testQuizDynamicQuestions = [
+export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "preferred-language",
     order: 1,
@@ -80,12 +80,56 @@ export const testQuizDynamicQuestions = [
         value: "other",
       },
     ],
+    // РОЗГАЛУЖЕННЯ: Якщо Male — йдемо прямо на вік. Якщо Female/Other — на уточнююче питання.
+    branches: [
+      {
+        conditions: [
+          { questionId: "gender-identity", operator: "EQUALS", value: "male" },
+        ],
+        logic: "AND",
+        nextQuestionId: "age-group",
+      },
+    ],
+    defaultNextQuestionId: "reading-goals",
+  },
+  {
+    id: "reading-goals",
+    order: 3,
+    type: "single-select",
+    texts: {
+      title: {
+        en: "What is your main goal for reading?",
+        fr: "Quel est votre objectif principal de lecture ?",
+        de: "Was ist ваш основний пріоритет у читанні?",
+        es: "¿Cuál es tu objetivo principal de lectura?",
+      },
+    },
+    options: [
+      {
+        label: {
+          en: "Self-discovery",
+          fr: "Découverte de soi",
+          de: "Selbstfindung",
+          es: "Autodescubrimiento",
+        },
+        value: "discovery",
+      },
+      {
+        label: {
+          en: "Escape from reality",
+          fr: "Échapper à la réalité",
+          de: "Flucht aus der Realität",
+          es: "Escapar de la realidad",
+        },
+        value: "escape",
+      },
+    ],
     branches: [],
     defaultNextQuestionId: "age-group",
   },
   {
     id: "age-group",
-    order: 3,
+    order: 4,
     type: "single-select",
     texts: {
       title: {
@@ -128,20 +172,12 @@ export const testQuizDynamicQuestions = [
         value: "senior",
       },
     ],
-    branches: [
-      {
-        conditions: [
-          { questionId: "age-group", operator: "EQUALS", value: "young" },
-        ],
-        logic: "AND",
-        nextQuestionId: "book-dislikes",
-      },
-    ],
+    branches: [],
     defaultNextQuestionId: "book-dislikes",
   },
   {
     id: "book-dislikes",
-    order: 4,
+    order: 5,
     type: "multiple-select",
     texts: {
       title: {
@@ -163,6 +199,15 @@ export const testQuizDynamicQuestions = [
       },
       {
         label: {
+          en: "A slow speed",
+          fr: "Un rythme lent",
+          de: "Langsames Tempo",
+          es: "Ritmo lento",
+        },
+        value: "slow",
+      },
+      {
+        label: {
           en: "Lack of humor",
           fr: "Manque d'humour",
           de: "Mangel an Humor",
@@ -172,12 +217,12 @@ export const testQuizDynamicQuestions = [
       },
       {
         label: {
-          en: "Slow pace",
-          fr: "Rythme lent",
-          de: "Langsames Tempo",
-          es: "Ritmo lento",
+          en: "Way too generic ending",
+          fr: "Fin trop générique",
+          de: "Zu klischeehaftes Ende",
+          es: "Final demasiado genérico",
         },
-        value: "slow",
+        value: "generic-ending",
       },
     ],
     branches: [],
@@ -185,7 +230,7 @@ export const testQuizDynamicQuestions = [
   },
   {
     id: "favorite-topics",
-    order: 5,
+    order: 6,
     type: "bubble-select",
     texts: {
       title: {
@@ -213,12 +258,73 @@ export const testQuizDynamicQuestions = [
         },
         value: "bad-boy",
       },
+      {
+        label: {
+          en: "Fantasy",
+          fr: "Fantaisie",
+          de: "Fantasy",
+          es: "Fantasía",
+        },
+        value: "fantasy",
+      },
+    ],
+    // РОЗГАЛУЖЕННЯ: Якщо обрано Romance АБО Bad Boy — йдемо на специфічне питання про піджанри
+    branches: [
+      {
+        conditions: [
+          {
+            questionId: "favorite-topics",
+            operator: "CONTAINS",
+            value: "romance",
+          },
+          {
+            questionId: "favorite-topics",
+            operator: "CONTAINS",
+            value: "bad-boy",
+          },
+        ],
+        logic: "OR",
+        nextQuestionId: "romance-subgenre",
+      },
+    ],
+    defaultNextQuestionId: "loader",
+  },
+  {
+    id: "romance-subgenre",
+    order: 7,
+    type: "single-select",
+    texts: {
+      title: {
+        en: "Which romance subgenre do you prefer?",
+        fr: "Quel sous-genre de romance préférez-vous ?",
+        de: "Welches Romantik-Subgenre bevorzugst du?",
+        es: "¿Qué subgénero de romance prefieres?",
+      },
+    },
+    options: [
+      {
+        label: {
+          en: "Contemporary",
+          fr: "Contemporain",
+          de: "Modern",
+          es: "Contemporáneo",
+        },
+        value: "contemporary",
+      },
+      {
+        label: {
+          en: "Historical",
+          fr: "Historique",
+          de: "Historisch",
+          es: "Histórico",
+        },
+        value: "historical",
+      },
     ],
     branches: [],
     defaultNextQuestionId: "loader",
   },
-] satisfies TQuiz["questions"];
-
+];
 export const quizStaticSteps = {
   loader: {
     id: "loader",

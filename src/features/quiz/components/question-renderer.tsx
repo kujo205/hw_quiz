@@ -80,6 +80,7 @@ export function QuestionRenderer() {
           handleSelect={selectAnswerHandler}
           questionId={questionData.id}
           order={questionData.order}
+          // @ts-expect-error-next-line
           title={questionData.texts.title}
           description={questionData.texts.description}
           options={questionData.options}

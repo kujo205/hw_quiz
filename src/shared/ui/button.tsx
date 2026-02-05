@@ -1,12 +1,7 @@
 import type * as React from "react";
 
 interface ButtonProps extends React.ComponentProps<"button"> {
-  variant?:
-    | "default"
-    | "icon"
-    | "quiz-item"
-    | "quiz-emoji"
-    | "quiz-item-outline";
+  variant?: "default" | "icon" | "quiz-item" | "quiz-emoji";
   isSelected?: boolean;
 }
 
