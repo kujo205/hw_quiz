@@ -39,7 +39,7 @@ export function BubbleSelect({
   );
 
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    typeof savedAnswer === "string" ? savedAnswer.split(", ") : [],
+    typeof savedAnswer === "string" ? savedAnswer.split(", ") : savedAnswer,
   );
 
   const toggleOption = (value: string) => {

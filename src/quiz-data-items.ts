@@ -100,7 +100,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
       title: {
         en: "What is your main goal for reading?",
         fr: "Quel est votre objectif principal de lecture ?",
-        de: "Was ist ваш основний пріоритет у читанні?",
+        de: "Was ist Ihre Hauptpriorität beim Lesen",
         es: "¿Cuál es tu objetivo principal de lectura?",
       },
     },
