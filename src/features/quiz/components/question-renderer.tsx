@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { BubbleSelect } from "@/features/quiz/components/quiz-steps/bubble-select";
 import { EmojiSelectQuestion } from "@/features/quiz/components/quiz-steps/emoji-select-question";
 import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select";
+import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
 import { SingleSelectQuestion } from "@/features/quiz/components/quiz-steps/single-select-question";
 import { useQuizStore } from "@/features/quiz/store";
 import { languageCodes } from "@/features/quiz/types-and-schemas";
@@ -33,6 +34,10 @@ export function QuestionRenderer() {
     setTimeout(() => {
       router.push(`/quiz/${quizId}/${nextStepId}`);
     }, 200);
+  };
+
+  const handleLoaderComplete = (nextStepId: string) => {
+    router.push(`/quiz/${quizId}/${nextStepId}`);
   };
 
   if (!stepData) return null;
@@ -99,8 +104,19 @@ export function QuestionRenderer() {
       );
     }
 
-    // Статичні кроки обробляються окремо або через аналогічні компоненти
-    case "loader":
+    case "loader": {
+      const staticStep = stepData;
+
+      return (
+        <QuizLoader
+          // @ts-expect-error-next-line: add type checking here later on
+          title={staticStep.texts.title}
+          // @ts-expect-error-next-line: add type checking here later on
+          nextStepId={staticStep.defaultNextQuestionId}
+          onComplete={handleLoaderComplete}
+        />
+      );
+    }
     case "email":
     case "thank-you":
     default:

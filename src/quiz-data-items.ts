@@ -396,7 +396,6 @@ export const quizStaticSteps = {
         de: "Ungültige E-Mail",
         es: "Correo no válido",
       },
-      buttonText: { en: "Next", fr: "Suivant", de: "Weiter", es: "Siguiente" },
     },
     defaultNextQuestionId: "thank-you",
   },

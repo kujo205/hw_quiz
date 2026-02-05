@@ -3,7 +3,6 @@
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TQuiz } from "@/features/quiz/types-and-schemas";
 import { Button } from "@/shared/ui/button";
 
 export function QuizProgress() {
