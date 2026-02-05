@@ -1,9 +1,15 @@
 "use client";
 
-import { constructRequest } from "next/dist/experimental/testing/server/utils";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { SingleSelectQuestion } from "@/features/quiz/components/single-select-question";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TQuizQuestion, TQuizStaticStep } from "../types-and-schemas";
+import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
+import type {
+  SelectHandler,
+  TQuizQuestion,
+  TQuizStaticStep,
+} from "../types-and-schemas";
 
 interface Props {
   stepData: TQuizStaticStep | TQuizQuestion;
@@ -13,13 +19,40 @@ interface Props {
 
 export function QuestionRenderer({ stepData, stepId, quizId }: Props) {
   const setQuizData = useQuizStore((state) => state.setQuizData);
+  const getCurrentStepOrder = useQuizStore((state) => state.getCurrenStepOrder);
+  const setAnswer = useQuizStore((state) => state.setAnswer);
+  const router = useRouter();
+  const qOrder = getCurrentStepOrder();
 
   useEffect(() => {
     setQuizData(quizId, stepId);
   }, [quizId, stepId, setQuizData]);
 
+  const selectAnswerHandler: SelectHandler = (questionId, val) => {
+    setAnswer(questionId, val);
+
+    const nextStepId = evaluateNextQuizStep(
+      stepData,
+      useQuizStore.getState().getCurrentQuizAnswers(),
+    );
+
+    router.push(`/quiz/${quizId}/${nextStepId}`);
+  };
+
   switch (stepData.type) {
-    case "single-select":
+    case "single-select": {
+      const questionData = stepData as TQuizQuestion;
+      return (
+        <SingleSelectQuestion
+          handleSelect={selectAnswerHandler}
+          questionId={questionData.id}
+          order={qOrder}
+          title={questionData.texts.title}
+          description={questionData.texts.description}
+          options={questionData.options}
+        />
+      );
+    }
     case "bubble-select":
     case "multiple-select":
     case "loader":
@@ -27,6 +60,5 @@ export function QuestionRenderer({ stepData, stepId, quizId }: Props) {
     case "thank-you":
     default:
       return null;
-    // return <p>{JSON.stringify(stepData)}</p>;
   }
 }

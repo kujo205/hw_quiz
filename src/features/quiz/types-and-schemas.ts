@@ -85,11 +85,13 @@ type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
 
+export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
+
 export type TQuizAnswer = {
   order: number;
   title: string;
   type: string;
-  answer: string;
+  answer: string | string[];
 };
 
 export type {

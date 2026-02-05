@@ -35,6 +35,13 @@ interface QuizStore {
   // nullify quiz results
   resetQuiz: () => void;
 
+  // go back one step in the quiz
+  goOneStepBack: () => void;
+
+  getCurrenStepOrder: () => number;
+
+  getCurrentQuizAnswers: () => Record<string, TQuizAnswer>;
+
   // translation method
   t: (localizedString?: TLocalizedString) => string;
 }
@@ -60,6 +67,28 @@ export const useQuizStore = create<QuizStore>()(
             state.results[quizId] = { ...DEFAULT_QUIZ_RESULT };
           }
         });
+      },
+
+      getCurrentQuizAnswers: () => {
+        const quizId = get().activeQuizId;
+        if (!quizId) return {};
+
+        return get().results[quizId]?.answers || {};
+      },
+
+      getCurrenStepOrder: () => {
+        const quizId = get().activeQuizId;
+        const stepId = get().activeQuizStep;
+
+        if (!quizId || !stepId) return 0;
+
+        const answers = get().results[quizId]?.answers;
+        const answer = answers[stepId];
+
+        console.log("answers", answers);
+
+        console.log("answer for stepId", stepId, answer);
+        return answer?.order ?? Object.values(answers)?.length + 1;
       },
 
       setLanguage: (lang) => {
@@ -106,6 +135,8 @@ export const useQuizStore = create<QuizStore>()(
           delete state.results[quizId];
         });
       },
+
+      goOneStepBack: () => {},
 
       t: (localizedString) => {
         const quizId = get().activeQuizId;

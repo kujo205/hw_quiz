@@ -5,6 +5,8 @@
   --background: #1f002b;
   --foreground: #ffffff;
   --grey-200: #c4c8cc;
+  --grey-40: #f2f3f5;
+
   --pink-main: #e4229c;
 }
 
@@ -12,6 +14,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-grey-200: var(--grey-200);
+  --color-grey-40: var(--grey-40);
   --color-pink-main: var(--pink-main);
 
   --font-sans: "Nunito Sans", sans-serif;

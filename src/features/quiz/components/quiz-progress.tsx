@@ -9,21 +9,21 @@ interface QuizProgressProps {
 }
 
 export function QuizProgress({ totalSteps }: QuizProgressProps) {
-  const { activeQuizId, results } = useQuizStore();
+  const { activeQuizId, getCurrenStepOrder } = useQuizStore();
 
   if (!activeQuizId) return null;
 
-  const answeredCount = Object.keys(
-    results[activeQuizId]?.answers || {},
-  ).length;
-  const currentStep = answeredCount + 1;
-  const progress = (currentStep / totalSteps) * 100;
+  const currentStep = getCurrenStepOrder();
+
+  const stepsWithEmail = totalSteps + 1;
+
+  const progress = (currentStep / stepsWithEmail) * 100;
 
   return (
     <div className="w-full space-y-2">
       <div className="flex justify-between">
         {/* Go back button */}
-        {currentStep === 1 ? (
+        {currentStep === 0 ? (
           <span className="w-10"></span>
         ) : (
           <Button variant="icon">
@@ -32,7 +32,7 @@ export function QuizProgress({ totalSteps }: QuizProgressProps) {
         )}
 
         {/* Step counter */}
-        <div className="text-center text-xl space-x-1 font-bold">
+        <div className="text-center text-xl space-x-1 font-extrabold">
           <span className="text-pink-main">{currentStep}</span>
           <span>/</span>
           <span>{totalSteps}</span>

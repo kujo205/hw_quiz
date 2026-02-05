@@ -3,18 +3,17 @@ import {
   staticStepTypes,
   type TBranch,
   type TCondition,
+  type TQuizAnswer,
   type TQuizQuestion,
   type TQuizStaticStep,
 } from "../types-and-schemas";
-
-type TAnswerValue = Record<string, string | string[]>;
 
 /**
  * Evaluates the next quiz step based on current step data and answers
  */
 export function evaluateNextQuizStep(
   stepData: TQuizStaticStep | TQuizQuestion,
-  answers: TAnswerValue,
+  answers: Record<string, TQuizAnswer>,
 ): string {
   if (isStaticStep(stepData)) {
     assert(
@@ -34,7 +33,10 @@ export function evaluateNextQuizStep(
   return stepData.defaultNextQuestionId;
 }
 
-function evaluateBranch(branch: TBranch, answers: TAnswerValue): boolean {
+function evaluateBranch(
+  branch: TBranch,
+  answers: Record<string, TQuizAnswer>,
+): boolean {
   const results = branch.conditions.map((condition) =>
     evaluateCondition(condition, answers),
   );
@@ -46,9 +48,9 @@ function evaluateBranch(branch: TBranch, answers: TAnswerValue): boolean {
 
 function evaluateCondition(
   condition: TCondition,
-  answers: TAnswerValue,
+  answers: Record<string, TQuizAnswer>,
 ): boolean {
-  const answer = answers[condition.questionId];
+  const answer = answers[condition.questionId]?.value;
 
   switch (condition.operator) {
     case "NOT_EMPTY":
@@ -67,7 +69,7 @@ function evaluateCondition(
       if (Array.isArray(answer)) {
         return answer.includes(condition.value);
       }
-      if (typeof condition.value === "string") {
+      if (typeof answer === "string" && typeof condition.value === "string") {
         return answer.includes(condition.value);
       }
       return false;

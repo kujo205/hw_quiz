@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import type { TQuizQuestion, TQuizStaticStep } from "../types-and-schemas";
+import type {
+  TQuizAnswer,
+  TQuizQuestion,
+  TQuizStaticStep,
+} from "../types-and-schemas";
 import { evaluateNextQuizStep } from "./evaluate-next-quiz-step";
 
 describe("evaluateNextQuizStep", () => {
@@ -41,6 +45,14 @@ describe("evaluateNextQuizStep", () => {
     nextQuestionId: string = "next-question",
   ) => ({ conditions, logic, nextQuestionId });
 
+  const createAnswer = (
+    value: string | string[],
+    order: number = 0,
+  ): TQuizAnswer => ({
+    value,
+    order,
+  });
+
   describe("Static Steps", () => {
     it("should return defaultNextQuestionId for static steps", () => {
       const loaderStep = createStaticStep("loader", "question-1");
@@ -73,8 +85,12 @@ describe("evaluateNextQuizStep", () => {
         createBranch([{ questionId: "q1", operator: "EQUALS", value: "a" }]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: "a" })).toBe("next-question");
-      expect(evaluateNextQuizStep(question, { q1: "b" })).toBe("default-next");
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("a") })).toBe(
+        "next-question",
+      );
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("b") })).toBe(
+        "default-next",
+      );
     });
 
     it("should match single-item array", () => {
@@ -82,12 +98,12 @@ describe("evaluateNextQuizStep", () => {
         createBranch([{ questionId: "q1", operator: "EQUALS", value: "a" }]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: ["a"] })).toBe(
+      expect(evaluateNextQuizStep(question, { q1: createAnswer(["a"]) })).toBe(
         "next-question",
       );
-      expect(evaluateNextQuizStep(question, { q1: ["a", "b"] })).toBe(
-        "default-next",
-      );
+      expect(
+        evaluateNextQuizStep(question, { q1: createAnswer(["a", "b"]) }),
+      ).toBe("default-next");
     });
   });
 
@@ -97,12 +113,12 @@ describe("evaluateNextQuizStep", () => {
         createBranch([{ questionId: "q1", operator: "CONTAINS", value: "b" }]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: ["a", "b"] })).toBe(
-        "next-question",
-      );
-      expect(evaluateNextQuizStep(question, { q1: ["a", "c"] })).toBe(
-        "default-next",
-      );
+      expect(
+        evaluateNextQuizStep(question, { q1: createAnswer(["a", "b"]) }),
+      ).toBe("next-question");
+      expect(
+        evaluateNextQuizStep(question, { q1: createAnswer(["a", "c"]) }),
+      ).toBe("default-next");
     });
   });
 
@@ -112,8 +128,12 @@ describe("evaluateNextQuizStep", () => {
         createBranch([{ questionId: "q1", operator: "NOT_EMPTY" }]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: "a" })).toBe("next-question");
-      expect(evaluateNextQuizStep(question, { q1: "" })).toBe("default-next");
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("a") })).toBe(
+        "next-question",
+      );
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("") })).toBe(
+        "default-next",
+      );
     });
 
     it("should validate non-empty array", () => {
@@ -121,10 +141,12 @@ describe("evaluateNextQuizStep", () => {
         createBranch([{ questionId: "q1", operator: "NOT_EMPTY" }]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: ["a"] })).toBe(
+      expect(evaluateNextQuizStep(question, { q1: createAnswer(["a"]) })).toBe(
         "next-question",
       );
-      expect(evaluateNextQuizStep(question, { q1: [] })).toBe("default-next");
+      expect(evaluateNextQuizStep(question, { q1: createAnswer([]) })).toBe(
+        "default-next",
+      );
     });
   });
 
@@ -137,12 +159,18 @@ describe("evaluateNextQuizStep", () => {
         ]),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: "a", q2: "b" })).toBe(
-        "next-question",
-      );
-      expect(evaluateNextQuizStep(question, { q1: "a", q2: "c" })).toBe(
-        "default-next",
-      );
+      expect(
+        evaluateNextQuizStep(question, {
+          q1: createAnswer("a", 0),
+          q2: createAnswer("b", 1),
+        }),
+      ).toBe("next-question");
+      expect(
+        evaluateNextQuizStep(question, {
+          q1: createAnswer("a", 0),
+          q2: createAnswer("c", 1),
+        }),
+      ).toBe("default-next");
     });
 
     it("should satisfy OR when at least one condition is true", () => {
@@ -156,12 +184,18 @@ describe("evaluateNextQuizStep", () => {
         ),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: "a", q2: "c" })).toBe(
-        "next-question",
-      );
-      expect(evaluateNextQuizStep(question, { q1: "x", q2: "y" })).toBe(
-        "default-next",
-      );
+      expect(
+        evaluateNextQuizStep(question, {
+          q1: createAnswer("a", 0),
+          q2: createAnswer("c", 1),
+        }),
+      ).toBe("next-question");
+      expect(
+        evaluateNextQuizStep(question, {
+          q1: createAnswer("x", 0),
+          q2: createAnswer("y", 1),
+        }),
+      ).toBe("default-next");
     });
   });
 
@@ -180,9 +214,15 @@ describe("evaluateNextQuizStep", () => {
         ),
       ]);
 
-      expect(evaluateNextQuizStep(question, { q1: "a" })).toBe("branch-1");
-      expect(evaluateNextQuizStep(question, { q1: "b" })).toBe("branch-2");
-      expect(evaluateNextQuizStep(question, { q1: "c" })).toBe("default-next");
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("a") })).toBe(
+        "branch-1",
+      );
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("b") })).toBe(
+        "branch-2",
+      );
+      expect(evaluateNextQuizStep(question, { q1: createAnswer("c") })).toBe(
+        "default-next",
+      );
     });
   });
 });
