@@ -30,3 +30,17 @@
     color: var(--foreground);
   }
 }
+
+@layer utilities {
+  .link {
+    @apply text-pink-main underline transition-colors duration-200;
+
+    &:hover {
+      @apply text-pink-main/80;
+    }
+
+    &:active {
+      @apply opacity-70;
+    }
+  }
+}

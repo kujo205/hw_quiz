@@ -245,7 +245,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
       {
         label: { en: "Action", fr: "Action", de: "Action", es: "Acción" },
         value: "action",
-        emoji: "🏹", // Додаємо емодзі для бабла
+        emoji: "🏹",
       },
       {
         label: { en: "Romance", fr: "Romance", de: "Romantik", es: "Romance" },
@@ -255,9 +255,9 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
       {
         label: {
           en: "Bad Boy",
-          fr: "Mauvais garçon",
+          fr: "Bad Boy",
           de: "Bad Boy",
-          es: "Chico malo",
+          es: "Chico Malo",
         },
         value: "bad-boy",
         emoji: "😈",
@@ -265,7 +265,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
       {
         label: {
           en: "Fantasy",
-          fr: "Fantaisie",
+          fr: "Fantastique",
           de: "Fantasy",
           es: "Fantasía",
         },

@@ -62,17 +62,13 @@ export function EmailStep({
             error={showError ? t(errorText) : undefined}
           />
 
-          <p className="text-white/60 text-center text-sm px-6">
-            By continuing I agree with{" "}
-            <span className="text-pink-main underline cursor-pointer">
-              Privacy policy
-            </span>{" "}
-            and{" "}
-            <span className="text-pink-main underline cursor-pointer">
-              Terms of use
-            </span>
-            .
-          </p>
+          <p
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: it's fine, we control the content
+            dangerouslySetInnerHTML={{
+              __html: t(commonTranslations.agreeWithTerms),
+            }}
+            className="text-white/60 text-center text-sm px-6"
+          ></p>
         </div>
       </div>
 
