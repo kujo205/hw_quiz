@@ -1,35 +1,38 @@
-import { notFound, redirect } from "next/navigation";
-import { QuestionRenderer } from "@/features/quiz/components/question-renderer";
-import { QuizProgress } from "@/features/quiz/components/quiz-progress";
-import { getQuizConfig } from "@/features/quiz/services/get-quiz";
-import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
+"use client";
 
-export const revalidate = 600; // revalidates the page every 10 minutes
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
+import QuizEngine from "@/features/quiz/components/quiz-engine";
+import { QuizSpinner } from "@/features/quiz/components/quiz-spinner";
+import { useQuizStore } from "@/features/quiz/store";
 
-export default async function ({
-  params,
-}: {
-  params: Promise<{ quizId: string; step: string }>;
-}) {
-  const { quizId, step } = await params;
+export default function Page() {
+  const params = useParams<{
+    quizId: string;
+    step: string;
+  }>();
 
-  const config = await getQuizConfig(quizId);
-
-  if (!config) {
-    return notFound();
-  }
-
-  const { stepData, exists } = checkQuizStepPresent(config, step);
-
-  if (!exists) {
-    const firstQuestion = config.questions[0];
-    return redirect(`/quiz/${quizId}/${firstQuestion.id}`);
-  }
-
-  return (
-    <main className="max-w-xl mx-auto py-8 px-4">
-      <QuizProgress totalSteps={config.questions.length} />
-      <QuestionRenderer quizId={quizId} stepId={step} stepData={stepData} />
-    </main>
+  const hydrated = useQuizStore((state) => state.hydrated);
+  const setQuizConfig = useQuizStore((state) => state.setQuizData);
+  const getRedirectStepIfWrongStep = useQuizStore(
+    (state) => state.getRedirectStepIfWrongStep,
   );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (hydrated) {
+      const redirectStep = getRedirectStepIfWrongStep(params.step);
+
+      if (redirectStep) {
+        router.push(`/quiz/${params.quizId}/${redirectStep}`);
+      }
+      setQuizConfig(params.quizId, params.step);
+    }
+  }, [hydrated, params.step, params.quizId, setQuizConfig]);
+
+  if (!hydrated) {
+    return <QuizSpinner />;
+  }
+
+  return <QuizEngine />;
 }

@@ -4,8 +4,13 @@ import { immer } from "zustand/middleware/immer";
 import type {
   TLanguage,
   TLocalizedString,
+  TQuiz,
   TQuizAnswer,
+  TQuizStep,
 } from "@/features/quiz/types-and-schemas";
+import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
+import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
+import { getNextQuizStepData } from "@/features/quiz/utils/get-next-quiz-step-data";
 
 interface QuizResult {
   answers: Record<string, TQuizAnswer>;
@@ -14,9 +19,20 @@ interface QuizResult {
 }
 
 interface QuizStore {
+  // hydration state
+  hydrated: boolean;
+
   // current active quiz and step
-  activeQuizId: string | null;
-  activeQuizStep: string | null;
+  activeQuizId: string;
+  activeQuizStep: string;
+
+  //
+  quizConfig: TQuiz;
+
+  //
+  setQuizConfig: (arg0: TQuiz) => void;
+
+  getRedirectStepIfWrongStep: (stepId: string) => string | undefined;
 
   // data for results, quizId and Result object
   results: Record<string, QuizResult>;
@@ -24,7 +40,13 @@ interface QuizStore {
   setQuizData: (quizId: string, stepId: string) => void;
 
   // methods used in quiz flow
-  setAnswer: (questionId: string, val: TQuizAnswer) => void;
+  setAnswerGetNextStepId: (questionId: string, val: TQuizAnswer) => string;
+
+  //
+  getCurrentStepData: () => TQuizStep;
+
+  //
+  getCurrentStepOrderIndex: () => number;
 
   //
   setEmail: (email: string) => void;
@@ -34,11 +56,6 @@ interface QuizStore {
 
   // nullify quiz results
   resetQuiz: () => void;
-
-  // go back one step in the quiz
-  goOneStepBack: () => void;
-
-  getCurrenStepOrder: () => number;
 
   getCurrentQuizAnswers: () => Record<string, TQuizAnswer>;
 
@@ -55,9 +72,63 @@ const DEFAULT_QUIZ_RESULT = {
 export const useQuizStore = create<QuizStore>()(
   persist(
     immer((set, get) => ({
-      activeQuizId: null,
-      activeQuizStep: null,
+      hydrated: false,
+
+      // These values are being set immediately after hydration in the quiz page, so they
+      // cannot be null
+      activeQuizId: "none",
+      activeQuizStep: "none",
+
       results: {},
+      quizConfig: {
+        schemaVersion: "1.0.0",
+        questions: [],
+        staticSteps: {},
+      },
+
+      setQuizConfig: (quizConfig) => {
+        set((state) => {
+          state.quizConfig = quizConfig;
+        });
+      },
+
+      getCurrentStepOrderIndex: () => {
+        const state = get();
+        const quizId = state.activeQuizId;
+        const stepId = state.activeQuizStep;
+
+        if (!quizId || !stepId) {
+          return 0;
+        }
+
+        const answer = state.results[quizId]?.answers[stepId];
+
+        return answer?.order ?? 0;
+      },
+
+      getCurrentStepData: () => {
+        const { stepData } = checkQuizStepPresent(
+          get().quizConfig,
+          get().activeQuizStep,
+        );
+
+        return stepData;
+      },
+
+      getRedirectStepIfWrongStep: (stepId) => {
+        const quizConfig = get().quizConfig;
+
+        if (!quizConfig) {
+          return;
+        }
+
+        const { exists } = checkQuizStepPresent(quizConfig, stepId);
+
+        if (!exists) {
+          const firstQuestion = quizConfig.questions[0];
+          return firstQuestion.id;
+        }
+      },
 
       setQuizData: (quizId, stepId) => {
         set((state) => {
@@ -76,21 +147,6 @@ export const useQuizStore = create<QuizStore>()(
         return get().results[quizId]?.answers || {};
       },
 
-      getCurrenStepOrder: () => {
-        const quizId = get().activeQuizId;
-        const stepId = get().activeQuizStep;
-
-        if (!quizId || !stepId) return 0;
-
-        const answers = get().results[quizId]?.answers;
-        const answer = answers[stepId];
-
-        console.log("answers", answers);
-
-        console.log("answer for stepId", stepId, answer);
-        return answer?.order ?? Object.values(answers)?.length + 1;
-      },
-
       setLanguage: (lang) => {
         const quizId = get().activeQuizId;
         if (!quizId) return;
@@ -103,16 +159,50 @@ export const useQuizStore = create<QuizStore>()(
         });
       },
 
-      setAnswer: (questionId, val) => {
+      setAnswerGetNextStepId: (questionId, val) => {
         const quizId = get().activeQuizId;
-        if (!quizId) return;
+        const currentStepData = get().getCurrentStepData();
+
+        const nextStepId = evaluateNextQuizStep(
+          currentStepData,
+          get().getCurrentQuizAnswers(),
+        );
 
         set((state) => {
           if (!state.results[quizId]) {
             state.results[quizId] = { ...DEFAULT_QUIZ_RESULT };
           }
-          state.results[quizId].answers[questionId] = val;
+
+          // Save current question's answer with its order (if it's a question type)
+          const currentOrder =
+            "order" in currentStepData ? currentStepData.order : 0;
+          state.results[quizId].answers[questionId] = {
+            ...val,
+            order: currentOrder,
+          };
+
+          // Get next step's order from existing answers or default to next index
+          const answers = state.results[quizId].answers;
+          const nextOrder = answers[nextStepId]?.order ?? currentOrder + 1;
+          const nextQuestionData = getNextQuizStepData(
+            state.quizConfig,
+            nextStepId,
+          );
+
+          // Initialize next question's answer with its order
+          if (!answers[nextStepId]) {
+            answers[nextStepId] = {
+              title: "",
+              type: nextQuestionData.type,
+              answer: "",
+              order: nextOrder,
+            };
+          }
+
+          state.activeQuizStep = nextStepId;
         });
+
+        return nextStepId;
       },
 
       setEmail: (email) => {
@@ -136,19 +226,29 @@ export const useQuizStore = create<QuizStore>()(
         });
       },
 
-      goOneStepBack: () => {},
-
       t: (localizedString) => {
-        const quizId = get().activeQuizId;
-        if (!quizId || !localizedString) return "";
+        if (!localizedString) return "";
 
-        const lang = get().results[quizId]?.lang || "en";
-        return localizedString[lang] || localizedString["en"] || "";
+        const state = get();
+        const quizId = state.activeQuizId;
+
+        const lang = (quizId && state.results[quizId]?.lang) || "en";
+
+        return localizedString[lang] || localizedString.en || "";
       },
     })),
     {
       name: "quiz-storage",
-      partialize: (state) => ({ results: state.results }),
+      partialize: (state) => ({
+        results: state.results,
+        activeQuizId: state.activeQuizId,
+        activeQuizStep: state.activeQuizStep,
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state.hydrated = true;
+        }
+      },
     },
   ),
 );

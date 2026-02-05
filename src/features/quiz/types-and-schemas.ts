@@ -3,7 +3,9 @@ import { z } from "zod";
 /**
  * Localization Schemas
  */
-const LanguageSchema = z.enum(["en", "fr", "de", "es"]);
+const languageCodes = ["en", "fr", "de", "es"] as const;
+
+const LanguageSchema = z.enum(languageCodes);
 
 const LocalizedStringSchema = z.record(LanguageSchema, z.string());
 
@@ -74,6 +76,7 @@ export {
   QuizSchema,
   dynamicQuestionTypes,
   staticStepTypes,
+  languageCodes,
 };
 
 type TLanguage = z.infer<typeof LanguageSchema>;
@@ -84,6 +87,8 @@ type TCondition = z.infer<typeof ConditionSchema>;
 type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
+
+type TQuizStep = TQuizQuestion | TQuizStaticStep;
 
 export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
 
@@ -103,4 +108,5 @@ export type {
   TQuizQuestion,
   TQuiz,
   TQuizStaticStep,
+  TQuizStep,
 };

@@ -1,3 +1,6 @@
+"use client";
+
+import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import type {
   SelectHandler,
@@ -27,7 +30,6 @@ export function SingleSelectQuestion({
   handleSelect,
 }: SingleSelectQuestionProps) {
   const t = useQuizStore((state) => state.t);
-  const setAnswer = useQuizStore((state) => state.setAnswer);
   const activeQuizId = useQuizStore((state) => state.activeQuizId);
   const currentAnswer = useQuizStore(
     (state) =>
@@ -36,11 +38,7 @@ export function SingleSelectQuestion({
 
   return (
     <div className="space-y-6">
-      {/* Title and Description */}
-      <div className="space-y-2 text-center">
-        <h2 className="text-2xl font-bold text-white">{t(title)}</h2>
-        {description && <p className="text-grey-200">{t(description)}</p>}
-      </div>
+      <QuizTitleDescription title={t(title)} description={t(description)} />
 
       {/* Options */}
       <div className="space-y-3">

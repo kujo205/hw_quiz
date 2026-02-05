@@ -46,11 +46,15 @@ describe("evaluateNextQuizStep", () => {
   ) => ({ conditions, logic, nextQuestionId });
 
   const createAnswer = (
-    value: string | string[],
+    answer: string | string[],
     order: number = 0,
+    title: string = "Test Question",
+    type: string = "single-select",
   ): TQuizAnswer => ({
-    value,
+    answer,
     order,
+    title,
+    type,
   });
 
   describe("Static Steps", () => {

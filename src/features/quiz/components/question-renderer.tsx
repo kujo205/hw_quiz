@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { SingleSelectQuestion } from "@/features/quiz/components/single-select-question";
 import { useQuizStore } from "@/features/quiz/store";
+import { languageCodes } from "@/features/quiz/types-and-schemas";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
 import type {
   SelectHandler,
@@ -11,42 +12,40 @@ import type {
   TQuizStaticStep,
 } from "../types-and-schemas";
 
-interface Props {
-  stepData: TQuizStaticStep | TQuizQuestion;
-  quizId: string;
-  stepId: string;
-}
+export function QuestionRenderer() {
+  const quizId = useQuizStore((state) => state.activeQuizId);
+  const stepData = useQuizStore((state) => state.getCurrentStepData());
 
-export function QuestionRenderer({ stepData, stepId, quizId }: Props) {
   const setQuizData = useQuizStore((state) => state.setQuizData);
-  const getCurrentStepOrder = useQuizStore((state) => state.getCurrenStepOrder);
-  const setAnswer = useQuizStore((state) => state.setAnswer);
+  const setAnswerGetNextStepId = useQuizStore(
+    (state) => state.setAnswerGetNextStepId,
+  );
+  const setLanguage = useQuizStore((state) => state.setLanguage);
   const router = useRouter();
-  const qOrder = getCurrentStepOrder();
-
-  useEffect(() => {
-    setQuizData(quizId, stepId);
-  }, [quizId, stepId, setQuizData]);
 
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
-    setAnswer(questionId, val);
-
-    const nextStepId = evaluateNextQuizStep(
-      stepData,
-      useQuizStore.getState().getCurrentQuizAnswers(),
-    );
+    const nextStepId = setAnswerGetNextStepId(questionId, val);
 
     router.push(`/quiz/${quizId}/${nextStepId}`);
+
+    if (
+      questionId === "preferred-language" &&
+      languageCodes.includes(val.answer)
+    ) {
+      // @ts-expect-error-next-line: types too wide for ts
+      setLanguage(val.answer);
+    }
   };
 
   switch (stepData.type) {
     case "single-select": {
       const questionData = stepData as TQuizQuestion;
+
       return (
         <SingleSelectQuestion
           handleSelect={selectAnswerHandler}
           questionId={questionData.id}
-          order={qOrder}
+          order={questionData.order}
           title={questionData.texts.title}
           description={questionData.texts.description}
           options={questionData.options}

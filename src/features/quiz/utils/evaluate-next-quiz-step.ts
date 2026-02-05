@@ -50,7 +50,7 @@ function evaluateCondition(
   condition: TCondition,
   answers: Record<string, TQuizAnswer>,
 ): boolean {
-  const answer = answers[condition.questionId]?.value;
+  const answer = answers[condition.questionId]?.answer;
 
   switch (condition.operator) {
     case "NOT_EMPTY":

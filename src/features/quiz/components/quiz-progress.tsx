@@ -1,40 +1,53 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useQuizStore } from "@/features/quiz/store";
+import type { TQuiz } from "@/features/quiz/types-and-schemas";
 import { Button } from "@/shared/ui/button";
 
-interface QuizProgressProps {
-  totalSteps: number;
-}
+export function QuizProgress() {
+  const config = useQuizStore((state) => state.quizConfig);
 
-export function QuizProgress({ totalSteps }: QuizProgressProps) {
-  const { activeQuizId, getCurrenStepOrder } = useQuizStore();
+  const currentStepOrder = useQuizStore((state) =>
+    state.getCurrentStepOrderIndex(),
+  );
+  const quizId = useQuizStore((state) => state.activeQuizId);
+  const totalSteps = config.questions.length;
 
-  if (!activeQuizId) return null;
+  const router = useRouter();
 
-  const currentStep = getCurrenStepOrder();
+  const progress = (currentStepOrder / totalSteps) * 100;
 
-  const stepsWithEmail = totalSteps + 1;
+  const handleGoBack = () => {
+    // Find the question with order = currentStepOrder - 1
+    const previousQuestion = config.questions.find(
+      (q) => q.order === currentStepOrder - 1,
+    );
 
-  const progress = (currentStep / stepsWithEmail) * 100;
+    if (previousQuestion) {
+      router.push(`/quiz/${quizId}/${previousQuestion.id}`);
+    }
+  };
 
   return (
-    <div className="w-full space-y-2">
-      <div className="flex justify-between">
+    <div className="w-full mb-10 space-y-2">
+      <div className="flex h-10 items-center justify-between">
         {/* Go back button */}
-        {currentStep === 0 ? (
+        {currentStepOrder <= 1 ? (
           <span className="w-10"></span>
         ) : (
-          <Button variant="icon">
+          <Button variant="icon" onClick={handleGoBack}>
             <ChevronLeft size={24} />
           </Button>
         )}
 
         {/* Step counter */}
         <div className="text-center text-xl space-x-1 font-extrabold">
-          <span className="text-pink-main">{currentStep}</span>
+          <span className="text-pink-main">{currentStepOrder}</span>
+
           <span>/</span>
+
           <span>{totalSteps}</span>
         </div>
 
