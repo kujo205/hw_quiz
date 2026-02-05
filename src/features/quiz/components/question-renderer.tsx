@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { EmojiSelectQuestion } from "@/features/quiz/components/emoji-select-question";
-import { SingleSelectQuestion } from "@/features/quiz/components/single-select-question";
+import { EmojiSelectQuestion } from "@/features/quiz/components/quiz-steps/emoji-select-question";
+import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select";
+import { SingleSelectQuestion } from "@/features/quiz/components/quiz-steps/single-select-question";
 import { useQuizStore } from "@/features/quiz/store";
 import { languageCodes } from "@/features/quiz/types-and-schemas";
 import type { SelectHandler, TQuizQuestion } from "../types-and-schemas";
 
-// TODO: fix ts errors
 export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);
   const stepData = useQuizStore((state) => state.getCurrentStepData());
@@ -30,6 +30,7 @@ export function QuestionRenderer() {
       setLanguage(val.answer as any);
     }
 
+    // Затримка для анімації перед переходом
     setTimeout(() => {
       router.push(`/quiz/${quizId}/${nextStepId}`);
     }, 300);
@@ -71,9 +72,23 @@ export function QuestionRenderer() {
       );
     }
 
-    // Інші кейси (loader, email, thank-you) додаються аналогічно
+    case "multiple-select": {
+      const questionData = stepData as TQuizQuestion;
+
+      return (
+        <MultipleSelectQuestion
+          handleSelect={selectAnswerHandler}
+          questionId={questionData.id}
+          order={questionData.order}
+          title={questionData.texts.title}
+          description={questionData.texts.description}
+          options={questionData.options}
+        />
+      );
+    }
+
+    // Loader, Email та Thank-you будуть додані за таким же принципом
     case "bubble-select":
-    case "multiple-select":
     case "loader":
     case "email":
     case "thank-you":

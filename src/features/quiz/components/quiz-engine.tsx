@@ -11,7 +11,7 @@ import type {
 
 export default function QuizEngine() {
   return (
-    <main className="max-w-xl mx-auto py-8 px-4">
+    <main className="max-w-xl min-h-screen flex flex-col mx-auto py-8 px-4">
       <QuizProgress />
       <QuestionRenderer />
     </main>
