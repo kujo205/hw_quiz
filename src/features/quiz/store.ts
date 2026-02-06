@@ -11,6 +11,7 @@ import type {
 } from "@/features/quiz/types-and-schemas";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
+import { getIsStaticStep } from "@/features/quiz/utils/get-is-static-step";
 import { getNextQuizStepData } from "@/features/quiz/utils/get-next-quiz-step-data";
 
 interface QuizResult {
@@ -213,7 +214,8 @@ export const useQuizStore = create<QuizStore>()(
           );
 
           // Initialize next question's answer with its order
-          if (!answers[nextStepId]) {
+          // only if it is not a static step
+          if (!answers[nextStepId] && !getIsStaticStep(nextStepId)) {
             answers[nextStepId] = {
               title: "",
               type: nextQuestionData.type,

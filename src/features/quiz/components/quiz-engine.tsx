@@ -3,14 +3,12 @@
 import { QuestionRenderer } from "@/features/quiz/components/question-renderer";
 import { QuizProgress } from "@/features/quiz/components/quiz-progress";
 import { useQuizStore } from "@/features/quiz/store";
-import { staticStepTypes } from "@/features/quiz/types-and-schemas";
+import { getIsStaticStep } from "@/features/quiz/utils/get-is-static-step";
 import { cn } from "@/shared/utils/cn";
-
-const STATIC_STEPS = new Set<string>(staticStepTypes);
 
 export default function QuizEngine() {
   const isStaticStep = useQuizStore((state) =>
-    STATIC_STEPS.has(state.activeQuizStep),
+    getIsStaticStep(state.activeQuizStep),
   );
 
   return (

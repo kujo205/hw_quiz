@@ -1,5 +1,8 @@
+import {
+  quizStaticSteps,
+  testQuizDynamicQuestions,
+} from "@/features/quiz/services/quiz-data-items";
 import type { TQuiz } from "@/features/quiz/types-and-schemas";
-import { quizStaticSteps, testQuizDynamicQuestions } from "@/quiz-data-items";
 
 export const getQuizConfig = async (quizId: string): Promise<TQuiz | null> => {
   if (quizId === "test-quiz") {

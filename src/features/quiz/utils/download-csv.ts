@@ -14,7 +14,7 @@ export function downloadAnswersCSV(answers: TQuizAnswer[], email: string) {
       ].join(","),
     );
 
-  const emailRow = [6, "Email", "email", email].join(",");
+  const emailRow = [answers.length + 1, "Email", "email", email].join(",");
 
   const csvContent = [headers.join(","), ...rows, emailRow].join("\n");
 
