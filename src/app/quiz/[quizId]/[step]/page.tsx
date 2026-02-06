@@ -29,7 +29,7 @@ export default function Page() {
       }
       setQuizConfig(params.quizId, params.step);
     }
-  }, [hydrated, params.step, params.quizId, setQuizConfig]);
+  }, [hydrated, params.step, params.quizId, setQuizConfig, getRedirectStepIfWrongStep, router]);
 
   if (!hydrated || !currentStepData) {
     return <QuizSpinner />;

@@ -8,24 +8,41 @@ import type { TBranch } from "../types-and-schemas/quiz-branching";
 import { evaluateNextQuizStep } from "./evaluate-next-quiz-step";
 
 describe("evaluateNextQuizStep", () => {
-  const createStaticStep = (
-    type: "loader" | "email" | "thank-you",
+  const createLoaderStep = (
     defaultNextQuestionId: string | null = "next-step",
   ): TStaticStep => ({
-    id: `${type}-1`,
+    id: "loader-1",
     dataModel: {
-      type,
-      title: { en: "Title" },
-      ...(type === "email" && {
-        description: { en: "Description" },
-        placeholder: { en: "Placeholder" },
-        errorText: { en: "Error" },
-      }),
-      ...(type === "thank-you" && {
-        description: { en: "Description" },
-        downloadButtonText: { en: "Download" },
-        retakeButtonText: { en: "Retake" },
-      }),
+      type: "loader",
+      title: { en: "Title", fr: "Titre", de: "Titel", es: "Título" },
+    },
+    defaultNextQuestionId,
+  });
+
+  const createEmailStep = (
+    defaultNextQuestionId: string | null = "next-step",
+  ): TStaticStep => ({
+    id: "email-1",
+    dataModel: {
+      type: "email",
+      title: { en: "Title", fr: "Titre", de: "Titel", es: "Título" },
+      description: { en: "Description", fr: "Description", de: "Beschreibung", es: "Descripción" },
+      placeholder: { en: "Placeholder", fr: "Placeholder", de: "Platzhalter", es: "Marcador" },
+      errorText: { en: "Error", fr: "Erreur", de: "Fehler", es: "Error" },
+    },
+    defaultNextQuestionId,
+  });
+
+  const createThankYouStep = (
+    defaultNextQuestionId: string | null = "next-step",
+  ): TStaticStep => ({
+    id: "thank-you-1",
+    dataModel: {
+      type: "thank-you",
+      title: { en: "Title", fr: "Titre", de: "Titel", es: "Título" },
+      description: { en: "Description", fr: "Description", de: "Beschreibung", es: "Descripción" },
+      downloadButtonText: { en: "Download", fr: "Télécharger", de: "Herunterladen", es: "Descargar" },
+      retakeButtonText: { en: "Retake", fr: "Reprendre", de: "Wiederholen", es: "Repetir" },
     },
     defaultNextQuestionId,
   });
@@ -41,10 +58,10 @@ describe("evaluateNextQuizStep", () => {
     id: "question-1",
     dataModel: {
       type,
-      title: { en: "Test Question" },
+      title: { en: "Test Question", fr: "Question de test", de: "Testfrage", es: "Pregunta de prueba" },
       options: [
-        { label: { en: "Option A" }, value: "a", emoji: "🅰️" },
-        { label: { en: "Option B" }, value: "b", emoji: "🅱️" },
+        { label: { en: "Option A", fr: "Option A", de: "Option A", es: "Opción A" }, value: "a", emoji: "🅰️" },
+        { label: { en: "Option B", fr: "Option B", de: "Option B", es: "Opción B" }, value: "b", emoji: "🅱️" },
       ],
     },
     branches,
@@ -75,15 +92,15 @@ describe("evaluateNextQuizStep", () => {
 
   describe("Static Steps", () => {
     it("should return defaultNextQuestionId for static steps", () => {
-      const loaderStep = createStaticStep("loader", "question-1");
-      const emailStep = createStaticStep("email", "thank-you");
+      const loaderStep = createLoaderStep("question-1");
+      const emailStep = createEmailStep("thank-you");
 
       expect(evaluateNextQuizStep(loaderStep, {})).toBe("question-1");
       expect(evaluateNextQuizStep(emailStep, {})).toBe("thank-you");
     });
 
     it("should throw error when defaultNextQuestionId is null", () => {
-      const step = createStaticStep("thank-you", null);
+      const step = createThankYouStep(null);
 
       expect(() => evaluateNextQuizStep(step, {})).toThrow(
         'Static step "thank-you-1" has no defaultNextQuestionId defined.',

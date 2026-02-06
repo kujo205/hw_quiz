@@ -83,10 +83,8 @@ export const useQuizStore = create<QuizStore>()(
   persist(
     immer((set, get) => ({
       hydrated: false,
-      animationDirection: "right",
 
-      // These values are being set immediately after hydration in the quiz page, so they
-      // cannot be null
+      // These values are being set immediately after hydration in the quiz page
       activeQuizId: "none",
       activeQuizStep: "none",
 

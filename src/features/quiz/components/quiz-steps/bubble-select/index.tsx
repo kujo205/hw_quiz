@@ -38,7 +38,7 @@ export function BubbleSelect({
     );
   };
 
-  // 1. ЛОГІКА РОЗПОДІЛУ: 1 рядок якщо <= 4, інакше 2 рядки
+  // Layout logic: 1 row if <= 4 options, otherwise 2 rows
   const isSingleRow = dataModel.options.length <= 4;
   const maxPerRow = isSingleRow
     ? dataModel.options.length

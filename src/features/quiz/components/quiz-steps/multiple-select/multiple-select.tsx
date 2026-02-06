@@ -26,12 +26,12 @@ export function MultipleSelectQuestion({
 }: MultipleSelectQuestionProps) {
   const t = useQuizStore((state) => state.t);
 
-  // Отримуємо початкове значення зі стору (якщо воно є)
+  // Get initial value from store (if exists)
   const savedAnswer = useQuizStore((state) =>
     state.getQuestionAnswer(questionId),
   );
 
-  // Стейт для множинного вибору (масив значень)
+  // State for multiple selection (array of values)
   const [selectedValues, setSelectedValues] = useState<string[]>(
     splitStringOrReturnArray(savedAnswer),
   );
@@ -78,7 +78,7 @@ export function MultipleSelectQuestion({
                     {optionLabel}
                   </Button>
 
-                  {/* Кастомний чекбокс [cite: 44, 86] */}
+                  {/* Custom checkbox */}
                   <div
                     className={`absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded border-2 transition-all flex items-center justify-center pointer-events-none ${
                       isSelected

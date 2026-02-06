@@ -10,7 +10,7 @@ describe("checkQuizStepPresent", () => {
         id: "question-1",
         dataModel: {
           type: "single-select",
-          title: { en: "Test Question" },
+          title: { en: "Test Question", fr: "Question de test", de: "Testfrage", es: "Pregunta de prueba" },
           options: [],
         },
         branches: [],
@@ -22,7 +22,7 @@ describe("checkQuizStepPresent", () => {
         id: "loader-1",
         dataModel: {
           type: "loader",
-          title: { en: "Loading" },
+          title: { en: "Loading", fr: "Chargement", de: "Laden", es: "Cargando" },
         },
         defaultNextQuestionId: "next",
       },
@@ -63,7 +63,7 @@ describe("checkQuizStepPresent", () => {
           id: "question-1",
           dataModel: {
             type: "loader",
-            title: { en: "Loading" },
+            title: { en: "Loading", fr: "Chargement", de: "Laden", es: "Cargando" },
           },
           defaultNextQuestionId: null,
         },

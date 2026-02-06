@@ -69,7 +69,7 @@ function evaluateCondition(
       return false;
 
     default:
-      console.warn(`Unknown operator: ${condition.operator}`);
+      // Unknown operator - return false to skip this condition
       return false;
   }
 }
