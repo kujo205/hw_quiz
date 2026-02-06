@@ -3,26 +3,17 @@
 import { Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import type { TThankUStepData } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
+import type { z } from "zod";
+import type { ThankUStepDataSchema } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
 import { useQuizStore } from "@/features/quiz/store";
 import { downloadAnswersCSV } from "@/features/quiz/utils/download-csv";
 import { Button } from "@/shared/ui/button";
 
 interface ThankYouStepProps {
-  title: TLocalizedString;
-  description: TLocalizedString;
-  downloadButtonText: TLocalizedString;
-  retakeButtonText: TLocalizedString;
-
-  data: TThankUStepData;
+  dataModel: z.infer<typeof ThankUStepDataSchema>;
 }
 
-export function ThankYouStep({
-  title,
-  description,
-  downloadButtonText,
-  retakeButtonText,
-}: ThankYouStepProps) {
+export function ThankYouStep({ dataModel }: ThankYouStepProps) {
   const router = useRouter();
   const t = useQuizStore((state) => state.t);
 
@@ -41,10 +32,12 @@ export function ThankYouStep({
       <div className="flex animate-fade-in-up flex-col items-center space-y-16 mt-10">
         <div className="space-y-2 text-center">
           <h1 className="text-4xl font-niconne italic text-white ">
-            {t(title)}
+            {t(dataModel.title)}
           </h1>
 
-          <p className="text-white text-lg font-bold">{t(description)}</p>
+          <p className="text-white text-lg font-bold">
+            {t(dataModel.description)}
+          </p>
         </div>
 
         <Image alt="Check" width={140} height={140} src="/check.png" />
@@ -56,10 +49,10 @@ export function ThankYouStep({
           className="flex items-center justify-center gap-3 w-full text-white font-bold py-4 hover:opacity-80 transition-opacity"
         >
           <Download size={24} />
-          <span>{t(downloadButtonText)}</span>
+          <span>{t(dataModel.downloadButtonText)}</span>
         </button>
 
-        <Button onClick={handleRetake}>{t(retakeButtonText)}</Button>
+        <Button onClick={handleRetake}>{t(dataModel.retakeButtonText)}</Button>
       </div>
     </div>
   );

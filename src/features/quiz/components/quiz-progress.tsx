@@ -7,6 +7,7 @@ import { Button } from "@/shared/ui/button";
 
 export function QuizProgress() {
   const config = useQuizStore((state) => state.quizConfig);
+  const getAnswers = useQuizStore((state) => state.getCurrentQuizAnswers);
   const currentStepOrder = useQuizStore((state) =>
     state.getCurrentStepOrderIndex(),
   );
@@ -20,12 +21,18 @@ export function QuizProgress() {
   const progress = (currentStepOrder / (totalSteps + 1)) * 100;
 
   const handleGoBack = () => {
-    const previousQuestion = config.questions.find(
-      (q) => q.order === currentStepOrder - 1,
-    );
+    const answers = getAnswers();
 
-    if (previousQuestion) {
-      router.push(`/quiz/${quizId}/${previousQuestion.id}`);
+    let previousQuestionId = null;
+
+    for (const answersKey in answers) {
+      if (answers[answersKey].order === currentStepOrder - 1) {
+        previousQuestionId = answersKey;
+      }
+    }
+
+    if (previousQuestionId) {
+      router.push(`/quiz/${quizId}/${previousQuestionId}`);
     }
   };
 

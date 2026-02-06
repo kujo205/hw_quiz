@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { z } from "zod";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
-import type { TQuizLoaderData } from "./schema";
+import type { QuizLoaderDataSchema } from "./schema";
 
 interface LoaderProps {
-  title: TLocalizedString;
-  data: TQuizLoaderData;
+  dataModel: z.infer<typeof QuizLoaderDataSchema>;
   onComplete: (nextStepId: string) => void;
   nextStepId: string;
 }
 
 const LOADER_DURATION_MS = 5000;
 
-export function QuizLoader({ title, onComplete, nextStepId }: LoaderProps) {
+export function QuizLoader({ dataModel, onComplete, nextStepId }: LoaderProps) {
   const [progress, setProgress] = useState(0);
   const t = useQuizStore((state) => state.t);
 
@@ -79,7 +78,7 @@ export function QuizLoader({ title, onComplete, nextStepId }: LoaderProps) {
       </div>
 
       <p className="text-white text-xl font-bold text-center max-w-[250px]">
-        {t(title)}
+        {t(dataModel.title)}
       </p>
     </div>
   );

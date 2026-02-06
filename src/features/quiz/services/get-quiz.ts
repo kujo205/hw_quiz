@@ -1,16 +1,9 @@
-import {
-  quizStaticSteps,
-  testQuizDynamicQuestions,
-} from "@/features/quiz/services/quiz-data-items";
+import { tesTQuiz } from "@/features/quiz/services/quiz-data-items";
 import type { TQuiz } from "@/features/quiz/types-and-schemas";
 
 export const getQuizConfig = async (quizId: string): Promise<TQuiz | null> => {
   if (quizId === "test-quiz") {
-    return {
-      schemaVersion: "1.0",
-      questions: testQuizDynamicQuestions,
-      staticSteps: quizStaticSteps,
-    };
+    return tesTQuiz;
   }
   return null;
 };

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { BubbleSelect } from "@/features/quiz/components/quiz-steps/bubble-select";
-import { EmailStep } from "@/features/quiz/components/quiz-steps/email-step"; // Імпортуємо новий компонент
+import { EmailStep } from "@/features/quiz/components/quiz-steps/email-step";
 import { EmojiSelect } from "@/features/quiz/components/quiz-steps/emoji-select-question";
 import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select/multiple-select";
 import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
@@ -10,12 +10,15 @@ import { SingleSelect } from "@/features/quiz/components/quiz-steps/single-selec
 import { ThankYouStep } from "@/features/quiz/components/quiz-steps/thank-you-step";
 import { useQuizStore } from "@/features/quiz/store";
 import { languageCodes } from "@/features/quiz/types-and-schemas/localization";
-import type { SelectHandler, TQuizQuestion } from "../types-and-schemas";
+import type { SelectHandler } from "../types-and-schemas";
 
 export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);
   const stepData = useQuizStore((state) => state.getCurrentStepData());
   const setEmail = useQuizStore((state) => state.setEmail);
+  const getCurrentQuizAnswers = useQuizStore(
+    (state) => state.getCurrentQuizAnswers,
+  );
 
   const setAnswerGetNextStepId = useQuizStore(
     (state) => state.setAnswerGetNextStepId,
@@ -26,14 +29,11 @@ export function QuestionRenderer() {
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
     const nextStepId = setAnswerGetNextStepId(questionId, val);
 
-    // TODO: put in some constant && fix anys with @ts-expect-error code
     router.push(`/quiz/${quizId}/${nextStepId}`);
 
-    if (
-      questionId === "preferred-language" &&
-      languageCodes.includes(val.answer as any)
-    ) {
-      setLanguage(val.answer as any);
+    if (questionId === "preferred-language") {
+      const lang = String(val.answer);
+      setLanguage(lang);
     }
   };
 
@@ -48,119 +48,77 @@ export function QuestionRenderer() {
 
   if (!stepData) return null;
 
-  switch (stepData.type) {
-    case "single-select-question": {
-      const questionData = stepData as TQuizQuestion;
+  const order = getCurrentQuizAnswers()[stepData.id]?.order || 0;
+
+  switch (stepData.dataModel.type) {
+    case "single-select": {
       return (
         <SingleSelect
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
+          valueSelectHandler={selectAnswerHandler}
+          questionId={stepData.id}
+          order={order}
+          dataModel={stepData.dataModel}
         />
       );
     }
 
     case "single-select-question-emoji": {
-      const questionData = stepData as TQuizQuestion;
       return (
         <EmojiSelect
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          // @ts-expect-error-next-line
-          options={questionData.options}
+          valueSelectHandler={selectAnswerHandler}
+          questionId={stepData.id}
+          order={order}
+          dataModel={stepData.dataModel}
         />
       );
     }
 
     case "multiple-select": {
-      const questionData = stepData as TQuizQuestion;
       return (
         <MultipleSelectQuestion
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
+          valueSelectHandler={selectAnswerHandler}
+          questionId={stepData.id}
+          order={order}
+          dataModel={stepData.dataModel}
         />
       );
     }
 
     case "bubble-select": {
-      const questionData = stepData as TQuizQuestion;
       return (
         <BubbleSelect
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
+          valueSelectHandler={selectAnswerHandler}
+          questionId={stepData.id}
+          order={order}
+          dataModel={stepData.dataModel}
         />
       );
     }
 
     case "loader": {
-      const staticStep = stepData;
       return (
         <QuizLoader
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          nextStepId={staticStep.defaultNextQuestionId}
+          dataModel={stepData.dataModel}
+          nextStepId={stepData.defaultNextQuestionId || ""}
           onComplete={handleLoaderComplete}
         />
       );
     }
 
     case "email": {
-      // TODO: ADD VALIDATION HERE WITH ZOD
-      const staticStep = stepData;
       return (
         <EmailStep
           handleNext={(email) => {
-            // @ts-expect-error-next-line
-            emailSubmit(staticStep.defaultNextQuestionId, email);
+            emailSubmit(stepData.defaultNextQuestionId || "", email);
           }}
-          questionId={staticStep.id}
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          description={staticStep.texts.description}
-          // @ts-expect-error-next-line
-          placeholder={staticStep.texts.placeholder}
-          // @ts-expect-error-next-line
-          errorText={staticStep.texts.errorText}
-          nextStepId={staticStep.defaultNextQuestionId}
-          handleSubmit={selectAnswerHandler}
+          questionId={stepData.id}
+          dataModel={stepData.dataModel}
         />
       );
     }
 
     case "thank-you": {
-      const staticStep = stepData;
-      return (
-        <ThankYouStep
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          description={staticStep.texts.description}
-          // @ts-expect-error-next-line
-          downloadButtonText={staticStep.texts.downloadButton}
-          // @ts-expect-error-next-line
-          retakeButtonText={staticStep.texts.retakeButton}
-        />
-      );
+      return <ThankYouStep dataModel={stepData.dataModel} />;
     }
     default:
       return null;

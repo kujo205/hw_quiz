@@ -2,17 +2,21 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type {
-  TLanguage,
-  TLocalizedString,
   TQuiz,
   TQuizAnswer,
   TQuizAnswerRaw,
   TQuizStep,
 } from "@/features/quiz/types-and-schemas";
+import {
+  isLanguage,
+  type TLanguage,
+  type TLocalizedString,
+} from "@/features/quiz/types-and-schemas/localization";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
 import { getIsStaticStep } from "@/features/quiz/utils/get-is-static-step";
 import { getNextQuizStepData } from "@/features/quiz/utils/get-next-quiz-step-data";
+import { assert } from "@/shared/utils/assert";
 
 interface QuizResult {
   answers: Record<string, TQuizAnswer>;
@@ -45,7 +49,7 @@ interface QuizStore {
   setAnswerGetNextStepId: (questionId: string, val: TQuizAnswer) => string;
 
   //
-  getCurrentStepData: () => TQuizStep;
+  getCurrentStepData: () => TQuizStep | undefined;
 
   //
   getCurrentStepOrderIndex: () => number;
@@ -56,7 +60,7 @@ interface QuizStore {
   getEmail: () => string;
 
   // for i10n
-  setLanguage: (lang: TLanguage) => void;
+  setLanguage: (lang: string) => void;
 
   // nullify quiz results
   resetQuiz: () => void;
@@ -88,9 +92,9 @@ export const useQuizStore = create<QuizStore>()(
 
       results: {},
       quizConfig: {
-        schemaVersion: "1.0.0",
+        schemaVersion: "2.0",
         questions: [],
-        staticSteps: {},
+        staticSteps: [],
       },
 
       setQuizConfig: (quizConfig) => {
@@ -175,13 +179,20 @@ export const useQuizStore = create<QuizStore>()(
           if (!state.results[quizId]) {
             state.results[quizId] = { ...DEFAULT_QUIZ_RESULT };
           }
-          state.results[quizId].lang = lang;
+          if (isLanguage(lang)) {
+            state.results[quizId].lang = lang;
+          }
         });
       },
 
       setAnswerGetNextStepId: (questionId, val) => {
         const quizId = get().activeQuizId;
         const currentStepData = get().getCurrentStepData();
+
+        assert(
+          currentStepData,
+          "Current step data should be available when setting answer",
+        );
 
         const oldAnswers = get().getCurrentQuizAnswers();
 
@@ -198,16 +209,19 @@ export const useQuizStore = create<QuizStore>()(
           }
 
           // Save current question's answer with its order (if it's a question type)
+          const stateAnswers = state.results[quizId].answers;
           const currentOrder =
-            "order" in currentStepData ? currentStepData.order : 0;
-          state.results[quizId].answers[questionId] = {
+            "dataModel" in currentStepData
+              ? stateAnswers[questionId]?.order ||
+                Object.keys(stateAnswers).length
+              : 0;
+          stateAnswers[questionId] = {
             ...val,
             order: currentOrder,
           };
 
           // Get next step's order from existing answers or default to next index
-          const answers = state.results[quizId].answers;
-          const nextOrder = answers[nextStepId]?.order ?? currentOrder + 1;
+          const nextOrder = stateAnswers[nextStepId]?.order ?? currentOrder + 1;
           const nextQuestionData = getNextQuizStepData(
             state.quizConfig,
             nextStepId,
@@ -215,13 +229,15 @@ export const useQuizStore = create<QuizStore>()(
 
           // Initialize next question's answer with its order
           // only if it is not a static step
-          if (!answers[nextStepId] && !getIsStaticStep(nextStepId)) {
-            answers[nextStepId] = {
-              title: "",
-              type: nextQuestionData.type,
-              answer: "",
-              order: nextOrder,
-            };
+          if (!stateAnswers[nextStepId] && !getIsStaticStep(nextStepId)) {
+            if (nextQuestionData) {
+              stateAnswers[nextStepId] = {
+                title: "",
+                type: nextQuestionData.dataModel.type,
+                answer: "",
+                order: nextOrder,
+              };
+            }
           }
         });
 

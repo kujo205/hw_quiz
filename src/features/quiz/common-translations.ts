@@ -1,4 +1,4 @@
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas";
+import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 
 const nextButton = {
   en: "Next",
