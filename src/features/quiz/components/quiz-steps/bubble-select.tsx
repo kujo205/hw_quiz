@@ -62,7 +62,6 @@ export function BubbleSelect({
     <div className="flex gap-4 px-4 min-w-max justify-center">
       {rowOptions.map((option, idx) => {
         const isSelected = selectedValues.includes(option.value);
-        // Ефект зміщення
         const offset = idx % 2 === 0 ? "-translate-y-4" : "translate-y-4";
 
         return (
@@ -85,12 +84,13 @@ export function BubbleSelect({
     </div>
   );
 
+  const disabled = selectedValues.length === 0;
+
   return (
     <>
       <div className="flex animate-fade-in-up flex-col flex-1">
         <QuizTitleDescription title={t(title)} description={t(description)} />
 
-        {/* Контейнер для баблів */}
         <div className="flex-1 animate-fade-in-up flex flex-col justify-start pt-[15%] gap-8 overflow-x-auto no-scrollbar">
           {renderRow(row1)}
           {!isSingleRow && renderRow(row2)}
@@ -105,8 +105,8 @@ export function BubbleSelect({
             type: "bubble-select",
           })
         }
-        disabled={selectedValues.length === 0}
-        className={selectedValues.length === 0 ? "opacity-50" : "opacity-100"}
+        disabled={disabled}
+        className={disabled ? "opacity-50" : "opacity-100"}
       >
         {t(commonTranslations.nextButton)}
       </Button>

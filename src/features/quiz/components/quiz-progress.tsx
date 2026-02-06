@@ -7,19 +7,19 @@ import { Button } from "@/shared/ui/button";
 
 export function QuizProgress() {
   const config = useQuizStore((state) => state.quizConfig);
-
   const currentStepOrder = useQuizStore((state) =>
     state.getCurrentStepOrderIndex(),
   );
   const quizId = useQuizStore((state) => state.activeQuizId);
+
   const totalSteps = config.questions.length;
 
   const router = useRouter();
 
+  // + 1 bcs we don't wanna show a full progress bar when steps are e.g 5/5
   const progress = (currentStepOrder / (totalSteps + 1)) * 100;
 
   const handleGoBack = () => {
-    // Find the question with order = currentStepOrder - 1
     const previousQuestion = config.questions.find(
       (q) => q.order === currentStepOrder - 1,
     );

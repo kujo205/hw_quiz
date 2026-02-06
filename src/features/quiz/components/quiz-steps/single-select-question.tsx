@@ -55,7 +55,7 @@ export function SingleSelectQuestion({
                 handleSelect(questionId, {
                   answer: option.value,
                   order,
-                  title: t(title), // Для CSV зазвичай краще текст самого питання
+                  title: t(title), // i think may be better if localized
                   type: "single-select",
                 })
               }

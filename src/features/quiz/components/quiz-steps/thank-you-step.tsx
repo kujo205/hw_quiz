@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useQuizStore } from "@/features/quiz/store";

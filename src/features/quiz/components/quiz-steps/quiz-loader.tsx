@@ -37,7 +37,6 @@ export function QuizLoader({ title, onComplete, nextStepId }: LoaderProps) {
     return () => clearInterval(timer);
   }, [onComplete, nextStepId]);
 
-  // Розрахунок кола для SVG
   const radius = 120;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (progress / 100) * circumference;

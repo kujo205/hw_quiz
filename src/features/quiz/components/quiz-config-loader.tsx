@@ -8,12 +8,11 @@ interface QuizConfigLoaderProps {
   config: TQuiz;
 }
 
+// needed to load the quiz config in layout, so it's available to all pages
 export function QuizConfigLoader({ config }: QuizConfigLoaderProps) {
   const setConfig = useQuizStore((state) => state.setQuizConfig);
 
   useEffect(() => {
-    console.log("loading quiz config", config);
-
     setConfig(config);
   }, [config, setConfig]);
 
