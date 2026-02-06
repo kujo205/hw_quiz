@@ -86,31 +86,30 @@ export function BubbleSelect({
   );
 
   return (
-    <div className="flex flex-col flex-1 animate-in fade-in duration-500">
-      <QuizTitleDescription title={t(title)} description={t(description)} />
+    <>
+      <div className="flex animate-fade-in-up flex-col flex-1">
+        <QuizTitleDescription title={t(title)} description={t(description)} />
 
-      {/* Контейнер для баблів */}
-      <div className="flex-1 flex flex-col justify-center gap-8 overflow-x-auto no-scrollbar pt-0 pb-20">
-        {renderRow(row1)}
-        {!isSingleRow && renderRow(row2)}
+        {/* Контейнер для баблів */}
+        <div className="flex-1 animate-fade-in-up flex flex-col justify-start pt-[15%] gap-8 overflow-x-auto no-scrollbar">
+          {renderRow(row1)}
+          {!isSingleRow && renderRow(row2)}
+        </div>
       </div>
-
-      <div className="pt-8 pb-4">
-        <Button
-          onClick={() =>
-            handleSelect(questionId, {
-              answer: selectedValues,
-              order,
-              title: t(title),
-              type: "bubble-select",
-            })
-          }
-          disabled={selectedValues.length === 0}
-          className={selectedValues.length === 0 ? "opacity-50" : "opacity-100"}
-        >
-          {t(commonTranslations.nextButton)}
-        </Button>
-      </div>
-    </div>
+      <Button
+        onClick={() =>
+          handleSelect(questionId, {
+            answer: selectedValues,
+            order,
+            title: t(title),
+            type: "bubble-select",
+          })
+        }
+        disabled={selectedValues.length === 0}
+        className={selectedValues.length === 0 ? "opacity-50" : "opacity-100"}
+      >
+        {t(commonTranslations.nextButton)}
+      </Button>
+    </>
   );
 }

@@ -24,27 +24,15 @@
   --font-niconne: "Niconne", cursive;
   --font-sans: "Nunito Sans", sans-serif;
 
-  --animate-slide-in-right: slide-in-right 0.6s ease-out;
-  --animate-slide-in-left: slide-in-left 0.6s ease-out;
+  --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
 
-  @keyframes slide-in-left {
+  @keyframes fade-in-up {
     from {
-      transform: translateX(-100%);
+      transform: translateY(200px);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes slide-in-right {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
+      transform: translateY(0);
       opacity: 1;
     }
   }

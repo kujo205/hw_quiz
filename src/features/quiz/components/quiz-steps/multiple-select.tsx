@@ -66,10 +66,8 @@ export function MultipleSelectQuestion({
 
   return (
     <>
-      <QuizTitleDescription title={t(title)} description={t(description)} />
-
-      <div className="flex flex-col flex-1 animate-in fade-in duration-500">
-        {/* Контент займає весь доступний простір */}
+      <div className="flex flex-col animate-fade-in-up flex-1 ">
+        <QuizTitleDescription title={t(title)} description={t(description)} />
 
         <div className="flex-1 space-y-6">
           <div className="space-y-3">
@@ -105,14 +103,11 @@ export function MultipleSelectQuestion({
             })}
           </div>
         </div>
-
-        {/* Кнопка "Next" зафіксована внизу контейнера [cite: 61, 83] */}
-        <div className="pt-8 pb-4">
-          <Button onClick={onNextClick} disabled={selectedValues.length === 0}>
-            {t(commonTranslations.nextButton)}
-          </Button>
-        </div>
       </div>
+
+      <Button onClick={onNextClick} disabled={selectedValues.length === 0}>
+        {t(commonTranslations.nextButton)}
+      </Button>
     </>
   );
 }

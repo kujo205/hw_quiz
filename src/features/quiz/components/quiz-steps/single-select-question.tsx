@@ -37,7 +37,7 @@ export function SingleSelectQuestion({
   );
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <div className="space-y-6 animate-fade-in-up">
       <QuizTitleDescription title={t(title)} description={t(description)} />
 
       <div className="space-y-3">

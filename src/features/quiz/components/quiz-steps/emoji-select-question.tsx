@@ -38,7 +38,7 @@ export function EmojiSelectQuestion({
   );
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-500">
+    <div className="space-y-10 animate-in animate-fade-in-up duration-500">
       <QuizTitleDescription title={t(title)} description={t(description)} />
 
       <div className="grid grid-cols-3 gap-3 w-full">

@@ -66,14 +66,7 @@ interface QuizStore {
 
   // translation method
   t: (localizedString?: TLocalizedString) => string;
-
-  // needed for animation
-  animationDirection: TAnimationDirection;
-
-  setAnimationDirection: (direction: TAnimationDirection) => void;
 }
-
-type TAnimationDirection = "left" | "right";
 
 const DEFAULT_QUIZ_RESULT = {
   answers: {},
@@ -102,12 +95,6 @@ export const useQuizStore = create<QuizStore>()(
       setQuizConfig: (quizConfig) => {
         set((state) => {
           state.quizConfig = quizConfig;
-        });
-      },
-
-      setAnimationDirection: (direction: TAnimationDirection) => {
-        set((state) => {
-          state.animationDirection = direction;
         });
       },
 

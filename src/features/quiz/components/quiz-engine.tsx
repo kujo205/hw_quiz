@@ -13,15 +13,8 @@ export default function QuizEngine() {
     STATIC_STEPS.has(state.activeQuizStep),
   );
 
-  const animationDirection = useQuizStore((state) => state.animationDirection);
-
   return (
-    <main
-      className={cn("max-w-xl h-dvh flex flex-col mx-auto py-8 px-4", {
-        "animate-slide-in-left": animationDirection === "left",
-        "animate-slide-in-right": animationDirection === "right",
-      })}
-    >
+    <main className={cn("max-w-xl h-dvh flex flex-col mx-auto py-8 px-4")}>
       {!isStaticStep && <QuizProgress />}
       <QuestionRenderer />
     </main>
