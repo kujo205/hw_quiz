@@ -1,14 +1,15 @@
 import type { TQuiz } from "@/features/quiz/types-and-schemas";
 
+import { getNextQuizStepData } from "@/features/quiz/utils/get-next-quiz-step-data";
+
 /**
  * Check whether a quiz step (question or static step) exists in the quiz configuration.
  */
 export function checkQuizStepPresent(config: TQuiz, stepId: string) {
-  const question = config.questions.find((q) => q.id === stepId);
-  const staticStep = config.staticSteps[stepId];
+  const stepData = getNextQuizStepData(config, stepId);
 
   return {
-    exists: !!(question || staticStep),
-    stepData: question || staticStep,
+    exists: !!stepData,
+    stepData: stepData,
   };
 }
