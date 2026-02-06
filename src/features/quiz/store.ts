@@ -2,19 +2,21 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type {
-  TQuiz2,
+  TQuiz,
   TQuizAnswer,
   TQuizAnswerRaw,
-  TQuizStep2,
+  TQuizStep,
 } from "@/features/quiz/types-and-schemas";
-import type {
-  TLanguage,
-  TLocalizedString,
+import {
+  isLanguage,
+  type TLanguage,
+  type TLocalizedString,
 } from "@/features/quiz/types-and-schemas/localization";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
 import { getIsStaticStep } from "@/features/quiz/utils/get-is-static-step";
 import { getNextQuizStepData } from "@/features/quiz/utils/get-next-quiz-step-data";
+import { assert } from "@/shared/utils/assert";
 
 interface QuizResult {
   answers: Record<string, TQuizAnswer>;
@@ -31,10 +33,10 @@ interface QuizStore {
   activeQuizStep: string;
 
   //
-  quizConfig: TQuiz2;
+  quizConfig: TQuiz;
 
   //
-  setQuizConfig: (arg0: TQuiz2) => void;
+  setQuizConfig: (arg0: TQuiz) => void;
 
   getRedirectStepIfWrongStep: (stepId: string) => string | undefined;
 
@@ -47,7 +49,7 @@ interface QuizStore {
   setAnswerGetNextStepId: (questionId: string, val: TQuizAnswer) => string;
 
   //
-  getCurrentStepData: () => TQuizStep2;
+  getCurrentStepData: () => TQuizStep | undefined;
 
   //
   getCurrentStepOrderIndex: () => number;
@@ -58,7 +60,7 @@ interface QuizStore {
   getEmail: () => string;
 
   // for i10n
-  setLanguage: (lang: TLanguage) => void;
+  setLanguage: (lang: string) => void;
 
   // nullify quiz results
   resetQuiz: () => void;
@@ -177,13 +179,20 @@ export const useQuizStore = create<QuizStore>()(
           if (!state.results[quizId]) {
             state.results[quizId] = { ...DEFAULT_QUIZ_RESULT };
           }
-          state.results[quizId].lang = lang;
+          if (isLanguage(lang)) {
+            state.results[quizId].lang = lang;
+          }
         });
       },
 
       setAnswerGetNextStepId: (questionId, val) => {
         const quizId = get().activeQuizId;
         const currentStepData = get().getCurrentStepData();
+
+        assert(
+          currentStepData,
+          "Current step data should be available when setting answer",
+        );
 
         const oldAnswers = get().getCurrentQuizAnswers();
 

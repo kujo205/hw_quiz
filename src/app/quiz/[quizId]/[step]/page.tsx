@@ -31,10 +31,9 @@ export default function Page() {
     }
   }, [hydrated, params.step, params.quizId, setQuizConfig]);
 
-  if (!hydrated) {
+  if (!hydrated || !currentStepData) {
     return <QuizSpinner />;
   }
 
-  // this check is needed to avoid crashing when redirection from invalid step happens
-  return currentStepData && <QuizEngine />;
+  return <QuizEngine />;
 }

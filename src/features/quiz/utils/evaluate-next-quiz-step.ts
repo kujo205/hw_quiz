@@ -1,19 +1,12 @@
 import { assert } from "@/shared/utils/assert";
-import type {
-  TQuizAnswer,
-  TQuizStep2,
-  TStaticStep,
-} from "../types-and-schemas";
-import type { BranchSchema } from "../types-and-schemas/quiz-branching";
-
-type TBranch = typeof BranchSchema;
-type TCondition = TBranch["conditions"][number];
+import type { TQuizAnswer, TQuizStep, TStaticStep } from "../types-and-schemas";
+import type { TBranch, TCondition } from "../types-and-schemas/quiz-branching";
 
 /**
  * Evaluates the next quiz step based on current step data and answers
  */
 export function evaluateNextQuizStep(
-  stepData: TQuizStep2,
+  stepData: TQuizStep,
   answers: Record<string, TQuizAnswer>,
 ): string {
   if (isStaticStep(stepData)) {
@@ -86,7 +79,7 @@ function evaluateCondition(
  */
 const STATIC_STEP_TYPES = ["loader", "email", "thank-you"] as const;
 
-function isStaticStep(stepData: TQuizStep2): stepData is TStaticStep {
+function isStaticStep(stepData: TQuizStep): stepData is TStaticStep {
   return STATIC_STEP_TYPES.includes(
     stepData.dataModel.type as (typeof STATIC_STEP_TYPES)[number],
   );

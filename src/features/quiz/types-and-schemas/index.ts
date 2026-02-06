@@ -55,37 +55,24 @@ const QuestionSchema = BaseStepSchema.extend({
 
 const staticStepTypes = ["loader", "email", "thank-you"] as const;
 
-const StaticStepSchema = BaseStepSchema.extend({
-  type: z.enum(staticStepTypes),
-  defaultNextQuestionId: z.string().nullable(),
-});
-
 const staticDataSchemas = [
   QuizLoaderDataSchema,
   EmailStepDataSchema,
   ThankUStepDataSchema,
 ] as const;
 
-const StaticStepSchema2 = BaseStepSchema.extend({
+const StaticStepSchema = BaseStepSchema.extend({
   dataModel: z.discriminatedUnion("type", staticDataSchemas),
 });
 
 const QuizSchema = z.object({
   schemaVersion: z.string(),
-  questions: z.array(QuestionSchema),
-  staticSteps: z.record(z.string(), StaticStepSchema), // Екрани за ID
-});
-
-const QuizSchema2 = z.object({
-  schemaVersion: z.string(),
   questions: z.array(DynamicQuestionSchema),
-  staticSteps: z.array(StaticStepSchema2),
+  staticSteps: z.array(StaticStepSchema),
 });
 
 export {
   DynamicQuestionSchema,
-  StaticStepSchema2,
-  QuizSchema2,
   type BranchSchema,
   QuizSchema,
   dynamicQuestionTypes,
@@ -93,15 +80,13 @@ export {
 };
 
 type TQuizDynamicQuestion = z.infer<typeof DynamicQuestionSchema>;
-type TStaticStep = z.infer<typeof StaticStepSchema2>;
+type TStaticStep = z.infer<typeof StaticStepSchema>;
 
 type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
-type TQuiz2 = z.infer<typeof QuizSchema2>;
 
-type TQuizStep = TQuizQuestion | TQuizStaticStep;
-type TQuizStep2 = TQuizDynamicQuestion | TStaticStep;
+type TQuizStep = TQuizDynamicQuestion | TStaticStep;
 
 export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
 
@@ -117,10 +102,8 @@ export type TQuizAnswer = {
 export type {
   TQuizQuestion,
   TQuiz,
-  TQuiz2,
   TQuizStaticStep,
   TQuizStep,
-  TQuizStep2,
   TQuizDynamicQuestion,
   TStaticStep,
 };

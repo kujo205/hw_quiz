@@ -31,12 +31,9 @@ export function QuestionRenderer() {
 
     router.push(`/quiz/${quizId}/${nextStepId}`);
 
-    if (
-      questionId === "preferred-language" &&
-      typeof val.answer === "string" &&
-      languageCodes.includes(val.answer)
-    ) {
-      setLanguage(val.answer);
+    if (questionId === "preferred-language") {
+      const lang = String(val.answer);
+      setLanguage(lang);
     }
   };
 

@@ -6,6 +6,10 @@ const LanguageSchema = z.enum(languageCodes);
 
 const LocalizedStringSchema = z.record(LanguageSchema, z.string());
 
+export function isLanguage(value: string): value is TLanguage {
+  return languageCodes.includes(value as TLanguage);
+}
+
 type TLanguage = z.infer<typeof LanguageSchema>;
 type TLocalizedString = z.infer<typeof LocalizedStringSchema>;
 
