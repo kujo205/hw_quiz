@@ -7,6 +7,7 @@ import { EmojiSelectQuestion } from "@/features/quiz/components/quiz-steps/emoji
 import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select";
 import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
 import { SingleSelectQuestion } from "@/features/quiz/components/quiz-steps/single-select-question";
+import { ThankYouStep } from "@/features/quiz/components/quiz-steps/thank-you-step";
 import { useQuizStore } from "@/features/quiz/store";
 import { languageCodes } from "@/features/quiz/types-and-schemas";
 import type { SelectHandler, TQuizQuestion } from "../types-and-schemas";
@@ -147,7 +148,21 @@ export function QuestionRenderer() {
       );
     }
 
-    case "thank-you":
+    case "thank-you": {
+      const staticStep = stepData;
+      return (
+        <ThankYouStep
+          // @ts-expect-error-next-line
+          title={staticStep.texts.title}
+          // @ts-expect-error-next-line
+          description={staticStep.texts.description}
+          // @ts-expect-error-next-line
+          downloadButtonText={staticStep.texts.downloadButton}
+          // @ts-expect-error-next-line
+          retakeButtonText={staticStep.texts.retakeButton}
+        />
+      );
+    }
     default:
       return null;
   }

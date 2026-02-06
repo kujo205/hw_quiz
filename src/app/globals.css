@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Niconne&display=swap");
+
 @import "tailwindcss";
 
 :root {
@@ -19,6 +21,7 @@
   --color-pink-main: var(--pink-main);
   --color-pink-dimmed: var(--pink-dimmed);
 
+  --font-niconne: "Niconne", cursive;
   --font-sans: "Nunito Sans", sans-serif;
 }
 

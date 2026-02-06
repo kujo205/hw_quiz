@@ -410,10 +410,16 @@ export const quizStaticSteps = {
     type: "thank-you",
     texts: {
       title: {
-        en: "Thank you for supporting us!",
-        fr: "Merci de nous soutenir !",
-        de: "Vielen Dank для вашої підтримки!",
-        es: "¡Gracias por apoyarnos!",
+        en: "Thank you",
+        fr: "Merci",
+        de: "Vielen Dank",
+        es: "¡Gracias!",
+      },
+      description: {
+        en: "for supporting us and passing quiz! 🎉",
+        fr: "de nous soutenir et d'avoir réussi le quiz ! 🎉",
+        de: "für deine Unterstützung und das Bestehen des Quiz! 🎉",
+        es: "por apoyarnos y completar el cuestionario. 🎉",
       },
       downloadButton: {
         en: "Download my answers",
