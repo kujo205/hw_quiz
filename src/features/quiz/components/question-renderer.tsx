@@ -20,24 +20,26 @@ export function QuestionRenderer() {
   const setAnswerGetNextStepId = useQuizStore(
     (state) => state.setAnswerGetNextStepId,
   );
+  const setAnimationDirection = useQuizStore(
+    (state) => state.setAnimationDirection,
+  );
   const setLanguage = useQuizStore((state) => state.setLanguage);
   const router = useRouter();
 
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
     const nextStepId = setAnswerGetNextStepId(questionId, val);
 
+    setAnimationDirection("right");
+
     // TODO: put in some constant && fix anys with @ts-expect-error code
+    router.push(`/quiz/${quizId}/${nextStepId}`);
 
-    setTimeout(() => {
-      router.push(`/quiz/${quizId}/${nextStepId}`);
-
-      if (
-        questionId === "preferred-language" &&
-        languageCodes.includes(val.answer as any)
-      ) {
-        setLanguage(val.answer as any);
-      }
-    }, 200);
+    if (
+      questionId === "preferred-language" &&
+      languageCodes.includes(val.answer as any)
+    ) {
+      setLanguage(val.answer as any);
+    }
   };
 
   const handleLoaderComplete = (nextStepId: string) => {

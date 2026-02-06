@@ -12,6 +12,9 @@ export function QuizProgress() {
     state.getCurrentStepOrderIndex(),
   );
   const quizId = useQuizStore((state) => state.activeQuizId);
+  const setAnimationDirection = useQuizStore(
+    (state) => state.setAnimationDirection,
+  );
   const totalSteps = config.questions.length;
 
   const router = useRouter();
@@ -26,6 +29,8 @@ export function QuizProgress() {
 
     if (previousQuestion) {
       router.push(`/quiz/${quizId}/${previousQuestion.id}`);
+
+      setAnimationDirection("left");
     }
   };
 
