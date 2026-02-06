@@ -38,21 +38,6 @@ const DynamicQuestionSchema = BaseStepSchema.extend({
   defaultNextQuestionId: z.string(),
 });
 
-const QuestionSchema = BaseStepSchema.extend({
-  order: z.number(),
-  type: z.enum(dynamicQuestionTypes),
-  options: z.array(
-    z
-      .object({
-        label: LocalizedStringSchema,
-        value: z.string(),
-      })
-      .loose(),
-  ),
-  branches: z.array(BranchSchema),
-  defaultNextQuestionId: z.string(),
-});
-
 const staticStepTypes = ["loader", "email", "thank-you"] as const;
 
 const staticDataSchemas = [
@@ -81,9 +66,6 @@ export {
 
 type TQuizDynamicQuestion = z.infer<typeof DynamicQuestionSchema>;
 type TStaticStep = z.infer<typeof StaticStepSchema>;
-
-type TQuizQuestion = z.infer<typeof QuestionSchema>;
-type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
 type TQuizStep = TQuizDynamicQuestion | TStaticStep;
 
@@ -101,11 +83,4 @@ export type TQuizAnswer = {
   answer: string | string[];
 };
 
-export type {
-  TQuizQuestion,
-  TQuiz,
-  TQuizStaticStep,
-  TQuizStep,
-  TQuizDynamicQuestion,
-  TStaticStep,
-};
+export type { TQuiz, TQuizStep, TQuizDynamicQuestion, TStaticStep };

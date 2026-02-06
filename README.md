@@ -1,21 +1,23 @@
 # Quiz Application
 
-A modular, type-safe quiz application built with Next.js, React, and TypeScript.
-
-## 🚀 Quick Start
+A modular, type-safe quiz building application built with Next.js, React, and TypeScript.
 
 ### Installation
 
 ```bash
 git clone https://github.com/kujo205/hw_quiz.git
+
 cd hw_quiz
+
+npm install -g pnpm # if you don'h have pnpm installed globally
+
 pnpm install
 ```
 
 ### Development
 
 ```bash
-pnpm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
@@ -36,10 +38,7 @@ This project follows **FSD architecture** for maximum modularity and maintainabi
 ```
 /src
   /app                 # Next.js App Router
-  /entities            # Business entities (Quiz, Question, Answer)
-  /features            # User features (AnswerQuestion, ValidateEmail)
-  /widgets             # Composite blocks (QuizProgress, QuestionCard)
-  /shared              # Reusable code (UI, utils, config)
+  /features            # User features (quiz, etc)
 ```
 
 **Benefits:**
@@ -47,6 +46,7 @@ This project follows **FSD architecture** for maximum modularity and maintainabi
 - Easy to scale and maintain
 - Independent feature development
 - Reduced coupling between modules
+- Only pages can import stuff from features folder
 
 ### Quiz System Architecture
 
@@ -86,18 +86,70 @@ Quizzes are defined in JSON files. Example structure:
 
 **Quiz Creation Guide:**
 
-1. Create a new JSON file in `/shared/config/quizzes/`
-2. Define quiz metadata:
-   - `version`: Semantic version (e.g., "1.0.0")
-   - `type`: "static" or "dynamic"
-3. Add questions array with:
-   - `id`: Unique question identifier
-   - `type`: Question component type (see below)
-   - `title`: Localized question text (en, fr, de, es)
-   - `options`: Answer choices with localized text
-   - `next`: Next question ID or branching logic
-4. For branching: Use `next.branches` object mapping answers to question IDs
-5. See `/shared/config/quizzes/example-quiz.json` for complete reference
+1. Quizzes consist of 3 fields:
+
+```ts
+export const tesTQuiz: TQuiz = {
+  schemaVersion: "1.0", // semantic versioning for quiz data structure
+  questions: testQuizDynamicQuestions, // dynamic quiz questions, which come from API or JSON file, this steps will be shows under quiz progress
+  staticSteps: quizStaticSteps, // these steps are not usually changed, they come after quiz is finished (loader, email, thank-you step etc.)
+};
+
+```
+
+2. Create a new JSON file in `/src/features/quiz/services/quiz-data-items.ts` , start with dynamic quiz items:
+They have the following structure:
+```ts 
+const DynamicQuestionSchema = BaseStepSchema.extend({
+  id: z.string(), 
+  dataModel: z.discriminatedUnion("type", dynamicDataSchemas),
+  branches: z.array(BranchSchema),
+  defaultNextQuestionId: z.string(),
+});
+
+```
+2.1 You need to specify a data model - data model, specific for each quiz step, `step` field is required in such a data model
+and it is used to determine question type, depending on the data model you will add any dynamic questions you need
+with localization in place.
+
+There are 4 supported languages: English (en), French (fr), German (de) and Spanish (es).
+You can add more if needed, just make sure to update the localization system accordingly.
+
+2.2. You need to specify defaultNextQuestionId - the id of the next question
+if any of the branches conditions are not met.
+
+2.3 You can specify branching logic in `branches`.
+
+Study the example branching logic below:
+it has 2 conditions, connected by "OR" logic.
+
+1st condition means if "favorite-topics" step contains "romance" - next step is "romance-subgenre",
+2nd condition means if "favorite-topics" step contains "bad-boy" - next step is also "romance-subgenre".
+
+if at least one of these conditions are met - romance-subgenre step will be shown,
+if none of these conditions are met - next step will be determined by defaultNextQuestionId field.
+
+```ts
+    branches: [
+  {
+    conditions: [
+      {
+        questionId: "favorite-topics",
+        operator: "CONTAINS",
+        value: "romance",
+      },
+      {
+        questionId: "favorite-topics",
+        operator: "CONTAINS",
+        value: "bad-boy",
+      },
+    ],
+    logic: "OR",
+    nextQuestionId: "romance-subgenre",
+  },
+]
+
+```
 
 #### Versioning & Backward Compatibility
 
@@ -109,24 +161,17 @@ Each quiz has a `version` field following semantic versioning:
 }
 ```
 
-**Benefits:**
-- Update quiz structure without breaking existing user sessions
-- Migration system handles version differences
-- Users can complete old version if quiz updates mid-session
-- Version validators ensure data integrity
-
 **Version Strategy:**
 - **Major**: Breaking changes (1.x.x → 2.0.0)
 - **Minor**: New questions/features (1.1.x → 1.2.0)
-- **Patch**: Text/translation fixes (1.1.1 → 1.1.2)
 
 ### Adding New Quiz Steps (Question Types)
 
 **It's extremely easy to add new question types:**
 
-1. **Create component folder** in `/entities/question/ui/`:
+1. **Create component folder** in `/features/quiz/component/quiz-steps`:
 ```
-/entities/question/ui/RatingQuestion/
+/features/quiz/component/quiz-steps
   ├── RatingQuestion.tsx
   └── schema.ts          # ⚠️ REQUIRED
 ```
@@ -143,19 +188,31 @@ export const ratingQuestionSchema = z.object({
 export type RatingQuestionAnswer = z.infer<typeof ratingQuestionSchema>;
 ```
 
-3. **Register in question registry** (`/entities/question/model/registry.ts`):
+3. **Register in ** (`src/features/quiz/types-and-schemas/index.ts`):
 ```typescript
 import { ratingQuestionSchema } from '../ui/RatingQuestion/schema';
 
-export const questionSchemas = {
-  'single-select': singleSelectSchema,
-  'multiple-select': multipleSelectSchema,
-  'rating': ratingQuestionSchema,  // ← Add your schema
-};
+const dynamicQuestionTypes = [
+  "single-select-question",
+  "multiple-select",
+  "bubble-select",
+  "single-select-question-emoji",
+  "rating" // add this
+] as const;
+
+const dynamicDataSchemas = [
+  SingleSelectDataSchema,
+  MultipleSelectDataSchema,
+  BubbleSelectDataSchema,
+  EmojiSelectDataSchema,
+  ratingQuestionSchema // add this
+] as const;
 ```
+Then go to `src/features/quiz/components/question-renderer.tsx` and add your rendering logic for this question type.
+Don't forget to add `valueSelectHandler={selectAnswerHandler}` to your component
 
 **That's it!** The system automatically:
-- ✅ Validates answers with Zod schema
+- ✅ Pull this schema type to Quiz schema
 - ✅ Type-checks throughout the app
 - ✅ Handles serialization/deserialization
 - ✅ Supports branching logic
@@ -167,64 +224,23 @@ export const questionSchemas = {
 - **Modularity**: Each question type is self-contained
 - **Scalability**: Add unlimited question types without changing core logic
 
-### Type Safety with Zod
-
-All quiz data is validated using Zod schemas:
-
-```typescript
-// Automatic validation on answer submission
-const answerSchema = questionSchemas[question.type];
-const validatedAnswer = answerSchema.parse(userInput);
-```
-
-**Benefits:**
-- Runtime validation prevents invalid data
-- TypeScript inference from schemas
-- Consistent error handling
-- No manual type guards needed
-
-### Branching System
-
-Dynamic quizzes support conditional routing:
-
-```json
-{
-  "id": "3",
-  "next": {
-    "default": "5",
-    "branches": {
-      "18-25": "5a",  // Young users → custom topics
-      "26-40": "5b",
-      "41+": "5c"
-    }
-  }
-}
-```
-
-**Features:**
-- Answer-based routing
-- Multiple branch conditions
-- Fallback to default route
-- Unlimited branching depth
-
 ## 🛠️ Tech Stack
 
 ### Core
-- **Next.js 14** (App Router) - React framework with SSR
+- **Next.js 16** (App Router) - React framework with SSR
 - **TypeScript** - Type safety
 - **Zod** - Schema validation
 
 ### Styling
-- **CSS Modules** - Component-scoped styles
 - **Tailwind CSS** (optional) - Utility classes
 
 ### State Management
-- **React Context** - Global quiz state
+- **Zustand** - Global quiz state
 - **localStorage** - Persistence across refreshes
 
 ### Development
 - **ESLint** - Code linting
-- **Prettier** - Code formatting
+- **Biome** - Code formatting
 - **Husky** - Git hooks
 
 ## 🔄 CI/CD
@@ -233,24 +249,10 @@ Dynamic quizzes support conditional routing:
 
 **Continuous Integration** (`.github/workflows/ci.yml`):
 ```yaml
-- Lint code (ESLint)
-- Type check (TypeScript)
-- Run tests (Jest)
+- Lint code (Biome)
 - Build application
-- Validate quiz JSON schemas
+- Run tests (Vitest)
 ```
-
-**Deployment** (`.github/workflows/deploy.yml`):
-```yaml
-- Automatic deployment on push to main
-- Preview deployments for PRs
-- Production deployment with approval
-```
-
-**Triggers:**
-- Push to `main` → Deploy to production
-- Pull requests → Run tests + create preview
-- Manual workflow dispatch available
 
 ## 📦 Project Modularity
 
@@ -272,15 +274,6 @@ Dynamic quizzes support conditional routing:
 - Minimal merge conflicts
 - Easy to onboard new developers
 - Testable in isolation
-
-## 📝 Example Quiz Reference
-
-See `/shared/config/quizzes/example-quiz.json` for a complete quiz with:
-- Static and dynamic questions
-- Branching logic
-- All question types
-- Multi-language support
-- Proper versioning
 
 ---
 
