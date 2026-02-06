@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas";
+import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
+import type { TQuizLoaderData } from "./schema";
 
 interface LoaderProps {
   title: TLocalizedString;
+  data: TQuizLoaderData;
   onComplete: (nextStepId: string) => void;
   nextStepId: string;
 }

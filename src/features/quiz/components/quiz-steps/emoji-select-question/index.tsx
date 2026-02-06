@@ -2,11 +2,10 @@
 
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
-import type {
-  SelectHandler,
-  TLocalizedString,
-} from "@/features/quiz/types-and-schemas";
+import type { SelectHandler } from "@/features/quiz/types-and-schemas";
+import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
+import type { TEmojiSelectQuestionSchema } from "./schema";
 
 interface EmojiSelectOption {
   label: TLocalizedString;
@@ -15,6 +14,7 @@ interface EmojiSelectOption {
 }
 
 interface EmojiSelectQuestionProps {
+  data: TEmojiSelectQuestionSchema;
   questionId: string;
   title: TLocalizedString;
   description?: TLocalizedString;
@@ -23,7 +23,7 @@ interface EmojiSelectQuestionProps {
   handleSelect: SelectHandler;
 }
 
-export function EmojiSelectQuestion({
+export function EmojiSelect({
   questionId,
   title,
   description,
@@ -56,7 +56,7 @@ export function EmojiSelectQuestion({
                   answer: option.value,
                   order,
                   title: t(title),
-                  type: "single-select-emoji",
+                  type: "single-select-question-emoji",
                 })
               }
             >

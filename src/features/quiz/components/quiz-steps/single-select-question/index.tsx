@@ -2,10 +2,12 @@
 
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
+
 import type {
   SelectHandler,
   TLocalizedString,
-} from "@/features/quiz/types-and-schemas";
+} from "@/features/quiz/types-and-schemas/localization";
+
 import { Button } from "@/shared/ui/button";
 
 interface SingleSelectOption {
@@ -22,7 +24,7 @@ interface SingleSelectQuestionProps {
   handleSelect: SelectHandler;
 }
 
-export function SingleSelectQuestion({
+export function SingleSelect({
   questionId,
   title,
   description,
@@ -56,7 +58,7 @@ export function SingleSelectQuestion({
                   answer: option.value,
                   order,
                   title: t(title), // i think may be better if localized
-                  type: "single-select",
+                  type: "single-select-question",
                 })
               }
             >

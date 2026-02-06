@@ -18,7 +18,7 @@ describe("evaluateNextQuizStep", () => {
   });
 
   const createQuestion = (
-    type: TQuizQuestion["type"] = "single-select",
+    type: TQuizQuestion["type"] = "single-select-question",
     branches: TQuizQuestion["branches"] = [],
   ): TQuizQuestion => ({
     id: "question-1",
@@ -49,7 +49,7 @@ describe("evaluateNextQuizStep", () => {
     answer: string | string[],
     order: number = 0,
     title: string = "Test Question",
-    type: string = "single-select",
+    type: string = "single-select-question",
   ): TQuizAnswer => ({
     answer,
     order,
@@ -85,7 +85,7 @@ describe("evaluateNextQuizStep", () => {
 
   describe("EQUALS Operator", () => {
     it("should match single string value", () => {
-      const question = createQuestion("single-select", [
+      const question = createQuestion("single-select-question", [
         createBranch([{ questionId: "q1", operator: "EQUALS", value: "a" }]),
       ]);
 
@@ -128,7 +128,7 @@ describe("evaluateNextQuizStep", () => {
 
   describe("NOT_EMPTY Operator", () => {
     it("should validate non-empty string", () => {
-      const question = createQuestion("single-select", [
+      const question = createQuestion("single-select-question", [
         createBranch([{ questionId: "q1", operator: "NOT_EMPTY" }]),
       ]);
 
@@ -156,7 +156,7 @@ describe("evaluateNextQuizStep", () => {
 
   describe("Branch Logic", () => {
     it("should satisfy AND when all conditions are true", () => {
-      const question = createQuestion("single-select", [
+      const question = createQuestion("single-select-question", [
         createBranch([
           { questionId: "q1", operator: "EQUALS", value: "a" },
           { questionId: "q2", operator: "EQUALS", value: "b" },
@@ -178,7 +178,7 @@ describe("evaluateNextQuizStep", () => {
     });
 
     it("should satisfy OR when at least one condition is true", () => {
-      const question = createQuestion("single-select", [
+      const question = createQuestion("single-select-question", [
         createBranch(
           [
             { questionId: "q1", operator: "EQUALS", value: "a" },
@@ -205,7 +205,7 @@ describe("evaluateNextQuizStep", () => {
 
   describe("Multiple Branches", () => {
     it("should return first matching branch", () => {
-      const question = createQuestion("single-select", [
+      const question = createQuestion("single-select-question", [
         createBranch(
           [{ questionId: "q1", operator: "EQUALS", value: "a" }],
           "AND",

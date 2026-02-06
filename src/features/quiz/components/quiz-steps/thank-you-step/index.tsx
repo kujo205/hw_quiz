@@ -3,8 +3,8 @@
 import { Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import type { TThankUStepData } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas";
 import { downloadAnswersCSV } from "@/features/quiz/utils/download-csv";
 import { Button } from "@/shared/ui/button";
 
@@ -13,6 +13,8 @@ interface ThankYouStepProps {
   description: TLocalizedString;
   downloadButtonText: TLocalizedString;
   retakeButtonText: TLocalizedString;
+
+  data: TThankUStepData;
 }
 
 export function ThankYouStep({

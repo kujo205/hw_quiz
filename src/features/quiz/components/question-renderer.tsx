@@ -3,13 +3,13 @@
 import { useRouter } from "next/navigation";
 import { BubbleSelect } from "@/features/quiz/components/quiz-steps/bubble-select";
 import { EmailStep } from "@/features/quiz/components/quiz-steps/email-step"; // Імпортуємо новий компонент
-import { EmojiSelectQuestion } from "@/features/quiz/components/quiz-steps/emoji-select-question";
-import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select";
+import { EmojiSelect } from "@/features/quiz/components/quiz-steps/emoji-select-question";
+import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/multiple-select/multiple-select";
 import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
-import { SingleSelectQuestion } from "@/features/quiz/components/quiz-steps/single-select-question";
+import { SingleSelect } from "@/features/quiz/components/quiz-steps/single-select-question";
 import { ThankYouStep } from "@/features/quiz/components/quiz-steps/thank-you-step";
 import { useQuizStore } from "@/features/quiz/store";
-import { languageCodes } from "@/features/quiz/types-and-schemas";
+import { languageCodes } from "@/features/quiz/types-and-schemas/localization";
 import type { SelectHandler, TQuizQuestion } from "../types-and-schemas";
 
 export function QuestionRenderer() {
@@ -49,10 +49,10 @@ export function QuestionRenderer() {
   if (!stepData) return null;
 
   switch (stepData.type) {
-    case "single-select": {
+    case "single-select-question": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <SingleSelectQuestion
+        <SingleSelect
           handleSelect={selectAnswerHandler}
           questionId={questionData.id}
           order={questionData.order}
@@ -64,10 +64,10 @@ export function QuestionRenderer() {
       );
     }
 
-    case "single-select-emoji": {
+    case "single-select-question-emoji": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <EmojiSelectQuestion
+        <EmojiSelect
           handleSelect={selectAnswerHandler}
           questionId={questionData.id}
           order={questionData.order}

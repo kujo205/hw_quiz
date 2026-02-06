@@ -5,13 +5,11 @@ import { useState } from "react";
 import { commonTranslations } from "@/features/quiz/common-translations";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
-import type {
-  SelectHandler,
-  TLocalizedString,
-} from "@/features/quiz/types-and-schemas";
+import type { SelectHandler } from "@/features/quiz/types-and-schemas";
+import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
-
 import { splitStringOrReturnArray } from "@/shared/utils/split-string-or-return-array";
+import type { TMultipleSelectData } from "./schema";
 
 interface MultipleSelectOption {
   label: TLocalizedString;
@@ -19,6 +17,7 @@ interface MultipleSelectOption {
 }
 
 interface MultipleSelectQuestionProps {
+  data: TMultipleSelectData;
   questionId: string;
   title: TLocalizedString;
   description?: TLocalizedString;

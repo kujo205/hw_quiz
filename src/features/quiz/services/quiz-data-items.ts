@@ -1,10 +1,13 @@
-import type { TQuiz, TQuizQuestion } from "@/features/quiz/types-and-schemas";
+import type {
+  TQuiz,
+  TQuizQuestion,
+} from "@/features/quiz/types-and-schemas/index";
 
 export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "preferred-language",
     order: 1,
-    type: "single-select",
+    type: "single-select-question",
     texts: {
       title: {
         en: "What is your preferred language?",
@@ -48,7 +51,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "gender-identity",
     order: 2,
-    type: "single-select-emoji",
+    type: "single-select-question-emoji",
     texts: {
       title: {
         en: "What gender do you identify with?",
@@ -95,7 +98,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "reading-goals",
     order: 3,
-    type: "single-select",
+    type: "single-select-question",
     texts: {
       title: {
         en: "What is your main goal for reading?",
@@ -130,7 +133,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "age-group",
     order: 4,
-    type: "single-select",
+    type: "single-select-question",
     texts: {
       title: {
         en: "What is your age?",
@@ -327,7 +330,7 @@ export const testQuizDynamicQuestions: TQuizQuestion[] = [
   {
     id: "romance-subgenre",
     order: 7,
-    type: "single-select",
+    type: "single-select-question",
     texts: {
       title: {
         en: "Which romance subgenre do you prefer?",

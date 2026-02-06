@@ -9,7 +9,7 @@ describe("checkQuizStepPresent", () => {
       {
         id: "question-1",
         order: 1,
-        type: "single-select",
+        type: "single-select-question",
         texts: {},
         options: [],
         branches: [],
@@ -32,7 +32,7 @@ describe("checkQuizStepPresent", () => {
 
     expect(result.exists).toBe(true);
     expect(result.stepData?.id).toBe("question-1");
-    expect(result.stepData?.type).toBe("single-select");
+    expect(result.stepData?.type).toBe("single-select-question");
   });
 
   it("should find existing static step", () => {
@@ -67,6 +67,6 @@ describe("checkQuizStepPresent", () => {
 
     const result = checkQuizStepPresent(quiz, "question-1");
 
-    expect(result.stepData?.type).toBe("single-select");
+    expect(result.stepData?.type).toBe("single-select-question");
   });
 });

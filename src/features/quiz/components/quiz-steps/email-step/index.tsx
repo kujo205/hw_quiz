@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { z } from "zod";
 import { commonTranslations } from "@/features/quiz/common-translations";
+import type { TEmailStepData } from "@/features/quiz/components/quiz-steps/email-step/schema";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas";
+import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 
@@ -18,6 +19,8 @@ interface EmailStepProps {
   placeholder: TLocalizedString;
   errorText: TLocalizedString;
   handleNext: (email: string) => void;
+
+  data: TEmailStepData;
 }
 
 export function EmailStep({
