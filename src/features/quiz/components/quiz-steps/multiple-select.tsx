@@ -42,7 +42,11 @@ export function MultipleSelectQuestion({
 
   // Стейт для множинного вибору (масив значень)
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    typeof savedAnswer === "string" ? savedAnswer.split(", ") : savedAnswer,
+    typeof savedAnswer === "string"
+      ? savedAnswer.split(", ")
+      : savedAnswer
+        ? savedAnswer
+        : [],
   );
 
   const toggleOption = (value: string) => {
