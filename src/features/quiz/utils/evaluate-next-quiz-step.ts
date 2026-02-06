@@ -1,4 +1,5 @@
 import { assert } from "@/shared/utils/assert";
+import { STATIC_STEP_TYPES } from "../constants";
 import type { TQuizAnswer, TQuizStep, TStaticStep } from "../types-and-schemas";
 import type { TBranch, TCondition } from "../types-and-schemas/quiz-branching";
 
@@ -77,8 +78,6 @@ function evaluateCondition(
 /**
  * Type guard to check if stepData is a static step
  */
-const STATIC_STEP_TYPES = ["loader", "email", "thank-you"] as const;
-
 function isStaticStep(stepData: TQuizStep): stepData is TStaticStep {
   return STATIC_STEP_TYPES.includes(
     stepData.dataModel.type as (typeof STATIC_STEP_TYPES)[number],

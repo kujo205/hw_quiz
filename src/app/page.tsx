@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
+import { DEFAULT_INITIAL_STEP, QUIZ_IDS } from "@/features/quiz/constants";
 
 export default function Home() {
   /**
-   * Redirect to some quiz directly
+   * Redirect to demo quiz
    * NOTE: for demo purposes only
    */
-  redirect("/quiz/test-quiz/1");
+  redirect(`/quiz/${QUIZ_IDS.TEST}/${DEFAULT_INITIAL_STEP}`);
 }

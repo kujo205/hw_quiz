@@ -1,3 +1,4 @@
+import { QUIZ_RESULTS_CSV_FILENAME } from "@/features/quiz/constants";
 import type { TQuizAnswer } from "@/features/quiz/types-and-schemas";
 
 export function downloadAnswersCSV(answers: TQuizAnswer[], email: string) {
@@ -23,7 +24,7 @@ export function downloadAnswersCSV(answers: TQuizAnswer[], email: string) {
 
   const link = document.createElement("a");
   link.setAttribute("href", url);
-  link.setAttribute("download", "quiz_results.csv");
+  link.setAttribute("download", QUIZ_RESULTS_CSV_FILENAME);
   link.click();
 
   URL.revokeObjectURL(url);

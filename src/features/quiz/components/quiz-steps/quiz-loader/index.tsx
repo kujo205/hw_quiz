@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { z } from "zod";
+import { DEFAULT_LOADER_DURATION_MS } from "@/features/quiz/constants";
 import { useQuizStore } from "@/features/quiz/store";
 import type { QuizLoaderDataSchema } from "./schema";
 
@@ -10,8 +11,6 @@ interface LoaderProps {
   onComplete: (nextStepId: string) => void;
   nextStepId: string;
 }
-
-const LOADER_DURATION_MS = 5000;
 
 export function QuizLoader({ dataModel, onComplete, nextStepId }: LoaderProps) {
   const [progress, setProgress] = useState(0);
@@ -23,7 +22,7 @@ export function QuizLoader({ dataModel, onComplete, nextStepId }: LoaderProps) {
     const timer = setInterval(() => {
       const timePassed = Date.now() - startTime;
       const currentProgress = Math.min(
-        (timePassed / LOADER_DURATION_MS) * 100,
+        (timePassed / DEFAULT_LOADER_DURATION_MS) * 100,
         100,
       );
 
