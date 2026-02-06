@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { z } from "zod";
 import { commonTranslations } from "@/features/quiz/common-translations";
-import type { EmailStepDataSchema } from "@/features/quiz/components/quiz-steps/email-step/schema";
+import type { TEmailStepData } from "@/features/quiz/components/quiz-steps/email-step/schema";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 
-const emailSchema = z.string().email();
+const emailSchema = z.email();
 
 interface EmailStepProps {
   questionId: string;
-  dataModel: z.infer<typeof EmailStepDataSchema>;
+  dataModel: TEmailStepData;
   handleNext: (email: string) => void;
 }
 
@@ -22,7 +22,6 @@ export function EmailStep({ dataModel, handleNext }: EmailStepProps) {
   const setEmail = useQuizStore((state) => state.setEmail);
   const email = useQuizStore((state) => state.getEmail());
 
-  // const [email, setEmail] = useState("");
   const [isDirty, setIsDirty] = useState(false);
 
   const validation = emailSchema.safeParse(email);

@@ -9,8 +9,7 @@ import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
 import { SingleSelect } from "@/features/quiz/components/quiz-steps/single-select-question";
 import { ThankYouStep } from "@/features/quiz/components/quiz-steps/thank-you-step";
 import { useQuizStore } from "@/features/quiz/store";
-import { languageCodes } from "@/features/quiz/types-and-schemas/localization";
-import type { SelectHandler } from "../types-and-schemas";
+import type { SelectHandler } from "@/features/quiz/types-and-schemas";
 
 export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);

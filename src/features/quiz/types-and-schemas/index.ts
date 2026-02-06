@@ -85,8 +85,10 @@ type TStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
-
 type TQuizStep = TQuizDynamicQuestion | TStaticStep;
+
+export type TQuizStaticStepValue = (typeof staticStepTypes)[number];
+export type TDynamicStepValue = (typeof dynamicQuestionTypes)[number];
 
 export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
 

@@ -8,22 +8,25 @@ describe("checkQuizStepPresent", () => {
     questions: [
       {
         id: "question-1",
-        order: 1,
-        type: "single-select-question",
-        texts: {},
-        options: [],
+        dataModel: {
+          type: "single-select",
+          title: { en: "Test Question" },
+          options: [],
+        },
         branches: [],
         defaultNextQuestionId: "next",
       },
     ],
-    staticSteps: {
-      "loader-1": {
+    staticSteps: [
+      {
         id: "loader-1",
-        type: "loader",
-        texts: {},
+        dataModel: {
+          type: "loader",
+          title: { en: "Loading" },
+        },
         defaultNextQuestionId: "next",
       },
-    },
+    ],
   });
 
   it("should find existing question", () => {
@@ -32,7 +35,7 @@ describe("checkQuizStepPresent", () => {
 
     expect(result.exists).toBe(true);
     expect(result.stepData?.id).toBe("question-1");
-    expect(result.stepData?.type).toBe("single-select-question");
+    expect(result.stepData?.dataModel.type).toBe("single-select");
   });
 
   it("should find existing static step", () => {
@@ -41,7 +44,7 @@ describe("checkQuizStepPresent", () => {
 
     expect(result.exists).toBe(true);
     expect(result.stepData?.id).toBe("loader-1");
-    expect(result.stepData?.type).toBe("loader");
+    expect(result.stepData?.dataModel.type).toBe("loader");
   });
 
   it("should return false for non-existent step", () => {
@@ -55,18 +58,20 @@ describe("checkQuizStepPresent", () => {
   it("should prioritize question over static step with same id", () => {
     const quiz: TQuiz = {
       ...createQuiz(),
-      staticSteps: {
-        "question-1": {
+      staticSteps: [
+        {
           id: "question-1",
-          type: "loader",
-          texts: {},
+          dataModel: {
+            type: "loader",
+            title: { en: "Loading" },
+          },
           defaultNextQuestionId: null,
         },
-      },
+      ],
     };
 
     const result = checkQuizStepPresent(quiz, "question-1");
 
-    expect(result.stepData?.type).toBe("single-select-question");
+    expect(result.stepData?.dataModel.type).toBe("single-select");
   });
 });
