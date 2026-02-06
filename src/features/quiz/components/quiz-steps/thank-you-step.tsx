@@ -35,7 +35,7 @@ export function ThankYouStep({
   };
 
   return (
-    <div className="flex flex-col items-center justify-between flex-1 py-12 animate-in fade-in zoom-in duration-700">
+    <div className="flex flex-col items-center justify-between flex-1 py-12">
       <div className="flex flex-col items-center space-y-16 mt-10">
         <div className="space-y-2 text-center">
           <h1 className="text-4xl font-niconne italic text-white ">

@@ -85,7 +85,7 @@ export function BubbleSelect({
   );
 
   return (
-    <div className="flex flex-col flex-1 animate-in fade-in duration-500">
+    <div className="flex flex-col flex-1">
       <QuizTitleDescription title={t(title)} description={t(description)} />
 
       {/* Контейнер для баблів */}

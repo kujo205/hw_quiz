@@ -53,74 +53,84 @@ export function QuestionRenderer() {
     case "single-select": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <SingleSelectQuestion
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
-        />
+        <div className="animate-slide-in-right">
+          <SingleSelectQuestion
+            handleSelect={selectAnswerHandler}
+            questionId={questionData.id}
+            order={questionData.order}
+            // @ts-expect-error-next-line
+            title={questionData.texts.title}
+            description={questionData.texts.description}
+            options={questionData.options}
+          />
+        </div>
       );
     }
 
     case "single-select-emoji": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <EmojiSelectQuestion
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          // @ts-expect-error-next-line
-          options={questionData.options}
-        />
+        <div className="animate-slide-in-right">
+          <EmojiSelectQuestion
+            handleSelect={selectAnswerHandler}
+            questionId={questionData.id}
+            order={questionData.order}
+            // @ts-expect-error-next-line
+            title={questionData.texts.title}
+            description={questionData.texts.description}
+            // @ts-expect-error-next-line
+            options={questionData.options}
+          />
+        </div>
       );
     }
 
     case "multiple-select": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <MultipleSelectQuestion
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
-        />
+        <div className="animate-slide-in-right">
+          <MultipleSelectQuestion
+            handleSelect={selectAnswerHandler}
+            questionId={questionData.id}
+            order={questionData.order}
+            // @ts-expect-error-next-line
+            title={questionData.texts.title}
+            description={questionData.texts.description}
+            options={questionData.options}
+          />
+        </div>
       );
     }
 
     case "bubble-select": {
       const questionData = stepData as TQuizQuestion;
       return (
-        <BubbleSelect
-          handleSelect={selectAnswerHandler}
-          questionId={questionData.id}
-          order={questionData.order}
-          // @ts-expect-error-next-line
-          title={questionData.texts.title}
-          description={questionData.texts.description}
-          options={questionData.options}
-        />
+        <div className="animate-slide-in-right">
+          <BubbleSelect
+            handleSelect={selectAnswerHandler}
+            questionId={questionData.id}
+            order={questionData.order}
+            // @ts-expect-error-next-line
+            title={questionData.texts.title}
+            description={questionData.texts.description}
+            options={questionData.options}
+          />
+        </div>
       );
     }
 
     case "loader": {
       const staticStep = stepData;
       return (
-        <QuizLoader
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          nextStepId={staticStep.defaultNextQuestionId}
-          onComplete={handleLoaderComplete}
-        />
+        <div className="animate-fade-scale-in">
+          <QuizLoader
+            // @ts-expect-error-next-line
+            title={staticStep.texts.title}
+            // @ts-expect-error-next-line
+            nextStepId={staticStep.defaultNextQuestionId}
+            onComplete={handleLoaderComplete}
+          />
+        </div>
       );
     }
 
@@ -128,39 +138,43 @@ export function QuestionRenderer() {
       // TODO: ADD VALIDATION HERE WITH ZOD
       const staticStep = stepData;
       return (
-        <EmailStep
-          handleNext={(email) => {
+        <div className="animate-slide-in-right">
+          <EmailStep
+            handleNext={(email) => {
+              // @ts-expect-error-next-line
+              emailSubmit(staticStep.defaultNextQuestionId, email);
+            }}
+            questionId={staticStep.id}
             // @ts-expect-error-next-line
-            emailSubmit(staticStep.defaultNextQuestionId, email);
-          }}
-          questionId={staticStep.id}
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          description={staticStep.texts.description}
-          // @ts-expect-error-next-line
-          placeholder={staticStep.texts.placeholder}
-          // @ts-expect-error-next-line
-          errorText={staticStep.texts.errorText}
-          nextStepId={staticStep.defaultNextQuestionId}
-          handleSubmit={selectAnswerHandler}
-        />
+            title={staticStep.texts.title}
+            // @ts-expect-error-next-line
+            description={staticStep.texts.description}
+            // @ts-expect-error-next-line
+            placeholder={staticStep.texts.placeholder}
+            // @ts-expect-error-next-line
+            errorText={staticStep.texts.errorText}
+            nextStepId={staticStep.defaultNextQuestionId}
+            handleSubmit={selectAnswerHandler}
+          />
+        </div>
       );
     }
 
     case "thank-you": {
       const staticStep = stepData;
       return (
-        <ThankYouStep
-          // @ts-expect-error-next-line
-          title={staticStep.texts.title}
-          // @ts-expect-error-next-line
-          description={staticStep.texts.description}
-          // @ts-expect-error-next-line
-          downloadButtonText={staticStep.texts.downloadButton}
-          // @ts-expect-error-next-line
-          retakeButtonText={staticStep.texts.retakeButton}
-        />
+        <div className="animate-fade-scale-in">
+          <ThankYouStep
+            // @ts-expect-error-next-line
+            title={staticStep.texts.title}
+            // @ts-expect-error-next-line
+            description={staticStep.texts.description}
+            // @ts-expect-error-next-line
+            downloadButtonText={staticStep.texts.downloadButton}
+            // @ts-expect-error-next-line
+            retakeButtonText={staticStep.texts.retakeButton}
+          />
+        </div>
       );
     }
     default:

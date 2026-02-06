@@ -43,7 +43,7 @@ export function QuizLoader({ title, onComplete, nextStepId }: LoaderProps) {
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center flex-1 space-y-12 animate-in fade-in duration-700">
+    <div className="flex flex-col items-center justify-center flex-1 space-y-12">
       <div className="relative flex items-center justify-center">
         <svg className="transform -rotate-90 w-64 h-64">
           <title>progress</title>

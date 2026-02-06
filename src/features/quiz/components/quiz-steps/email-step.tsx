@@ -48,7 +48,7 @@ export function EmailStep({
   };
 
   return (
-    <div className="flex flex-col flex-1 animate-in fade-in duration-500">
+    <div className="flex flex-col flex-1">
       <div className="flex-1 mt-20 space-y-10">
         <QuizTitleDescription title={t(title)} description={t(description)} />
 

@@ -66,7 +66,7 @@ export function MultipleSelectQuestion({
     <>
       <QuizTitleDescription title={t(title)} description={t(description)} />
 
-      <div className="flex flex-col flex-1 animate-in fade-in duration-500">
+      <div className="flex flex-col flex-1">
         {/* Контент займає весь доступний простір */}
 
         <div className="flex-1 space-y-6">
