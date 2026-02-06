@@ -7,6 +7,7 @@ import type { z } from "zod";
 import type { ThankUStepDataSchema } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
 import { useQuizStore } from "@/features/quiz/store";
 import { downloadAnswersCSV } from "@/features/quiz/utils/download-csv";
+import { pruneUnreachableAnswers } from "@/features/quiz/utils/prune-unreachable-answers";
 import { Button } from "@/shared/ui/button";
 
 interface ThankYouStepProps {
@@ -21,6 +22,7 @@ export function ThankYouStep({ dataModel }: ThankYouStepProps) {
   const email = useQuizStore((state) => state.getEmail());
   const resetQuiz = useQuizStore((state) => state.resetQuiz);
   const quizId = useQuizStore((state) => state.activeQuizId);
+  const quizConfig = useQuizStore((state) => state.quizConfig);
 
   const handleRetake = () => {
     resetQuiz();
@@ -45,7 +47,12 @@ export function ThankYouStep({ dataModel }: ThankYouStepProps) {
 
       <div className="w-full space-y-4 px-4">
         <button
-          onClick={() => downloadAnswersCSV(Object.values(getAnswers()), email)}
+          onClick={() =>
+            downloadAnswersCSV(
+              Object.values(pruneUnreachableAnswers(quizConfig, getAnswers())),
+              email,
+            )
+          }
           className="flex items-center justify-center gap-3 w-full text-white font-bold py-4 hover:opacity-80 transition-opacity"
         >
           <Download size={24} />
