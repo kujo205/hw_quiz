@@ -11,6 +11,8 @@ import type {
 } from "@/features/quiz/types-and-schemas";
 import { Button } from "@/shared/ui/button";
 
+import { splitStringOrReturnArray } from "@/shared/utils/split-string-or-return-array";
+
 interface MultipleSelectOption {
   label: TLocalizedString;
   value: string;
@@ -42,11 +44,7 @@ export function MultipleSelectQuestion({
 
   // Стейт для множинного вибору (масив значень)
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    typeof savedAnswer === "string"
-      ? savedAnswer.split(", ")
-      : savedAnswer
-        ? savedAnswer
-        : [],
+    splitStringOrReturnArray(questionId),
   );
 
   const toggleOption = (value: string) => {

@@ -9,6 +9,7 @@ import type {
   TLocalizedString,
 } from "@/features/quiz/types-and-schemas";
 import { Button } from "@/shared/ui/button";
+import { splitStringOrReturnArray } from "@/shared/utils/split-string-or-return-array";
 
 interface BubbleOption {
   label: TLocalizedString;
@@ -39,11 +40,7 @@ export function BubbleSelect({
   );
 
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    typeof savedAnswer === "string"
-      ? savedAnswer.split(", ")
-      : savedAnswer
-        ? savedAnswer
-        : [],
+    splitStringOrReturnArray(savedAnswer),
   );
 
   const toggleOption = (value: string) => {

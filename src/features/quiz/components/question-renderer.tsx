@@ -26,15 +26,17 @@ export function QuestionRenderer() {
   const selectAnswerHandler: SelectHandler = (questionId, val) => {
     const nextStepId = setAnswerGetNextStepId(questionId, val);
 
-    if (
-      questionId === "preferred-language" &&
-      languageCodes.includes(val.answer as any)
-    ) {
-      setLanguage(val.answer as any);
-    }
+    // TODO: put in some constant && fix anys with @ts-expect-error code
 
     setTimeout(() => {
       router.push(`/quiz/${quizId}/${nextStepId}`);
+
+      if (
+        questionId === "preferred-language" &&
+        languageCodes.includes(val.answer as any)
+      ) {
+        setLanguage(val.answer as any);
+      }
     }, 200);
   };
 
