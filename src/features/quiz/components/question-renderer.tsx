@@ -31,9 +31,10 @@ export function QuestionRenderer() {
 
     if (
       questionId === "preferred-language" &&
-      languageCodes.includes(val.answer as string)
+      typeof val.answer === "string" &&
+      languageCodes.includes(val.answer)
     ) {
-      setLanguage(val.answer as string);
+      setLanguage(val.answer);
     }
   };
 

@@ -219,12 +219,14 @@ export const useQuizStore = create<QuizStore>()(
           // Initialize next question's answer with its order
           // only if it is not a static step
           if (!stateAnswers[nextStepId] && !getIsStaticStep(nextStepId)) {
-            stateAnswers[nextStepId] = {
-              title: "",
-              type: nextQuestionData?.dataModel.type || "",
-              answer: "",
-              order: nextOrder,
-            };
+            if (nextQuestionData) {
+              stateAnswers[nextStepId] = {
+                title: "",
+                type: nextQuestionData.dataModel.type,
+                answer: "",
+                order: nextOrder,
+              };
+            }
           }
         });
 
