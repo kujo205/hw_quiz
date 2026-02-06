@@ -101,6 +101,10 @@ export const useQuizStore = create<QuizStore>()(
         });
       },
 
+      /**
+       * Get the email for the current quiz
+       * @returns The email if set, or empty string if not yet provided
+       */
       getEmail: () => {
         const state = get();
         const quizId = state.activeQuizId;
@@ -148,7 +152,7 @@ export const useQuizStore = create<QuizStore>()(
 
         if (!exists) {
           const firstQuestion = quizConfig.questions[0];
-          return firstQuestion?.id;
+          return firstQuestion.id;
         }
       },
 
