@@ -92,7 +92,7 @@ export const useQuizStore = create<QuizStore>()(
 
       results: {},
       quizConfig: {
-        schemaVersion: "2.0",
+        schemaVersion: "1.0",
         questions: [],
         staticSteps: [],
       },
@@ -116,12 +116,12 @@ export const useQuizStore = create<QuizStore>()(
         const stepId = state.activeQuizStep;
 
         if (!quizId || !stepId) {
-          return 0;
+          return 1;
         }
 
         const answer = state.results[quizId]?.answers[stepId];
 
-        return answer?.order ?? 0;
+        return answer?.order ?? 1;
       },
 
       getQuestionAnswer: (questionId: string) => {
@@ -209,19 +209,18 @@ export const useQuizStore = create<QuizStore>()(
           }
 
           // Save current question's answer with its order (if it's a question type)
-          const stateAnswers = state.results[quizId].answers;
           const currentOrder =
             "dataModel" in currentStepData
-              ? stateAnswers[questionId]?.order ||
-                Object.keys(stateAnswers).length
+              ? newAnswers[questionId]?.order || Object.keys(newAnswers).length
               : 0;
-          stateAnswers[questionId] = {
+          state.results[quizId].answers[questionId] = {
             ...val,
             order: currentOrder,
           };
 
           // Get next step's order from existing answers or default to next index
-          const nextOrder = stateAnswers[nextStepId]?.order ?? currentOrder + 1;
+          const answers = state.results[quizId].answers;
+          const nextOrder = answers[nextStepId]?.order ?? currentOrder + 1;
           const nextQuestionData = getNextQuizStepData(
             state.quizConfig,
             nextStepId,
@@ -229,15 +228,13 @@ export const useQuizStore = create<QuizStore>()(
 
           // Initialize next question's answer with its order
           // only if it is not a static step
-          if (!stateAnswers[nextStepId] && !getIsStaticStep(nextStepId)) {
-            if (nextQuestionData) {
-              stateAnswers[nextStepId] = {
-                title: "",
-                type: nextQuestionData.dataModel.type,
-                answer: "",
-                order: nextOrder,
-              };
-            }
+          if (!answers[nextStepId] && !getIsStaticStep(nextStepId)) {
+            answers[nextStepId] = {
+              title: "",
+              type: nextQuestionData?.dataModel.type || "",
+              answer: "",
+              order: nextOrder,
+            };
           }
         });
 
