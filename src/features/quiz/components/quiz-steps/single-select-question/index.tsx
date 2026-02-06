@@ -1,13 +1,11 @@
 "use client";
 
+import type { z } from "zod";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
-
 import type { SelectHandler } from "@/features/quiz/types-and-schemas";
-
 import { Button } from "@/shared/ui/button";
 import type { SingleSelectDataSchema } from "./schema";
-import { z } from "zod";
 
 interface SingleSelectQuestionProps {
   questionId: string;

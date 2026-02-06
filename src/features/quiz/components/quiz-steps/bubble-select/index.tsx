@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { z } from "zod";
+import type { z } from "zod";
 import { commonTranslations } from "@/features/quiz/common-translations";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";

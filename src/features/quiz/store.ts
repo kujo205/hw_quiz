@@ -198,16 +198,18 @@ export const useQuizStore = create<QuizStore>()(
           }
 
           // Save current question's answer with its order (if it's a question type)
+          const stateAnswers = state.results[quizId].answers;
           const currentOrder =
-            "dataModel" in currentStepData ? answers[questionId]?.order || Object.keys(answers).length : 0;
-          state.results[quizId].answers[questionId] = {
+            "dataModel" in currentStepData
+              ? answers[questionId]?.order || Object.keys(stateAnswers).length
+              : 0;
+          stateAnswers[questionId] = {
             ...val,
             order: currentOrder,
           };
 
           // Get next step's order from existing answers or default to next index
-          const answers = state.results[quizId].answers;
-          const nextOrder = answers[nextStepId]?.order ?? currentOrder + 1;
+          const nextOrder = stateAnswers[nextStepId]?.order ?? currentOrder + 1;
           const nextQuestionData = getNextQuizStepData(
             state.quizConfig,
             nextStepId,
@@ -215,8 +217,8 @@ export const useQuizStore = create<QuizStore>()(
 
           // Initialize next question's answer with its order
           // only if it is not a static step
-          if (!answers[nextStepId] && !getIsStaticStep(nextStepId)) {
-            answers[nextStepId] = {
+          if (!stateAnswers[nextStepId] && !getIsStaticStep(nextStepId)) {
+            stateAnswers[nextStepId] = {
               title: "",
               type: nextQuestionData?.dataModel.type || "",
               answer: "",

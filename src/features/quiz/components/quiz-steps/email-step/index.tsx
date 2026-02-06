@@ -17,10 +17,7 @@ interface EmailStepProps {
   handleNext: (email: string) => void;
 }
 
-export function EmailStep({
-  dataModel,
-  handleNext,
-}: EmailStepProps) {
+export function EmailStep({ dataModel, handleNext }: EmailStepProps) {
   const t = useQuizStore((state) => state.t);
   const setEmail = useQuizStore((state) => state.setEmail);
   const email = useQuizStore((state) => state.getEmail());

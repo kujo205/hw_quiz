@@ -16,6 +16,7 @@ export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);
   const stepData = useQuizStore((state) => state.getCurrentStepData());
   const setEmail = useQuizStore((state) => state.setEmail);
+  const answers = useQuizStore((state) => state.getCurrentQuizAnswers());
 
   const setAnswerGetNextStepId = useQuizStore(
     (state) => state.setAnswerGetNextStepId,
@@ -30,9 +31,9 @@ export function QuestionRenderer() {
 
     if (
       questionId === "preferred-language" &&
-      languageCodes.includes(val.answer as any)
+      languageCodes.includes(val.answer as string)
     ) {
-      setLanguage(val.answer as any);
+      setLanguage(val.answer as string);
     }
   };
 
@@ -47,7 +48,6 @@ export function QuestionRenderer() {
 
   if (!stepData) return null;
 
-  const answers = useQuizStore((state) => state.getCurrentQuizAnswers());
   const order = answers[stepData.id]?.order || 0;
 
   switch (stepData.dataModel.type) {

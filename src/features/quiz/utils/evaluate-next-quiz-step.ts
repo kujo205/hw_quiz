@@ -2,7 +2,6 @@ import { assert } from "@/shared/utils/assert";
 import type {
   TQuizAnswer,
   TQuizStep2,
-  TQuizDynamicQuestion,
   TStaticStep,
 } from "../types-and-schemas";
 import type { BranchSchema } from "../types-and-schemas/quiz-branching";

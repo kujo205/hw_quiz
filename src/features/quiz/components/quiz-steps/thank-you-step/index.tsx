@@ -3,7 +3,7 @@
 import { Download } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import type { z } from "zod";
 import type { ThankUStepDataSchema } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
 import { useQuizStore } from "@/features/quiz/store";
 import { downloadAnswersCSV } from "@/features/quiz/utils/download-csv";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { z } from "zod";
+import type { z } from "zod";
 import { useQuizStore } from "@/features/quiz/store";
 import type { QuizLoaderDataSchema } from "./schema";
 

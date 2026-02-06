@@ -1,8 +1,8 @@
 import type {
   TQuiz,
   TQuiz2,
-  TQuizQuestion,
   TQuizDynamicQuestion,
+  TQuizQuestion,
   TStaticStep,
 } from "@/features/quiz/types-and-schemas/index";
 
@@ -482,7 +482,12 @@ export const testQuizDynamicQuestions2: TQuizDynamicQuestion[] = [
           value: "de",
         },
         {
-          label: { en: "Spanish", fr: "Espagnol", de: "Spanisch", es: "Español" },
+          label: {
+            en: "Spanish",
+            fr: "Espagnol",
+            de: "Spanisch",
+            es: "Español",
+          },
           value: "es",
         },
       ],
@@ -685,7 +690,12 @@ export const testQuizDynamicQuestions2: TQuizDynamicQuestion[] = [
           emoji: "🏹",
         },
         {
-          label: { en: "Romance", fr: "Romance", de: "Romantik", es: "Romance" },
+          label: {
+            en: "Romance",
+            fr: "Romance",
+            de: "Romantik",
+            es: "Romance",
+          },
           value: "romance",
           emoji: "❤️",
         },
