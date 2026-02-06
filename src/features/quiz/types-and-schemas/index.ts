@@ -84,6 +84,8 @@ const QuizSchema2 = z.object({
 
 export {
   DynamicQuestionSchema,
+  StaticStepSchema2,
+  QuizSchema2,
   type BranchSchema,
   QuizSchema,
   dynamicQuestionTypes,
@@ -96,8 +98,10 @@ type TStaticStep = z.infer<typeof StaticStepSchema2>;
 type TQuizQuestion = z.infer<typeof QuestionSchema>;
 type TQuizStaticStep = z.infer<typeof StaticStepSchema>;
 type TQuiz = z.infer<typeof QuizSchema>;
+type TQuiz2 = z.infer<typeof QuizSchema2>;
 
 type TQuizStep = TQuizQuestion | TQuizStaticStep;
+type TQuizStep2 = TQuizDynamicQuestion | TStaticStep;
 
 export type SelectHandler = (questionId: string, val: TQuizAnswer) => void;
 
@@ -110,4 +114,13 @@ export type TQuizAnswer = {
   answer: string | string[];
 };
 
-export type { TQuizQuestion, TQuiz, TQuizStaticStep, TQuizStep };
+export type {
+  TQuizQuestion,
+  TQuiz,
+  TQuiz2,
+  TQuizStaticStep,
+  TQuizStep,
+  TQuizStep2,
+  TQuizDynamicQuestion,
+  TStaticStep,
+};

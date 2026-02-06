@@ -4,10 +4,10 @@ import { immer } from "zustand/middleware/immer";
 import type {
   TLanguage,
   TLocalizedString,
-  TQuiz,
+  TQuiz2,
   TQuizAnswer,
   TQuizAnswerRaw,
-  TQuizStep,
+  TQuizStep2,
 } from "@/features/quiz/types-and-schemas";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
@@ -29,10 +29,10 @@ interface QuizStore {
   activeQuizStep: string;
 
   //
-  quizConfig: TQuiz;
+  quizConfig: TQuiz2;
 
   //
-  setQuizConfig: (arg0: TQuiz) => void;
+  setQuizConfig: (arg0: TQuiz2) => void;
 
   getRedirectStepIfWrongStep: (stepId: string) => string | undefined;
 
@@ -45,7 +45,7 @@ interface QuizStore {
   setAnswerGetNextStepId: (questionId: string, val: TQuizAnswer) => string;
 
   //
-  getCurrentStepData: () => TQuizStep;
+  getCurrentStepData: () => TQuizStep2;
 
   //
   getCurrentStepOrderIndex: () => number;
@@ -88,9 +88,9 @@ export const useQuizStore = create<QuizStore>()(
 
       results: {},
       quizConfig: {
-        schemaVersion: "1.0.0",
+        schemaVersion: "2.0",
         questions: [],
-        staticSteps: {},
+        staticSteps: [],
       },
 
       setQuizConfig: (quizConfig) => {
@@ -199,7 +199,7 @@ export const useQuizStore = create<QuizStore>()(
 
           // Save current question's answer with its order (if it's a question type)
           const currentOrder =
-            "order" in currentStepData ? currentStepData.order : 0;
+            "dataModel" in currentStepData ? answers[questionId]?.order || Object.keys(answers).length : 0;
           state.results[quizId].answers[questionId] = {
             ...val,
             order: currentOrder,
@@ -218,7 +218,7 @@ export const useQuizStore = create<QuizStore>()(
           if (!answers[nextStepId] && !getIsStaticStep(nextStepId)) {
             answers[nextStepId] = {
               title: "",
-              type: nextQuestionData.type,
+              type: nextQuestionData?.dataModel.type || "",
               answer: "",
               order: nextOrder,
             };

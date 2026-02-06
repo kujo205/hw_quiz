@@ -3,31 +3,22 @@
 import { useState } from "react";
 import { z } from "zod";
 import { commonTranslations } from "@/features/quiz/common-translations";
-import type { TEmailStepData } from "@/features/quiz/components/quiz-steps/email-step/schema";
+import type { EmailStepDataSchema } from "@/features/quiz/components/quiz-steps/email-step/schema";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 
-const emailSchema = z.email();
+const emailSchema = z.string().email();
 
 interface EmailStepProps {
   questionId: string;
-  title: TLocalizedString;
-  description: TLocalizedString;
-  placeholder: TLocalizedString;
-  errorText: TLocalizedString;
+  dataModel: z.infer<typeof EmailStepDataSchema>;
   handleNext: (email: string) => void;
-
-  data: TEmailStepData;
 }
 
 export function EmailStep({
-  title,
-  placeholder,
-  errorText,
-  description,
+  dataModel,
   handleNext,
 }: EmailStepProps) {
   const t = useQuizStore((state) => state.t);
@@ -53,7 +44,10 @@ export function EmailStep({
   return (
     <div className="flex flex-col flex-1 duration-500">
       <div className="flex-1 mt-20 animate-fade-in-up space-y-10">
-        <QuizTitleDescription title={t(title)} description={t(description)} />
+        <QuizTitleDescription
+          title={t(dataModel.title)}
+          description={t(dataModel.description)}
+        />
 
         <div className="space-y-6">
           <Input
@@ -61,8 +55,8 @@ export function EmailStep({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onBlur={() => setIsDirty(true)}
-            placeholder={t(placeholder)}
-            error={showError ? t(errorText) : undefined}
+            placeholder={t(dataModel.placeholder)}
+            error={showError ? t(dataModel.errorText) : undefined}
           />
 
           <p

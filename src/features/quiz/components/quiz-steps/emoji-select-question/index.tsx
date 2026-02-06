@@ -1,35 +1,24 @@
 "use client";
 
+import { z } from "zod";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import type { SelectHandler } from "@/features/quiz/types-and-schemas";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
-import type { TEmojiSelectQuestionSchema } from "./schema";
-
-interface EmojiSelectOption {
-  label: TLocalizedString;
-  value: string;
-  emoji: string;
-}
+import type { EmojiSelectDataSchema } from "./schema";
 
 interface EmojiSelectQuestionProps {
-  data: TEmojiSelectQuestionSchema;
   questionId: string;
-  title: TLocalizedString;
-  description?: TLocalizedString;
-  options: EmojiSelectOption[];
+  dataModel: z.infer<typeof EmojiSelectDataSchema>;
   order: number;
-  handleSelect: SelectHandler;
+  valueSelectHandler: SelectHandler;
 }
 
 export function EmojiSelect({
   questionId,
-  title,
-  description,
-  options,
+  dataModel,
   order,
-  handleSelect,
+  valueSelectHandler,
 }: EmojiSelectQuestionProps) {
   const t = useQuizStore((state) => state.t);
 
@@ -39,10 +28,13 @@ export function EmojiSelect({
 
   return (
     <div className="space-y-10 animate-in animate-fade-in-up duration-500">
-      <QuizTitleDescription title={t(title)} description={t(description)} />
+      <QuizTitleDescription
+        title={t(dataModel.title)}
+        description={t(dataModel.description)}
+      />
 
       <div className="grid grid-cols-3 gap-3 w-full">
-        {options.map((option) => {
+        {dataModel.options.map((option) => {
           const isSelected = currentAnswer === option.value;
           const optionLabel = t(option.label);
 
@@ -52,10 +44,10 @@ export function EmojiSelect({
               variant="quiz-emoji"
               isSelected={isSelected}
               onClick={() =>
-                handleSelect(questionId, {
+                valueSelectHandler(questionId, {
                   answer: option.value,
                   order,
-                  title: t(title),
+                  title: t(dataModel.title),
                   type: "single-select-question-emoji",
                 })
               }

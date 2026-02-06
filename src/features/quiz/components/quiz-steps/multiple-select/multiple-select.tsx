@@ -2,37 +2,27 @@
 
 import { Check } from "lucide-react";
 import { useState } from "react";
+import { z } from "zod";
 import { commonTranslations } from "@/features/quiz/common-translations";
 import { QuizTitleDescription } from "@/features/quiz/components/quiz-title-description";
 import { useQuizStore } from "@/features/quiz/store";
 import type { SelectHandler } from "@/features/quiz/types-and-schemas";
-import type { TLocalizedString } from "@/features/quiz/types-and-schemas/localization";
 import { Button } from "@/shared/ui/button";
 import { splitStringOrReturnArray } from "@/shared/utils/split-string-or-return-array";
-import type { TMultipleSelectData } from "./schema";
-
-interface MultipleSelectOption {
-  label: TLocalizedString;
-  value: string;
-}
+import type { MultipleSelectDataSchema } from "./schema";
 
 interface MultipleSelectQuestionProps {
-  data: TMultipleSelectData;
   questionId: string;
-  title: TLocalizedString;
-  description?: TLocalizedString;
-  options: MultipleSelectOption[];
+  dataModel: z.infer<typeof MultipleSelectDataSchema>;
   order: number;
-  handleSelect: SelectHandler;
+  valueSelectHandler: SelectHandler;
 }
 
 export function MultipleSelectQuestion({
   questionId,
-  title,
-  description,
-  options,
+  dataModel,
   order,
-  handleSelect,
+  valueSelectHandler,
 }: MultipleSelectQuestionProps) {
   const t = useQuizStore((state) => state.t);
 
@@ -43,7 +33,7 @@ export function MultipleSelectQuestion({
 
   // Стейт для множинного вибору (масив значень)
   const [selectedValues, setSelectedValues] = useState<string[]>(
-    splitStringOrReturnArray(questionId),
+    splitStringOrReturnArray(savedAnswer),
   );
 
   const toggleOption = (value: string) => {
@@ -55,10 +45,10 @@ export function MultipleSelectQuestion({
   const onNextClick = () => {
     if (selectedValues.length === 0) return;
 
-    handleSelect(questionId, {
+    valueSelectHandler(questionId, {
       answer: selectedValues,
       order,
-      title: t(title),
+      title: t(dataModel.title),
       type: "multiple-select",
     });
   };
@@ -66,11 +56,14 @@ export function MultipleSelectQuestion({
   return (
     <>
       <div className="flex flex-col animate-fade-in-up flex-1 ">
-        <QuizTitleDescription title={t(title)} description={t(description)} />
+        <QuizTitleDescription
+          title={t(dataModel.title)}
+          description={t(dataModel.description)}
+        />
 
         <div className="flex-1 space-y-6">
           <div className="space-y-3">
-            {options.map((option) => {
+            {dataModel.options.map((option) => {
               const optionLabel = t(option.label);
               const isSelected = selectedValues.includes(option.value);
 
