@@ -2,13 +2,15 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import type {
-  TLanguage,
-  TLocalizedString,
   TQuiz2,
   TQuizAnswer,
   TQuizAnswerRaw,
   TQuizStep2,
 } from "@/features/quiz/types-and-schemas";
+import type {
+  TLanguage,
+  TLocalizedString,
+} from "@/features/quiz/types-and-schemas/localization";
 import { checkQuizStepPresent } from "@/features/quiz/utils/check-quiz-step-present";
 import { evaluateNextQuizStep } from "@/features/quiz/utils/evaluate-next-quiz-step";
 import { getIsStaticStep } from "@/features/quiz/utils/get-is-static-step";

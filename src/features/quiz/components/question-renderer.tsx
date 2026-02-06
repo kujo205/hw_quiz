@@ -16,7 +16,9 @@ export function QuestionRenderer() {
   const quizId = useQuizStore((state) => state.activeQuizId);
   const stepData = useQuizStore((state) => state.getCurrentStepData());
   const setEmail = useQuizStore((state) => state.setEmail);
-  const answers = useQuizStore((state) => state.getCurrentQuizAnswers());
+  const getCurrentQuizAnswers = useQuizStore(
+    (state) => state.getCurrentQuizAnswers,
+  );
 
   const setAnswerGetNextStepId = useQuizStore(
     (state) => state.setAnswerGetNextStepId,
@@ -49,7 +51,7 @@ export function QuestionRenderer() {
 
   if (!stepData) return null;
 
-  const order = answers[stepData.id]?.order || 0;
+  const order = getCurrentQuizAnswers()[stepData.id]?.order || 0;
 
   switch (stepData.dataModel.type) {
     case "single-select": {
