@@ -201,7 +201,8 @@ export const useQuizStore = create<QuizStore>()(
           const stateAnswers = state.results[quizId].answers;
           const currentOrder =
             "dataModel" in currentStepData
-              ? answers[questionId]?.order || Object.keys(stateAnswers).length
+              ? stateAnswers[questionId]?.order ||
+                Object.keys(stateAnswers).length
               : 0;
           stateAnswers[questionId] = {
             ...val,

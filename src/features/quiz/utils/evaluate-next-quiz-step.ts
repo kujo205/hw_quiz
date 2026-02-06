@@ -84,7 +84,10 @@ function evaluateCondition(
 /**
  * Type guard to check if stepData is a static step
  */
+const STATIC_STEP_TYPES = ["loader", "email", "thank-you"] as const;
+
 function isStaticStep(stepData: TQuizStep2): stepData is TStaticStep {
-  const staticTypes = ["loader", "email", "thank-you"];
-  return staticTypes.includes(stepData.dataModel.type);
+  return STATIC_STEP_TYPES.includes(
+    stepData.dataModel.type as (typeof STATIC_STEP_TYPES)[number],
+  );
 }
