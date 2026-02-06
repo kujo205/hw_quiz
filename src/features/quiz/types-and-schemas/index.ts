@@ -7,7 +7,6 @@ import { QuizLoaderDataSchema } from "@/features/quiz/components/quiz-steps/quiz
 import { SingleSelectDataSchema } from "@/features/quiz/components/quiz-steps/single-select-question/schema";
 import { ThankUStepDataSchema } from "@/features/quiz/components/quiz-steps/thank-you-step/schema";
 
-import { LocalizedStringSchema } from "@/features/quiz/types-and-schemas/localization";
 import { BranchSchema } from "@/features/quiz/types-and-schemas/quiz-branching";
 
 /**
