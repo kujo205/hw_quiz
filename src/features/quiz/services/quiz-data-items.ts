@@ -469,15 +469,30 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       },
       options: [
         {
-          label: { en: "Beginner", fr: "Débutant", de: "Anfänger", es: "Principiante" },
+          label: {
+            en: "Beginner",
+            fr: "Débutant",
+            de: "Anfänger",
+            es: "Principiante",
+          },
           value: "beginner",
         },
         {
-          label: { en: "Intermediate", fr: "Intermédiaire", de: "Fortgeschritten", es: "Intermedio" },
+          label: {
+            en: "Intermediate",
+            fr: "Intermédiaire",
+            de: "Fortgeschritten",
+            es: "Intermedio",
+          },
           value: "intermediate",
         },
         {
-          label: { en: "Advanced", fr: "Avancé", de: "Experte", es: "Avanzado" },
+          label: {
+            en: "Advanced",
+            fr: "Avancé",
+            de: "Experte",
+            es: "Avanzado",
+          },
           value: "advanced",
         },
       ],
@@ -485,7 +500,11 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
     branches: [
       {
         conditions: [
-          { questionId: "experience-level", operator: "EQUALS", value: "beginner" },
+          {
+            questionId: "experience-level",
+            operator: "EQUALS",
+            value: "beginner",
+          },
         ],
         logic: "AND",
         nextQuestionId: "learning-style",
@@ -516,7 +535,12 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
           value: "visual",
         },
         {
-          label: { en: "Hands-on", fr: "Pratique", de: "Praktisch", es: "Práctico" },
+          label: {
+            en: "Hands-on",
+            fr: "Pratique",
+            de: "Praktisch",
+            es: "Práctico",
+          },
           emoji: "✋",
           value: "hands-on",
         },
@@ -542,7 +566,12 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       },
       options: [
         {
-          label: { en: "Frontend", fr: "Frontend", de: "Frontend", es: "Frontend" },
+          label: {
+            en: "Frontend",
+            fr: "Frontend",
+            de: "Frontend",
+            es: "Frontend",
+          },
           value: "frontend",
           emoji: "🎨",
         },
@@ -557,7 +586,12 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
           emoji: "🚀",
         },
         {
-          label: { en: "Data Science", fr: "Science des données", de: "Datenwissenschaft", es: "Ciencia de datos" },
+          label: {
+            en: "Data Science",
+            fr: "Science des données",
+            de: "Datenwissenschaft",
+            es: "Ciencia de datos",
+          },
           value: "data-science",
           emoji: "📊",
         },
@@ -628,19 +662,39 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
           value: "ai-ml",
         },
         {
-          label: { en: "Web Development", fr: "Développement Web", de: "Webentwicklung", es: "Desarrollo Web" },
+          label: {
+            en: "Web Development",
+            fr: "Développement Web",
+            de: "Webentwicklung",
+            es: "Desarrollo Web",
+          },
           value: "web-dev",
         },
         {
-          label: { en: "Cloud Computing", fr: "Cloud Computing", de: "Cloud Computing", es: "Computación en la Nube" },
+          label: {
+            en: "Cloud Computing",
+            fr: "Cloud Computing",
+            de: "Cloud Computing",
+            es: "Computación en la Nube",
+          },
           value: "cloud",
         },
         {
-          label: { en: "Cybersecurity", fr: "Cybersécurité", de: "Cybersicherheit", es: "Ciberseguridad" },
+          label: {
+            en: "Cybersecurity",
+            fr: "Cybersécurité",
+            de: "Cybersicherheit",
+            es: "Ciberseguridad",
+          },
           value: "security",
         },
         {
-          label: { en: "Blockchain", fr: "Blockchain", de: "Blockchain", es: "Blockchain" },
+          label: {
+            en: "Blockchain",
+            fr: "Blockchain",
+            de: "Blockchain",
+            es: "Blockchain",
+          },
           value: "blockchain",
         },
       ],
@@ -668,15 +722,30 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       },
       options: [
         {
-          label: { en: "Yes, extensively", fr: "Oui, beaucoup", de: "Ja, ausgiebig", es: "Sí, extensivamente" },
+          label: {
+            en: "Yes, extensively",
+            fr: "Oui, beaucoup",
+            de: "Ja, ausgiebig",
+            es: "Sí, extensivamente",
+          },
           value: "yes-extensive",
         },
         {
-          label: { en: "Some experience", fr: "Un peu d'expérience", de: "Etwas Erfahrung", es: "Algo de experiencia" },
+          label: {
+            en: "Some experience",
+            fr: "Un peu d'expérience",
+            de: "Etwas Erfahrung",
+            es: "Algo de experiencia",
+          },
           value: "some",
         },
         {
-          label: { en: "No experience", fr: "Aucune expérience", de: "Keine Erfahrung", es: "Sin experiencia" },
+          label: {
+            en: "No experience",
+            fr: "Aucune expérience",
+            de: "Keine Erfahrung",
+            es: "Sin experiencia",
+          },
           value: "none",
         },
       ],
@@ -696,104 +765,41 @@ export const aiGeneratedQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       },
       options: [
         {
-          label: { en: "1-3 hours", fr: "1-3 heures", de: "1-3 Stunden", es: "1-3 horas" },
+          label: {
+            en: "1-3 hours",
+            fr: "1-3 heures",
+            de: "1-3 Stunden",
+            es: "1-3 horas",
+          },
           value: "low",
         },
         {
-          label: { en: "4-7 hours", fr: "4-7 heures", de: "4-7 Stunden", es: "4-7 horas" },
+          label: {
+            en: "4-7 hours",
+            fr: "4-7 heures",
+            de: "4-7 Stunden",
+            es: "4-7 horas",
+          },
           value: "medium",
         },
         {
-          label: { en: "8+ hours", fr: "8+ heures", de: "8+ Stunden", es: "8+ horas" },
+          label: {
+            en: "8+ hours",
+            fr: "8+ heures",
+            de: "8+ Stunden",
+            es: "8+ horas",
+          },
           value: "high",
         },
       ],
     },
     branches: [],
-    defaultNextQuestionId: "ai-loader",
-  },
-];
-
-export const aiGeneratedQuizStaticSteps: TStaticStep[] = [
-  {
-    id: "ai-loader",
-    dataModel: {
-      type: "loader",
-      title: {
-        en: "Analyzing your preferences...",
-        fr: "Analyse de vos préférences...",
-        de: "Analysiere Ihre Präferenzen...",
-        es: "Analizando tus preferencias...",
-      },
-    },
-    defaultNextQuestionId: "ai-email",
-  },
-  {
-    id: "ai-email",
-    dataModel: {
-      type: "email",
-      title: {
-        en: "Email",
-        fr: "E-mail",
-        de: "E-Mail",
-        es: "Correo electrónico",
-      },
-      description: {
-        en: "Enter your email to receive personalized recommendations.",
-        fr: "Entrez votre e-mail pour recevoir des recommandations personnalisées.",
-        de: "Geben Sie Ihre E-Mail-Adresse ein, um personalisierte Empfehlungen zu erhalten.",
-        es: "Ingrese su correo electrónico para recibir recomendaciones personalizadas.",
-      },
-      placeholder: {
-        en: "your@email.com",
-        fr: "votre@email.com",
-        de: "deine@email.de",
-        es: "tu@correo.com",
-      },
-      errorText: {
-        en: "Invalid email",
-        fr: "E-mail invalide",
-        de: "Ungültige E-Mail",
-        es: "Correo no válido",
-      },
-    },
-    defaultNextQuestionId: "ai-thank-you",
-  },
-  {
-    id: "ai-thank-you",
-    dataModel: {
-      type: "thank-you",
-      title: {
-        en: "Thank you",
-        fr: "Merci",
-        de: "Vielen Dank",
-        es: "¡Gracias!",
-      },
-      description: {
-        en: "for completing this AI-generated quiz! 🤖",
-        fr: "d'avoir complété ce quiz généré par l'IA ! 🤖",
-        de: "für das Abschließen dieses KI-generierten Quiz! 🤖",
-        es: "por completar este cuestionario generado por IA. 🤖",
-      },
-      downloadButtonText: {
-        en: "Download my answers",
-        fr: "Télécharger mes réponses",
-        de: "Meine Antworten herunterladen",
-        es: "Descargar mis respuestas",
-      },
-      retakeButtonText: {
-        en: "Retake quiz",
-        fr: "Recommencer le quiz",
-        de: "Quiz wiederholen",
-        es: "Repetir el quiz",
-      },
-    },
-    defaultNextQuestionId: null,
+    defaultNextQuestionId: "loader",
   },
 ];
 
 export const aiGeneratedQuiz: TQuiz = {
   schemaVersion: "1.0",
   questions: aiGeneratedQuizDynamicQuestions,
-  staticSteps: aiGeneratedQuizStaticSteps,
+  staticSteps: quizStaticSteps,
 };
