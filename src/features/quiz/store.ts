@@ -105,7 +105,7 @@ export const useQuizStore = create<QuizStore>()(
         const state = get();
         const quizId = state.activeQuizId;
 
-        return state.results[quizId]?.email;
+        return state.results[quizId]?.email ?? "";
       },
 
       getCurrentStepOrderIndex: () => {
@@ -140,7 +140,7 @@ export const useQuizStore = create<QuizStore>()(
       getRedirectStepIfWrongStep: (stepId) => {
         const quizConfig = get().quizConfig;
 
-        if (!quizConfig) {
+        if (!quizConfig || !quizConfig.questions.length) {
           return;
         }
 
@@ -148,7 +148,7 @@ export const useQuizStore = create<QuizStore>()(
 
         if (!exists) {
           const firstQuestion = quizConfig.questions[0];
-          return firstQuestion.id;
+          return firstQuestion?.id;
         }
       },
 
