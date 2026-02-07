@@ -145,10 +145,15 @@ export const useQuizStore = create<QuizStore>()(
           return;
         }
 
+        const firstQuestion = quizConfig.questions[0];
+
         const { exists } = checkQuizStepPresent(quizConfig, stepId);
 
-        if (!exists) {
-          const firstQuestion = quizConfig.questions[0];
+        const redirectingToNextQuizStepsWithoutAnswers =
+          Object.values(get().getCurrentQuizAnswers()).length === 0 &&
+          stepId !== firstQuestion.id;
+
+        if (!exists || redirectingToNextQuizStepsWithoutAnswers) {
           return firstQuestion.id;
         }
       },

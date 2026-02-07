@@ -1,12 +1,12 @@
 export function splitStringOrReturnArray(
-  strOrArray: string[] | string,
+  strOrArray?: string[] | string,
   delimiter = ",",
 ): string[] {
   if (Array.isArray(strOrArray)) {
     return strOrArray;
   }
 
-  if (strOrArray.includes(",")) {
+  if (typeof strOrArray === "string" && strOrArray.includes(",")) {
     return strOrArray.split(delimiter).map((item) => item.trim());
   }
 
