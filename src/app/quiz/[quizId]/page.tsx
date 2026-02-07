@@ -6,5 +6,5 @@ export default async function ({
   params: Promise<{ quizId: string }>;
 }) {
   const { quizId } = await params;
-  redirect(`/quiz/${quizId}/1`);
+  redirect(`/quiz/${quizId}/start`);
 }
