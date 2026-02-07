@@ -114,7 +114,7 @@ const DynamicQuestionSchema = BaseStepSchema.extend({
 });
 
 ```
-2.1 You need to specify a data model - data model, specific for each quiz step, `step` field is required in such a data model
+2.1 You need to specify a data model - data model, specific for each quiz step, `type` field is required in such a data model
 and it is used to determine question type, depending on the data model you will add any dynamic questions you need
 with localization in place.
 
