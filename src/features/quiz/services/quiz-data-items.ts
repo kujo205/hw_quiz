@@ -3,10 +3,11 @@ import type {
   TQuizDynamicQuestion,
   TStaticStep,
 } from "@/features/quiz/types-and-schemas/index";
+import { PREFERRED_LANGUAGE_QUESTION_ID } from "../constants";
 
 export const testQuizDynamicQuestions: TQuizDynamicQuestion[] = [
   {
-    id: "preferred-language",
+    id: PREFERRED_LANGUAGE_QUESTION_ID,
     dataModel: {
       type: "single-select",
       title: {

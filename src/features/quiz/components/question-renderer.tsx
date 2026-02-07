@@ -8,6 +8,7 @@ import { MultipleSelectQuestion } from "@/features/quiz/components/quiz-steps/mu
 import { QuizLoader } from "@/features/quiz/components/quiz-steps/quiz-loader";
 import { SingleSelect } from "@/features/quiz/components/quiz-steps/single-select-question";
 import { ThankYouStep } from "@/features/quiz/components/quiz-steps/thank-you-step";
+import { PREFERRED_LANGUAGE_QUESTION_ID } from "@/features/quiz/constants";
 import { useQuizStore } from "@/features/quiz/store";
 import type { SelectHandler } from "@/features/quiz/types-and-schemas";
 
@@ -30,7 +31,7 @@ export function QuestionRenderer() {
 
     router.push(`/quiz/${quizId}/${nextStepId}`);
 
-    if (questionId === "preferred-language") {
+    if (questionId === PREFERRED_LANGUAGE_QUESTION_ID) {
       const lang = String(val.answer);
       setLanguage(lang);
     }

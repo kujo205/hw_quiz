@@ -1,7 +1,11 @@
-import { tesTQuiz, aiGeneratedQuiz } from "@/features/quiz/services/quiz-data-items";
+import {
+  aiGeneratedQuiz,
+  tesTQuiz,
+} from "@/features/quiz/services/quiz-data-items";
 import type { TQuiz } from "@/features/quiz/types-and-schemas";
 
 export const getQuizConfig = async (quizId: string): Promise<TQuiz | null> => {
+  // NOTE: this is just for demo
   if (quizId === "test-quiz") {
     return tesTQuiz;
   }
