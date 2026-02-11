@@ -804,3 +804,366 @@ export const aiGeneratedQuiz: TQuiz = {
   questions: aiGeneratedQuizDynamicQuestions,
   staticSteps: quizStaticSteps,
 };
+
+// Valentine's Day themed quiz
+export const valentinesDayQuizDynamicQuestions: TQuizDynamicQuestion[] = [
+  {
+    id: PREFERRED_LANGUAGE_QUESTION_ID,
+    dataModel: {
+      type: "single-select",
+      title: {
+        en: "What is your preferred language?",
+        fr: "Quelle est votre langue préférée ?",
+        de: "Was ist deine bevorzugte Sprache?",
+        es: "¿Cuál es tu idioma preferido?",
+      },
+      description: {
+        en: "Choose language",
+        fr: "Choisissez la langue",
+        de: "Sprache wählen",
+        es: "Elegir idioma",
+      },
+      options: [
+        {
+          label: { en: "English", fr: "Anglais", de: "Englisch", es: "Inglés" },
+          value: "en",
+        },
+        {
+          label: {
+            en: "French",
+            fr: "Français",
+            de: "Französisch",
+            es: "Francés",
+          },
+          value: "fr",
+        },
+        {
+          label: { en: "German", fr: "Allemand", de: "Deutsch", es: "Alemán" },
+          value: "de",
+        },
+        {
+          label: {
+            en: "Spanish",
+            fr: "Espagnol",
+            de: "Spanisch",
+            es: "Español",
+          },
+          value: "es",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "relationship-status",
+  },
+  {
+    id: "relationship-status",
+    dataModel: {
+      type: "single-select-question-emoji",
+      title: {
+        en: "What's your relationship status?",
+        fr: "Quel est votre statut relationnel ?",
+        de: "Was ist dein Beziehungsstatus?",
+        es: "¿Cuál es tu estado de relación?",
+      },
+      description: {
+        en: "Tell us about your love life",
+        fr: "Parlez-nous de votre vie amoureuse",
+        de: "Erzähle uns von deinem Liebesleben",
+        es: "Cuéntanos sobre tu vida amorosa",
+      },
+      options: [
+        {
+          label: { en: "Single", fr: "Célibataire", de: "Single", es: "Soltero/a" },
+          emoji: "💔",
+          value: "single",
+        },
+        {
+          label: {
+            en: "In a relationship",
+            fr: "En couple",
+            de: "In einer Beziehung",
+            es: "En una relación",
+          },
+          emoji: "💑",
+          value: "relationship",
+        },
+        {
+          label: {
+            en: "It's complicated",
+            fr: "C'est compliqué",
+            de: "Es ist kompliziert",
+            es: "Es complicado",
+          },
+          emoji: "😕",
+          value: "complicated",
+        },
+      ],
+    },
+    branches: [
+      {
+        conditions: [
+          { questionId: "relationship-status", operator: "EQUALS", value: "single" },
+        ],
+        logic: "AND",
+        nextQuestionId: "ideal-date",
+      },
+    ],
+    defaultNextQuestionId: "love-language",
+  },
+  {
+    id: "love-language",
+    dataModel: {
+      type: "bubble-select",
+      title: {
+        en: "What are your love languages?",
+        fr: "Quels sont vos langages d'amour ?",
+        de: "Was sind deine Liebessprachen?",
+        es: "¿Cuáles son tus lenguajes de amor?",
+      },
+      options: [
+        {
+          label: {
+            en: "Words of Affirmation",
+            fr: "Mots d'affirmation",
+            de: "Worte der Bestätigung",
+            es: "Palabras de afirmación",
+          },
+          value: "words",
+          emoji: "💬",
+        },
+        {
+          label: {
+            en: "Quality Time",
+            fr: "Temps de qualité",
+            de: "Qualitätszeit",
+            es: "Tiempo de calidad",
+          },
+          value: "time",
+          emoji: "⏰",
+        },
+        {
+          label: {
+            en: "Physical Touch",
+            fr: "Contact physique",
+            de: "Körperliche Berührung",
+            es: "Contacto físico",
+          },
+          value: "touch",
+          emoji: "🤗",
+        },
+        {
+          label: {
+            en: "Acts of Service",
+            fr: "Actes de service",
+            de: "Hilfsbereitschaft",
+            es: "Actos de servicio",
+          },
+          value: "service",
+          emoji: "🛠️",
+        },
+        {
+          label: {
+            en: "Receiving Gifts",
+            fr: "Recevoir des cadeaux",
+            de: "Geschenke erhalten",
+            es: "Recibir regalos",
+          },
+          value: "gifts",
+          emoji: "🎁",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "romantic-preferences",
+  },
+  {
+    id: "ideal-date",
+    dataModel: {
+      type: "single-select",
+      title: {
+        en: "What's your ideal first date?",
+        fr: "Quel est votre premier rendez-vous idéal ?",
+        de: "Was ist dein ideales erstes Date?",
+        es: "¿Cuál es tu primera cita ideal?",
+      },
+      options: [
+        {
+          label: {
+            en: "Cozy coffee shop chat",
+            fr: "Discussion dans un café cosy",
+            de: "Gemütliches Café-Gespräch",
+            es: "Charla en cafetería acogedora",
+          },
+          value: "coffee",
+        },
+        {
+          label: {
+            en: "Romantic dinner",
+            fr: "Dîner romantique",
+            de: "Romantisches Abendessen",
+            es: "Cena romántica",
+          },
+          value: "dinner",
+        },
+        {
+          label: {
+            en: "Adventure activity",
+            fr: "Activité d'aventure",
+            de: "Abenteueraktivität",
+            es: "Actividad de aventura",
+          },
+          value: "adventure",
+        },
+        {
+          label: {
+            en: "Movie night",
+            fr: "Soirée cinéma",
+            de: "Filmabend",
+            es: "Noche de películas",
+          },
+          value: "movie",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "romantic-preferences",
+  },
+  {
+    id: "romantic-preferences",
+    dataModel: {
+      type: "multiple-select",
+      title: {
+        en: "What do you value most in a relationship?",
+        fr: "Qu'appréciez-vous le plus dans une relation ?",
+        de: "Was schätzt du am meisten in einer Beziehung?",
+        es: "¿Qué valoras más en una relación?",
+      },
+      options: [
+        {
+          label: {
+            en: "Honesty",
+            fr: "Honnêteté",
+            de: "Ehrlichkeit",
+            es: "Honestidad",
+          },
+          value: "honesty",
+        },
+        {
+          label: {
+            en: "Humor",
+            fr: "Humour",
+            de: "Humor",
+            es: "Humor",
+          },
+          value: "humor",
+        },
+        {
+          label: {
+            en: "Trust",
+            fr: "Confiance",
+            de: "Vertrauen",
+            es: "Confianza",
+          },
+          value: "trust",
+        },
+        {
+          label: {
+            en: "Communication",
+            fr: "Communication",
+            de: "Kommunikation",
+            es: "Comunicación",
+          },
+          value: "communication",
+        },
+        {
+          label: {
+            en: "Adventure",
+            fr: "Aventure",
+            de: "Abenteuer",
+            es: "Aventura",
+          },
+          value: "adventure",
+        },
+        {
+          label: {
+            en: "Stability",
+            fr: "Stabilité",
+            de: "Stabilität",
+            es: "Estabilidad",
+          },
+          value: "stability",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "valentine-plans",
+  },
+  {
+    id: "valentine-plans",
+    dataModel: {
+      type: "single-select-question-emoji",
+      title: {
+        en: "How do you celebrate Valentine's Day?",
+        fr: "Comment célébrez-vous la Saint-Valentin ?",
+        de: "Wie feierst du den Valentinstag?",
+        es: "¿Cómo celebras el Día de San Valentín?",
+      },
+      description: {
+        en: "Share your celebration style",
+        fr: "Partagez votre style de célébration",
+        de: "Teile deinen Feier-Stil",
+        es: "Comparte tu estilo de celebración",
+      },
+      options: [
+        {
+          label: {
+            en: "Romantic getaway",
+            fr: "Escapade romantique",
+            de: "Romantischer Ausflug",
+            es: "Escapada romántica",
+          },
+          emoji: "✈️",
+          value: "getaway",
+        },
+        {
+          label: {
+            en: "Candlelit dinner",
+            fr: "Dîner aux chandelles",
+            de: "Abendessen bei Kerzenlicht",
+            es: "Cena a la luz de las velas",
+          },
+          emoji: "🕯️",
+          value: "dinner",
+        },
+        {
+          label: {
+            en: "Cozy night in",
+            fr: "Soirée cosy à la maison",
+            de: "Gemütlicher Abend zuhause",
+            es: "Noche acogedora en casa",
+          },
+          emoji: "🏠",
+          value: "home",
+        },
+        {
+          label: {
+            en: "I don't celebrate",
+            fr: "Je ne célèbre pas",
+            de: "Ich feiere nicht",
+            es: "No celebro",
+          },
+          emoji: "🤷",
+          value: "none",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "loader",
+  },
+];
+
+export const valentinesDayQuiz: TQuiz = {
+  schemaVersion: "1.0",
+  questions: valentinesDayQuizDynamicQuestions,
+  staticSteps: quizStaticSteps,
+};

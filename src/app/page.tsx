@@ -5,5 +5,5 @@ export default function Home() {
    * Redirect to some quiz directly
    * NOTE: for demo purposes only
    */
-  redirect("/quiz/test-quiz/1");
+  redirect("/quiz/valentines-day/1");
 }
