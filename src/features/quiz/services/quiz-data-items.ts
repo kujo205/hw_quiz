@@ -873,7 +873,12 @@ export const valentinesDayQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       },
       options: [
         {
-          label: { en: "Single", fr: "Célibataire", de: "Single", es: "Soltero/a" },
+          label: {
+            en: "Single",
+            fr: "Célibataire",
+            de: "Single",
+            es: "Soltero/a",
+          },
           emoji: "💔",
           value: "single",
         },
@@ -902,7 +907,11 @@ export const valentinesDayQuizDynamicQuestions: TQuizDynamicQuestion[] = [
     branches: [
       {
         conditions: [
-          { questionId: "relationship-status", operator: "EQUALS", value: "single" },
+          {
+            questionId: "relationship-status",
+            operator: "EQUALS",
+            value: "single",
+          },
         ],
         logic: "AND",
         nextQuestionId: "ideal-date",
