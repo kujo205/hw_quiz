@@ -12,8 +12,13 @@ describe("Valentine's Day Quiz", () => {
     expect(valentinesDayQuiz.schemaVersion).toBe("1.0");
   });
 
-  it("should have at least 6 dynamic questions", () => {
-    expect(valentinesDayQuiz.questions.length).toBeGreaterThanOrEqual(6);
+  it("should have at least 13 dynamic questions", () => {
+    expect(valentinesDayQuiz.questions.length).toBeGreaterThanOrEqual(13);
+  });
+
+  it("should have at least 16 total steps (dynamic + static)", () => {
+    const totalSteps = valentinesDayQuiz.questions.length + valentinesDayQuiz.staticSteps.length;
+    expect(totalSteps).toBeGreaterThanOrEqual(16);
   });
 
   it("should have 3 static steps (loader, email, thank-you)", () => {
@@ -70,10 +75,10 @@ describe("Valentine's Day Quiz", () => {
     }
   });
 
-  it("should have valentine-plans as final dynamic question", () => {
+  it("should have future-vision as final dynamic question", () => {
     const lastQuestion =
       valentinesDayQuiz.questions[valentinesDayQuiz.questions.length - 1];
-    expect(lastQuestion.id).toBe("valentine-plans");
+    expect(lastQuestion.id).toBe("future-vision");
     expect(lastQuestion.defaultNextQuestionId).toBe("loader");
   });
 

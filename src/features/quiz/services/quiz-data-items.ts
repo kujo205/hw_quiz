@@ -1158,6 +1158,612 @@ export const valentinesDayQuizDynamicQuestions: TQuizDynamicQuestion[] = [
       ],
     },
     branches: [],
+    defaultNextQuestionId: "gift-preferences",
+  },
+  {
+    id: "gift-preferences",
+    dataModel: {
+      type: "bubble-select",
+      title: {
+        en: "What type of gifts do you prefer?",
+        fr: "Quel type de cadeaux préférez-vous ?",
+        de: "Welche Art von Geschenken bevorzugst du?",
+        es: "¿Qué tipo de regalos prefieres?",
+      },
+      options: [
+        {
+          label: {
+            en: "Flowers",
+            fr: "Fleurs",
+            de: "Blumen",
+            es: "Flores",
+          },
+          value: "flowers",
+          emoji: "💐",
+        },
+        {
+          label: {
+            en: "Chocolates",
+            fr: "Chocolats",
+            de: "Schokolade",
+            es: "Chocolates",
+          },
+          value: "chocolates",
+          emoji: "🍫",
+        },
+        {
+          label: {
+            en: "Jewelry",
+            fr: "Bijoux",
+            de: "Schmuck",
+            es: "Joyas",
+          },
+          value: "jewelry",
+          emoji: "💍",
+        },
+        {
+          label: {
+            en: "Experiences",
+            fr: "Expériences",
+            de: "Erlebnisse",
+            es: "Experiencias",
+          },
+          value: "experiences",
+          emoji: "🎭",
+        },
+        {
+          label: {
+            en: "Handmade gifts",
+            fr: "Cadeaux faits main",
+            de: "Handgemachte Geschenke",
+            es: "Regalos hechos a mano",
+          },
+          value: "handmade",
+          emoji: "🎨",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "romantic-movies",
+  },
+  {
+    id: "romantic-movies",
+    dataModel: {
+      type: "single-select",
+      title: {
+        en: "What's your favorite romantic movie genre?",
+        fr: "Quel est votre genre de film romantique préféré ?",
+        de: "Was ist dein liebstes romantisches Filmgenre?",
+        es: "¿Cuál es tu género de películas románticas favorito?",
+      },
+      options: [
+        {
+          label: {
+            en: "Classic romance",
+            fr: "Romance classique",
+            de: "Klassische Romantik",
+            es: "Romance clásica",
+          },
+          value: "classic",
+        },
+        {
+          label: {
+            en: "Romantic comedy",
+            fr: "Comédie romantique",
+            de: "Romantische Komödie",
+            es: "Comedia romántica",
+          },
+          value: "romcom",
+        },
+        {
+          label: {
+            en: "Drama romance",
+            fr: "Drame romantique",
+            de: "Romantisches Drama",
+            es: "Drama romántico",
+          },
+          value: "drama",
+        },
+        {
+          label: {
+            en: "Fantasy romance",
+            fr: "Romance fantastique",
+            de: "Fantasy-Romantik",
+            es: "Romance de fantasía",
+          },
+          value: "fantasy",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "date-personality",
+  },
+  {
+    id: "date-personality",
+    dataModel: {
+      type: "single-select-question-emoji",
+      title: {
+        en: "What's your dating personality?",
+        fr: "Quelle est votre personnalité amoureuse ?",
+        de: "Was ist deine Dating-Persönlichkeit?",
+        es: "¿Cuál es tu personalidad en las citas?",
+      },
+      description: {
+        en: "Choose what describes you best",
+        fr: "Choisissez ce qui vous décrit le mieux",
+        de: "Wähle, was dich am besten beschreibt",
+        es: "Elige lo que mejor te describe",
+      },
+      options: [
+        {
+          label: {
+            en: "Hopeless romantic",
+            fr: "Grand romantique",
+            de: "Hoffnungsloser Romantiker",
+            es: "Romántico empedernido",
+          },
+          emoji: "😍",
+          value: "romantic",
+        },
+        {
+          label: {
+            en: "Practical and realistic",
+            fr: "Pratique et réaliste",
+            de: "Praktisch und realistisch",
+            es: "Práctico y realista",
+          },
+          emoji: "🤔",
+          value: "practical",
+        },
+        {
+          label: {
+            en: "Spontaneous and fun",
+            fr: "Spontané et amusant",
+            de: "Spontan und lustig",
+            es: "Espontáneo y divertido",
+          },
+          emoji: "🎉",
+          value: "spontaneous",
+        },
+        {
+          label: {
+            en: "Thoughtful and caring",
+            fr: "Attentionné et bienveillant",
+            de: "Nachdenklich und fürsorglich",
+            es: "Reflexivo y cariñoso",
+          },
+          emoji: "🥰",
+          value: "caring",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "relationship-goals",
+  },
+  {
+    id: "relationship-goals",
+    dataModel: {
+      type: "multiple-select",
+      title: {
+        en: "What are your relationship goals?",
+        fr: "Quels sont vos objectifs relationnels ?",
+        de: "Was sind deine Beziehungsziele?",
+        es: "¿Cuáles son tus objetivos en una relación?",
+      },
+      options: [
+        {
+          label: {
+            en: "Long-term commitment",
+            fr: "Engagement à long terme",
+            de: "Langfristige Bindung",
+            es: "Compromiso a largo plazo",
+          },
+          value: "longterm",
+        },
+        {
+          label: {
+            en: "Building a family",
+            fr: "Fonder une famille",
+            de: "Familie gründen",
+            es: "Formar una familia",
+          },
+          value: "family",
+        },
+        {
+          label: {
+            en: "Growing together",
+            fr: "Grandir ensemble",
+            de: "Gemeinsam wachsen",
+            es: "Crecer juntos",
+          },
+          value: "growth",
+        },
+        {
+          label: {
+            en: "Having fun and enjoying life",
+            fr: "S'amuser et profiter de la vie",
+            de: "Spaß haben und das Leben genießen",
+            es: "Divertirse y disfrutar la vida",
+          },
+          value: "fun",
+        },
+        {
+          label: {
+            en: "Emotional support",
+            fr: "Soutien émotionnel",
+            de: "Emotionale Unterstützung",
+            es: "Apoyo emocional",
+          },
+          value: "support",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "perfect-evening",
+  },
+  {
+    id: "perfect-evening",
+    dataModel: {
+      type: "single-select",
+      title: {
+        en: "Describe your perfect romantic evening",
+        fr: "Décrivez votre soirée romantique parfaite",
+        de: "Beschreibe deinen perfekten romantischen Abend",
+        es: "Describe tu noche romántica perfecta",
+      },
+      options: [
+        {
+          label: {
+            en: "Stargazing under the night sky",
+            fr: "Observer les étoiles sous le ciel nocturne",
+            de: "Sterne beobachten unter dem Nachthimmel",
+            es: "Observar las estrellas bajo el cielo nocturno",
+          },
+          value: "stargazing",
+        },
+        {
+          label: {
+            en: "Dancing together at home",
+            fr: "Danser ensemble à la maison",
+            de: "Zusammen zu Hause tanzen",
+            es: "Bailar juntos en casa",
+          },
+          value: "dancing",
+        },
+        {
+          label: {
+            en: "Cooking a meal together",
+            fr: "Cuisiner un repas ensemble",
+            de: "Zusammen ein Essen kochen",
+            es: "Cocinar una comida juntos",
+          },
+          value: "cooking",
+        },
+        {
+          label: {
+            en: "Walk on the beach",
+            fr: "Promenade sur la plage",
+            de: "Spaziergang am Strand",
+            es: "Paseo por la playa",
+          },
+          value: "beach",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "deal-breakers",
+  },
+  {
+    id: "deal-breakers",
+    dataModel: {
+      type: "multiple-select",
+      title: {
+        en: "What are your relationship deal-breakers?",
+        fr: "Quels sont vos critères rédhibitoires ?",
+        de: "Was sind deine Beziehungs-Deal-Breaker?",
+        es: "¿Cuáles son tus factores decisivos en una relación?",
+      },
+      options: [
+        {
+          label: {
+            en: "Dishonesty",
+            fr: "Malhonnêteté",
+            de: "Unehrlichkeit",
+            es: "Deshonestidad",
+          },
+          value: "dishonesty",
+        },
+        {
+          label: {
+            en: "Lack of ambition",
+            fr: "Manque d'ambition",
+            de: "Mangel an Ehrgeiz",
+            es: "Falta de ambición",
+          },
+          value: "no-ambition",
+        },
+        {
+          label: {
+            en: "Poor communication",
+            fr: "Mauvaise communication",
+            de: "Schlechte Kommunikation",
+            es: "Mala comunicación",
+          },
+          value: "poor-communication",
+        },
+        {
+          label: {
+            en: "Different values",
+            fr: "Valeurs différentes",
+            de: "Unterschiedliche Werte",
+            es: "Valores diferentes",
+          },
+          value: "different-values",
+        },
+        {
+          label: {
+            en: "Lack of emotional availability",
+            fr: "Manque de disponibilité émotionnelle",
+            de: "Mangel an emotionaler Verfügbarkeit",
+            es: "Falta de disponibilidad emocional",
+          },
+          value: "emotional-unavailable",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "love-songs",
+  },
+  {
+    id: "love-songs",
+    dataModel: {
+      type: "single-select-question-emoji",
+      title: {
+        en: "What's your love song vibe?",
+        fr: "Quel est votre style de chanson d'amour ?",
+        de: "Was ist deine Liebeslied-Stimmung?",
+        es: "¿Cuál es tu vibra de canción de amor?",
+      },
+      description: {
+        en: "Pick your music mood",
+        fr: "Choisissez votre ambiance musicale",
+        de: "Wähle deine Musikstimmung",
+        es: "Elige tu estado de ánimo musical",
+      },
+      options: [
+        {
+          label: {
+            en: "Classic love ballads",
+            fr: "Ballades d'amour classiques",
+            de: "Klassische Liebesballaden",
+            es: "Baladas de amor clásicas",
+          },
+          emoji: "🎵",
+          value: "ballads",
+        },
+        {
+          label: {
+            en: "Upbeat romantic pop",
+            fr: "Pop romantique entraînant",
+            de: "Fröhlicher romantischer Pop",
+            es: "Pop romántico alegre",
+          },
+          emoji: "🎶",
+          value: "pop",
+        },
+        {
+          label: {
+            en: "Soulful R&B",
+            fr: "R&B émouvant",
+            de: "Gefühlvolles R&B",
+            es: "R&B conmovedor",
+          },
+          emoji: "🎤",
+          value: "rnb",
+        },
+        {
+          label: {
+            en: "Indie love songs",
+            fr: "Chansons d'amour indie",
+            de: "Indie-Liebeslieder",
+            es: "Canciones de amor indie",
+          },
+          emoji: "🎸",
+          value: "indie",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "couple-activities",
+  },
+  {
+    id: "couple-activities",
+    dataModel: {
+      type: "bubble-select",
+      title: {
+        en: "What activities do you enjoy as a couple?",
+        fr: "Quelles activités aimez-vous faire en couple ?",
+        de: "Welche Aktivitäten genießt du als Paar?",
+        es: "¿Qué actividades disfrutas en pareja?",
+      },
+      options: [
+        {
+          label: {
+            en: "Traveling",
+            fr: "Voyager",
+            de: "Reisen",
+            es: "Viajar",
+          },
+          value: "traveling",
+          emoji: "✈️",
+        },
+        {
+          label: {
+            en: "Cooking together",
+            fr: "Cuisiner ensemble",
+            de: "Zusammen kochen",
+            es: "Cocinar juntos",
+          },
+          value: "cooking",
+          emoji: "👨‍🍳",
+        },
+        {
+          label: {
+            en: "Outdoor adventures",
+            fr: "Aventures en plein air",
+            de: "Outdoor-Abenteuer",
+            es: "Aventuras al aire libre",
+          },
+          value: "outdoor",
+          emoji: "🏞️",
+        },
+        {
+          label: {
+            en: "Movie marathons",
+            fr: "Marathons de films",
+            de: "Film-Marathons",
+            es: "Maratones de películas",
+          },
+          value: "movies",
+          emoji: "🎬",
+        },
+        {
+          label: {
+            en: "Gaming together",
+            fr: "Jouer ensemble",
+            de: "Zusammen spielen",
+            es: "Jugar juntos",
+          },
+          value: "gaming",
+          emoji: "🎮",
+        },
+        {
+          label: {
+            en: "Fitness activities",
+            fr: "Activités sportives",
+            de: "Fitness-Aktivitäten",
+            es: "Actividades de fitness",
+          },
+          value: "fitness",
+          emoji: "💪",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "conflict-resolution",
+  },
+  {
+    id: "conflict-resolution",
+    dataModel: {
+      type: "single-select",
+      title: {
+        en: "How do you handle conflicts in a relationship?",
+        fr: "Comment gérez-vous les conflits dans une relation ?",
+        de: "Wie gehst du mit Konflikten in einer Beziehung um?",
+        es: "¿Cómo manejas los conflictos en una relación?",
+      },
+      options: [
+        {
+          label: {
+            en: "Talk it out immediately",
+            fr: "En parler immédiatement",
+            de: "Sofort darüber sprechen",
+            es: "Hablarlo inmediatamente",
+          },
+          value: "immediate",
+        },
+        {
+          label: {
+            en: "Take time to cool off first",
+            fr: "Prendre le temps de se calmer d'abord",
+            de: "Erst Zeit nehmen, um sich zu beruhigen",
+            es: "Tomar tiempo para calmarse primero",
+          },
+          value: "cooloff",
+        },
+        {
+          label: {
+            en: "Find a compromise",
+            fr: "Trouver un compromis",
+            de: "Einen Kompromiss finden",
+            es: "Encontrar un compromiso",
+          },
+          value: "compromise",
+        },
+        {
+          label: {
+            en: "Seek advice from others",
+            fr: "Demander conseil aux autres",
+            de: "Rat von anderen suchen",
+            es: "Buscar consejo de otros",
+          },
+          value: "advice",
+        },
+      ],
+    },
+    branches: [],
+    defaultNextQuestionId: "future-vision",
+  },
+  {
+    id: "future-vision",
+    dataModel: {
+      type: "single-select-question-emoji",
+      title: {
+        en: "What's your vision for your romantic future?",
+        fr: "Quelle est votre vision de votre avenir romantique ?",
+        de: "Was ist deine Vision für deine romantische Zukunft?",
+        es: "¿Cuál es tu visión de tu futuro romántico?",
+      },
+      description: {
+        en: "Think about your ideal future",
+        fr: "Pensez à votre avenir idéal",
+        de: "Denke an deine ideale Zukunft",
+        es: "Piensa en tu futuro ideal",
+      },
+      options: [
+        {
+          label: {
+            en: "Marriage and forever",
+            fr: "Mariage et pour toujours",
+            de: "Ehe und für immer",
+            es: "Matrimonio y para siempre",
+          },
+          emoji: "💍",
+          value: "marriage",
+        },
+        {
+          label: {
+            en: "Committed partnership",
+            fr: "Partenariat engagé",
+            de: "Engagierte Partnerschaft",
+            es: "Pareja comprometida",
+          },
+          emoji: "💑",
+          value: "partnership",
+        },
+        {
+          label: {
+            en: "Taking it one day at a time",
+            fr: "Un jour à la fois",
+            de: "Von Tag zu Tag",
+            es: "Un día a la vez",
+          },
+          emoji: "🌅",
+          value: "day-by-day",
+        },
+        {
+          label: {
+            en: "Open to possibilities",
+            fr: "Ouvert aux possibilités",
+            de: "Offen für Möglichkeiten",
+            es: "Abierto a posibilidades",
+          },
+          emoji: "🌟",
+          value: "open",
+        },
+      ],
+    },
+    branches: [],
     defaultNextQuestionId: "loader",
   },
 ];
